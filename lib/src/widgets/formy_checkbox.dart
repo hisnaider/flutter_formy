@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/widgets/formy_field_builder.dart';
+import 'package:flutter_formy/src/widgets/builders/formy_single_field_builder.dart';
 
 class FormyCheckbox extends StatelessWidget {
   const FormyCheckbox({
@@ -23,11 +23,10 @@ class FormyCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormyFieldBuilder<bool>(
+    return FormySingleFieldBuilder<bool>(
       fieldControl: fieldControl,
       buildWhen: (oldState, currentState) => true,
-      builder: (context, value, onChangedField, firstValidationResult,
-          validationResult, touched) {
+      fieldBuilder: (context, fieldState, firstValidation, onUpdateFieldd) {
         return Row(
           mainAxisSize: mainAxisSize,
           crossAxisAlignment: crossAxisAlignment,
@@ -35,9 +34,9 @@ class FormyCheckbox extends StatelessWidget {
           textDirection: textDirection,
           children: [
             Checkbox(
-              value: value ?? false,
+              value: fieldState.value ?? false,
               onChanged: (value) {
-                onChangedField(value!);
+                onUpdateFieldd(value!);
                 onChanged?.call(value);
               },
             ),

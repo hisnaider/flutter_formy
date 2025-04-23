@@ -1,16 +1,15 @@
 import 'package:flutter/foundation.dart';
-
-import 'package:flutter_formy/src/models/field_state.dart';
-import 'package:flutter_formy/src/models/validation_result.dart';
-import 'package:flutter_formy/src/validators/formy_validator.dart';
+import 'package:flutter_formy/flutter_formy.dart';
 
 class FieldControl<T> extends ChangeNotifier {
   FieldControl({
     required this.key,
     this.validators = const [],
     this.initialValue,
-  })  : _state = FieldState.initial(initialValue),
+  })  : assert(!key.contains("/"), 'A key não pode conter "/".'),
+        _state = FieldState.initial(initialValue),
         id = DateTime.now().microsecondsSinceEpoch {
+    FormManager.instance.insertField(this);
     _validate();
   }
 
@@ -29,32 +28,23 @@ class FieldControl<T> extends ChangeNotifier {
 
   void validate() => _validate();
 
-  void update(T value) {
-    bool isSame = false;
-    if (value is List && _state.value is List) {
-      isSame = listEquals(value as List, _state.value as List);
-    } else {
-      isSame = _state.value == value;
-    }
-    if (isSame) return;
+  void update({
+    T? value,
+    bool? touched,
+    bool? hasFocus,
+  }) {
+    ///if (_state.value == value) return;
     final FieldState<T> oldState = _state;
 
     _state = _state.copyWith(
-      value: value,
-      dirty: value != _state.value ? true : _state.dirty,
-    );
+        value: value,
+        dirty: value != _state.value ? true : _state.dirty,
+        touched: touched,
+        hasFocus: hasFocus);
     _validate();
     if (_state != oldState) {
       notifyListeners();
     }
-  }
-
-  void touch() {
-    _state = _state.copyWith(
-      touched: true,
-    );
-    _validate();
-    notifyListeners();
   }
 
   void reset() {
@@ -87,7 +77,11 @@ class FieldListControl<T> extends FieldControl<List<T>> {
   void validate() => _validate();
 
   @override
-  void update(List<T> value) {
+  void update({
+    List<T>? value,
+    bool? touched,
+    bool? hasFocus,
+  }) {
     bool isSame = false;
     isSame = listEquals(value, _state.value);
     if (isSame) return;

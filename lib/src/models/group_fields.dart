@@ -1,22 +1,25 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_formy/src/extensions/field_control_extensions.dart';
 import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/models/field_state.dart';
+import 'package:flutter_formy/src/models/group_state.dart';
 
 class GroupFields extends ChangeNotifier {
   GroupFields({
-    required this.groupId,
+    required this.groupKey,
     required List<FieldControl<dynamic>> fields,
   })  : assert(fields.map((field) => field.key).toSet().length == fields.length,
             'Os keys dos FieldControl não podem ser duplicados no GroupFields.'),
         _fields = {for (FieldControl<dynamic> i in fields) i.key: i} {
     _registerListeners();
+    _setState();
   }
-  final String groupId;
+  final String groupKey;
   final Map<String, FieldControl> _fields;
+  late GroupState _state;
 
-  bool get isValid => _fields.values.every((field) => field.valid);
-  bool _lastIsValid = false;
+  GroupState get state => _state;
+  Map<String, dynamic> get values =>
+      _fields.map((key, value) => MapEntry(key, value.value));
 
   void _registerListeners() {
     for (final control in _fields.values) {
@@ -25,9 +28,10 @@ class GroupFields extends ChangeNotifier {
   }
 
   void _onFieldChanged() {
-    final currentIsValid = isValid;
-    if (currentIsValid != _lastIsValid) {
-      _lastIsValid = currentIsValid;
+    final currentErrorMessages = _fieldsErrorMessages();
+    if (!listEquals(currentErrorMessages, _state.errorMessages)) {
+      _setState();
+      debugPrint('[GroupFields] Estado do grupo atualizado.');
       notifyListeners();
     }
   }
@@ -40,34 +44,16 @@ class GroupFields extends ChangeNotifier {
     super.dispose();
   }
 
-  void validateAllFields() {
+  void touchAndValidateAllFields() {
     for (var e in _fields.values) {
-      e.validate();
+      e.update(touched: true);
     }
-  }
-
-  void updateAField<T>(String key, T value) {
-    _fields[key]?.update(value);
   }
 
   void resetAll() {
     for (final field in _fields.values) {
       field.reset();
     }
-  }
-
-  void touchAllFields() {
-    for (final field in _fields.values) {
-      field.touch();
-    }
-  }
-
-  void addNewField(FieldControl field) {
-    _fields[field.key] = field;
-  }
-
-  void removeField(String key) {
-    _fields.remove(key);
   }
 
   List<FieldControl> getAllFields() {
@@ -84,19 +70,27 @@ class GroupFields extends ChangeNotifier {
 
   Map<String, dynamic> getFormData() =>
       _fields.map((key, value) => MapEntry(key, value.state.value));
-}
 
-extension FieldGroupX<T> on GroupFields {
-  Map<String, dynamic> get values =>
-      _fields.map((key, value) => MapEntry(key, value.value));
-  List<String> get errorMessages => _fields.values
+  void _setState() {
+    _state = GroupState(
+      errorMessages: _fieldsErrorMessages(),
+      firstErrorFieldKey: _firstErrorFieldKey(),
+      isValid: _allFieldsAreValid(),
+      validCount: _validFieldCount(),
+    );
+  }
+
+  String? _firstErrorFieldKey() {
+    for (final entry in _fields.entries) {
+      if (!entry.value.valid) return entry.key;
+    }
+    return null;
+  }
+
+  bool _allFieldsAreValid() => _fields.values.every((field) => field.valid);
+  int _validFieldCount() => _fields.values.where((e) => e.valid).length;
+  List<String> _fieldsErrorMessages() => _fields.values
       .map((field) => field.errorMessages)
       .expand((messages) => messages)
       .toList();
-
-  bool get isTouched => _fields.values.any((field) => field.touched);
-  bool get isDirty => _fields.values.any((field) => field.dirty);
-
-  Map<String, FieldState> get fieldsState =>
-      _fields.map((key, value) => MapEntry(key, value.state));
 }

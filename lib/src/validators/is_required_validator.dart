@@ -3,9 +3,9 @@ import 'package:flutter_formy/src/models/field_control.dart';
 import 'package:flutter_formy/src/models/validation_result.dart';
 import 'package:flutter_formy/src/validators/formy_validator.dart';
 
-class IsRequired extends FormyValidator<String?> {
+class IsRequired<T> extends FormyValidator<T> {
   @override
-  ValidationResult onValidate(FieldControl<String?> control) {
+  ValidationResult onValidate(FieldControl control) {
     bool invalid = false;
 
     if (control.value == null) {

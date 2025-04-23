@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter_formy/src/models/field_control.dart';
 import 'package:flutter_formy/src/models/group_fields.dart';
 
@@ -8,45 +10,49 @@ class FormManager {
 
   final Map<int, FieldControl<dynamic>> _fields = {};
   final Map<String, GroupFields> _groups = {};
-  Map<int, FieldControl<dynamic>> get fields => _fields;
-  Map<String, GroupFields> get groups => _groups;
+  static FormManager get instance => _instance;
 
-  void insertField(FieldControl field, {String? groupKey}) {
-    if (groupKey != null) {
-      if (_groups[groupKey] == null) {
-        _insertGroup(GroupFields(groupId: groupKey, fields: [field]));
-        return;
-      }
-      _groups[groupKey]!.addNewField(field);
-      return;
+  UnmodifiableMapView<int, FieldControl<dynamic>> get fields =>
+      UnmodifiableMapView(_fields);
+
+  UnmodifiableMapView<String, GroupFields> get groups =>
+      UnmodifiableMapView(_groups);
+
+  /// Insere um [FieldControl] independente no formulário.
+  /// Campos pertencentes a grupos (com key no formato "grupo/campo") serão ignorados.
+  void insertField(FieldControl field) {
+    if (field.key.contains("/")) {
+      throw 'Campos de grupos devem ser gerenciados via GroupFields e não diretamente no FormManager. Se for um campo independente, tiro o "/" da key';
     }
     _fields[field.id] = field;
   }
 
-  void _insertGroup(GroupFields group) {
-    _groups[group.groupId] = group;
+  /// Insere um grupo de campos identificado por [GroupFields.groupKey].
+  /// Se já houver um grupo com a mesma key, um `assert` será disparado em debug.
+  void insertGroup(GroupFields group) {
+    if (_groups.containsKey(group.groupKey)) {
+      assert(false, 'Já existe um grupo com a key "${group.groupKey}"');
+      return;
+    }
+    _groups[group.groupKey] = group;
   }
 
-  FieldControl? getField({required String key, String? groupId}) {
-    if (groupId != null) return _getFieldOfGroup(key, groupId);
-    for (FieldControl field in fields.values) {
-      if (field.key == key) return field;
+  FieldControl? getField({required String key}) {
+    final List<String> keyParts = key.split("/");
+    if (keyParts.length > 1) {
+      final group = _groups[keyParts[0]];
+      return group?.field(keyParts[1]);
     }
-
-    for (final group in _groups.values) {
-      for (final field in group.getAllFields()) {
-        if (field.key == key) {
-          return field;
-        }
-      }
+    for (FieldControl field in _fields.values) {
+      if (field.key == key) return field;
     }
     return null;
   }
 
-  FieldControl? _getFieldOfGroup(String key, String groupId) {
-    if (_groups[groupId] == null) return null;
-    for (FieldControl i in _groups[groupId]!.getAllFields()) {
-      if (i.key == key) return i;
+  GroupFields? getGroupFields(String key) {
+    final group = _groups[key];
+    if (group is GroupFields) {
+      return group;
     }
     return null;
   }
@@ -66,30 +72,18 @@ class FormManager {
     return fieldsFound.first;
   }
 
-  void removeField(FieldControl field) {
-    for (GroupFields groups in _groups.values) {
-      groups.removeField(field.key);
-    }
-    _fields.remove(field.id);
+  void removeField(FieldControl control) {
+    _fields.removeWhere((key, value) => key == control.id);
   }
 
-  void removeGroup(String groupId) {
-    _groups.remove(groupId);
+  void removeGroup(GroupFields group) {
+    _groups.removeWhere((key, value) => key == group.groupKey);
   }
 
-  bool isGroupValid(String groupId) {
-    final group = _groups[groupId];
-    if (group == null) return false;
-    return group.isValid;
-  }
-
-  bool groupsAreValid(List<String> groupsId) {
-    for (final id in groupsId) {
+  bool groupsAreValid(List<String> groupsKey) {
+    for (final id in groupsKey) {
       final group = _groups[id];
-      if (group == null) {
-        return false;
-      }
-      if (!group.isValid) return false;
+      if (group == null || !group.state.isValid) return false;
     }
     return true;
   }

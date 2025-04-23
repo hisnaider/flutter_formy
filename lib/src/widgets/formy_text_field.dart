@@ -1,14 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/models/field_state.dart';
-import 'package:flutter_formy/src/models/validation_result.dart';
+import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/models/aditional_listener/focus_listener.dart';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
-import 'package:flutter_formy/src/widgets/formy_field_builder.dart';
-
-/// Se [fieldControl] não for fornecido, o campo atua como um campo não vinculado a formulários.
 class FormyTextField extends StatefulWidget {
   const FormyTextField({
     super.key,
@@ -165,42 +161,32 @@ class _FormyTextFieldState extends State<FormyTextField> {
   void initState() {
     super.initState();
     _focusNode = widget.focusNode ?? FocusNode();
-    _controller = widget.controller ??
-        TextEditingController(
-          text: widget.fieldControl.state.value ?? '',
-        );
-    _focusNode.addListener(_focusNodeListener);
-  }
-
-  void _focusNodeListener() {
-    if (!_focusNode.hasFocus && !widget.fieldControl.state.touched) {
-      widget.fieldControl.touch();
-    }
+    _controller = widget.controller ?? TextEditingController();
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FormyFieldBuilder(
+    return FormySingleFieldBuilder(
       buildWhen: (oldState, currentState) => oldState != currentState,
       fieldControl: widget.fieldControl,
-      builder: (
+      aditionalListener: [
+        FocusListener(_focusNode),
+      ],
+      fieldBuilder: (
         context,
-        value,
-        onChanged,
-        firstValidationResult,
-        validationResult,
-        touched,
+        fieldState,
+        firstValidation,
+        onUpdateField,
       ) {
         final InputDecoration inputDecoration = widget.decoration
-                ?.call(widget.fieldControl.state, firstValidationResult) ??
-            InputDecoration();
+                ?.call(widget.fieldControl.state, firstValidation) ??
+            const InputDecoration();
         return TextField(
           controller: _controller,
           focusNode: _focusNode,
@@ -229,7 +215,7 @@ class _FormyTextFieldState extends State<FormyTextField> {
           maxLengthEnforcement: widget.maxLengthEnforcement,
           onChanged: (value) {
             widget.onChanged?.call(value);
-            onChanged(value);
+            onUpdateField(value);
           },
           onEditingComplete: widget.onEditingComplete,
           onSubmitted: widget.onSubmitted,
@@ -286,7 +272,7 @@ class _FormyTextFieldState extends State<FormyTextField> {
             error: inputDecoration.error,
             errorText: inputDecoration.error != null
                 ? null
-                : inputDecoration.errorText ?? firstValidationResult?.key,
+                : inputDecoration.errorText ?? firstValidation?.key,
             errorStyle: inputDecoration.errorStyle,
             errorMaxLines: inputDecoration.errorMaxLines,
             floatingLabelBehavior: inputDecoration.floatingLabelBehavior,

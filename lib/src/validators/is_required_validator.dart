@@ -6,20 +6,21 @@ import 'package:flutter_formy/src/validators/formy_validator.dart';
 class IsRequired<T> extends FormyValidator<T> {
   @override
   ValidationResult onValidate(FieldControl control) {
-    bool invalid = false;
+    bool isValid = true;
 
     if (control.value == null) {
-      invalid = true;
+      isValid = false;
     } else if (control.value is String && control.value!.trim().isEmpty) {
-      invalid = true;
+      isValid = false;
     } else if (control.value is Iterable && control.value!.isEmpty) {
-      invalid = true;
+      isValid = false;
+    } else if (control.value is bool) {
+      isValid = control.value;
     }
 
     return ValidationResult(
       key: GenericValidators.isRequired.name,
-      isValid: !invalid,
-      message: invalid ? "Required field" : '',
+      isValid: isValid,
     );
   }
 }

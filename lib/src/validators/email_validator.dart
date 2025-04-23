@@ -9,16 +9,15 @@ class EmailValidator extends FormyValidator<String> {
       RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   @override
   ValidationResult onValidate(FieldControl<String> control) {
-    String? message;
+    bool isValid = true;
     if (control.value != null &&
         control.value!.isNotEmpty &&
         !_emailRegex.hasMatch(control.value!)) {
-      message = "Invalid email";
+      isValid = false;
     }
     return ValidationResult(
       key: GenericValidators.invalidEmail.name,
-      isValid: message == null,
-      message: message,
+      isValid: isValid,
     );
   }
 }

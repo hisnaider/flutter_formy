@@ -90,7 +90,7 @@ class GroupFields extends ChangeNotifier {
   bool _allFieldsAreValid() => _fields.values.every((field) => field.valid);
   int _validFieldCount() => _fields.values.where((e) => e.valid).length;
   List<String> _fieldsErrorMessages() => _fields.values
-      .map((field) => field.errorMessages)
+      .map((field) => field.errorKeys)
       .expand((messages) => messages)
       .toList();
 }

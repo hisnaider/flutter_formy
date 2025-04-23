@@ -1,7 +1,15 @@
 enum GenericValidators {
   isRequired,
   invalidEmail,
-  tooShort,
-  tooLong,
-  incorrectRange,
+  min,
+  max,
+  invalidNumber,
+  mustBeNumeric,
+  mustMatch,
+  invalidCPF,
+  invalidCNPJ,
+  invalidPhone,
+  onlyLetters,
+  onlyAlphanumeric,
+  pattern,
 }

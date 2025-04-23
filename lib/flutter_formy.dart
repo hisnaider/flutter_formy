@@ -27,10 +27,9 @@ export 'src/services/form_manager.dart';
 //validators
 export 'src/validators/email_validator.dart';
 export 'src/validators/formy_validator.dart';
-export 'src/validators/incorrect_range.dart';
 export 'src/validators/is_required_validator.dart';
-export 'src/validators/too_long.dart';
-export 'src/validators/too_short.dart';
+export 'src/validators/max_validator.dart';
+export 'src/validators/min_validator.dart';
 
 //
 //

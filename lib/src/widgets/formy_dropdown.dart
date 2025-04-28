@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/models/aditional_listener/focus_listener.dart';
 
 class FormyDropdown<T> extends StatefulWidget {
   const FormyDropdown({
     super.key,
-    required this.fieldControl,
+    required this.fieldController,
     this.enabled = true,
     this.width,
     this.menuHeight,
@@ -35,7 +34,7 @@ class FormyDropdown<T> extends StatefulWidget {
     this.inputFormatters,
     this.errorWidget,
   });
-  final FieldControl<T> fieldControl;
+  final FieldController<T> fieldController;
   final bool enabled;
   final double? width;
   final double? menuHeight;
@@ -80,12 +79,11 @@ class _FormyDropdownState<T> extends State<FormyDropdown<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return FormySingleFieldBuilder(
-      fieldControl: widget.fieldControl,
-      aditionalListener: [FocusListener(_focusNode)],
+    return FieldBuilder(
+      field: widget.fieldController,
       buildWhen: (oldState, currentState) =>
-          oldState.value != currentState.value || !currentState.touched,
-      fieldBuilder: (context, fieldState, firstValidation, onUpdateField) {
+          oldState.value != currentState.value,
+      builder: (context, field, child, listeners) {
         return DropdownMenu(
           enabled: widget.enabled,
           width: widget.width,
@@ -107,7 +105,7 @@ class _FormyDropdownState<T> extends State<FormyDropdown<T>> {
           initialSelection: widget.initialSelection,
           onSelected: (value) {
             widget.onSelected?.call(value);
-            onUpdateField(value);
+            field.update(value);
           },
           focusNode: _focusNode,
           requestFocusOnTap: widget.requestFocusOnTap,

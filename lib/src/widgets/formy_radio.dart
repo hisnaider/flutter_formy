@@ -4,27 +4,28 @@ import 'package:flutter_formy/flutter_formy.dart';
 class FormyRadio<T> extends FormyOptionListMarkWidget<T, T> {
   FormyRadio({
     super.key,
-    required super.fieldControl,
+    required super.fieldController,
     required super.itemsEntry,
     required super.layout,
     super.title,
     this.onSelect,
     super.error,
   }) : super(
-          builder: FormySingleFieldBuilder<T>(
-            fieldControl: fieldControl,
-            fieldBuilder:
-                (context, fieldState, firstValidation, onUpdateField) {
+          builder: FieldBuilder<T>(
+            field: fieldController,
+            buildWhen: (oldState, currentState) =>
+                oldState.value != currentState.value,
+            builder: (context, field, child, _) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (title != null) title,
+                  if (child != null) child,
                   Visibility(
-                    visible: firstValidation != null,
-                    child: error?.call(firstValidation) ??
+                    visible: field.firstError != null,
+                    child: error?.call(field.firstError) ??
                         Text(
-                          firstValidation?.key ?? "",
+                          field.firstError ?? "",
                           style:
                               Theme.of(context).inputDecorationTheme.errorStyle,
                         ),
@@ -41,11 +42,11 @@ class FormyRadio<T> extends FormyOptionListMarkWidget<T, T> {
                                 value: e.value,
                                 onChanged: e.enabled
                                     ? (radioValue) {
-                                        onUpdateField(e.value);
+                                        field.update(e.value);
                                         onSelect?.call(radioValue);
                                       }
                                     : null,
-                                groupValue: fieldState.value,
+                                groupValue: field.state.value,
                               ),
                               e.text,
                             ],
@@ -56,6 +57,7 @@ class FormyRadio<T> extends FormyOptionListMarkWidget<T, T> {
                 ],
               );
             },
+            child: title,
           ),
         );
   final ValueChanged<T?>? onSelect;

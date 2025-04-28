@@ -1,11 +1,9 @@
-import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/models/validation_result.dart';
-import 'package:flutter_formy/src/services/form_manager.dart';
+import 'package:flutter_formy/flutter_formy.dart';
 
 abstract class FormyValidator<T> {
-  ValidationResult onValidate(FieldControl<T> control);
+  ValidationResult onValidate(FieldController<T> control);
 
-  ValidationResult call(FieldControl<T> control) => onValidate(control);
+  ValidationResult call(FieldController<T> control) => onValidate(control);
 
   final FormManager formManager = FormManager();
 }

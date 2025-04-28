@@ -1,11 +1,8 @@
-import 'package:flutter_formy/src/enum/generic_validators.dart';
-import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/models/validation_result.dart';
-import 'package:flutter_formy/src/validators/formy_validator.dart';
+import 'package:flutter_formy/flutter_formy.dart';
 
 class IsRequired<T> extends FormyValidator<T> {
   @override
-  ValidationResult onValidate(FieldControl control) {
+  ValidationResult onValidate(FieldController control) {
     bool isValid = true;
 
     if (control.value == null) {

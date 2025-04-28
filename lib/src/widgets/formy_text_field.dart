@@ -2,13 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/models/aditional_listener/focus_listener.dart';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
-class FormyTextField extends StatefulWidget {
+class FormyTextField extends StatelessWidget {
   const FormyTextField({
     super.key,
-    required this.fieldControl,
+    required this.fieldController,
     this.controller,
     this.focusNode,
     this.undoController,
@@ -73,12 +72,12 @@ class FormyTextField extends StatefulWidget {
     this.spellCheckConfiguration,
     this.magnifierConfiguration,
   });
-  final FieldControl<String> fieldControl;
+  final FieldController<String> fieldController;
   final TextMagnifierConfiguration? magnifierConfiguration;
   final TextEditingController? controller;
   final FocusNode? focusNode;
-  final InputDecoration? Function(
-      FieldState fieldState, ValidationResult? firstError)? decoration;
+  final InputDecoration? Function(FieldState fieldState, String? firstError)?
+      decoration;
   final TextInputType? keyboardType;
   final TextInputAction? textInputAction;
   final TextCapitalization textCapitalization;
@@ -149,110 +148,96 @@ class FormyTextField extends StatefulWidget {
   final SpellCheckConfiguration? spellCheckConfiguration;
 
   @override
-  State<FormyTextField> createState() => _FormyTextFieldState();
-}
-
-class _FormyTextFieldState extends State<FormyTextField> {
-  bool get selectionEnabled => widget.enableInteractiveSelection;
-  late final TextEditingController _controller;
-  late final FocusNode _focusNode;
-
-  @override
-  void initState() {
-    super.initState();
-    _focusNode = widget.focusNode ?? FocusNode();
-    _controller = widget.controller ?? TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return FormySingleFieldBuilder(
+    return FieldBuilder<String>(
+      field: fieldController,
       buildWhen: (oldState, currentState) => oldState != currentState,
-      fieldControl: widget.fieldControl,
       aditionalListener: [
-        FocusListener(_focusNode),
-      ],
-      fieldBuilder: (
-        context,
-        fieldState,
-        firstValidation,
-        onUpdateField,
-      ) {
-        final InputDecoration inputDecoration = widget.decoration
-                ?.call(widget.fieldControl.state, firstValidation) ??
-            const InputDecoration();
-        return TextField(
-          controller: _controller,
-          focusNode: _focusNode,
-          undoController: widget.undoController,
-          keyboardType: widget.keyboardType,
-          textInputAction: widget.textInputAction,
-          textCapitalization: widget.textCapitalization,
-          style: widget.style,
-          strutStyle: widget.strutStyle,
-          textAlign: widget.textAlign,
-          textAlignVertical: widget.textAlignVertical,
-          textDirection: widget.textDirection,
-          readOnly: widget.readOnly,
-          showCursor: widget.showCursor,
-          autofocus: widget.autofocus,
-          obscuringCharacter: widget.obscuringCharacter,
-          obscureText: widget.obscureText,
-          autocorrect: widget.autocorrect,
-          smartDashesType: widget.smartDashesType,
-          smartQuotesType: widget.smartQuotesType,
-          enableSuggestions: widget.enableSuggestions,
-          maxLines: widget.maxLines,
-          minLines: widget.minLines,
-          expands: widget.expands,
-          maxLength: widget.maxLength,
-          maxLengthEnforcement: widget.maxLengthEnforcement,
-          onChanged: (value) {
-            widget.onChanged?.call(value);
-            onUpdateField(value);
+        AdditionalListener<FocusNode>(
+          listenerType: focusNode,
+          createListener: focusNode == null ? () => FocusNode() : null,
+          lifecycle: focusNode != null
+              ? ListenerLifecycle.manual
+              : ListenerLifecycle.autoDispose,
+          onListen: (listener, controller) {
+            final hasFocus = listener.hasFocus;
+            if (!hasFocus) {
+              controller.markAsTouched();
+            }
           },
-          onEditingComplete: widget.onEditingComplete,
-          onSubmitted: widget.onSubmitted,
-          onAppPrivateCommand: widget.onAppPrivateCommand,
-          inputFormatters: widget.inputFormatters,
-          enabled: widget.enabled,
-          ignorePointers: widget.ignorePointers,
-          cursorWidth: widget.cursorWidth,
-          cursorHeight: widget.cursorHeight,
-          cursorRadius: widget.cursorRadius,
-          cursorOpacityAnimates: widget.cursorOpacityAnimates,
-          cursorColor: widget.cursorColor,
-          cursorErrorColor: widget.cursorErrorColor,
-          selectionHeightStyle: widget.selectionHeightStyle,
-          selectionWidthStyle: widget.selectionWidthStyle,
-          keyboardAppearance: widget.keyboardAppearance,
-          scrollPadding: widget.scrollPadding,
-          dragStartBehavior: widget.dragStartBehavior,
-          enableInteractiveSelection: widget.enableInteractiveSelection,
-          selectionControls: widget.selectionControls,
-          onTap: widget.onTap,
-          onTapAlwaysCalled: widget.onTapAlwaysCalled,
-          onTapOutside: widget.onTapOutside,
-          mouseCursor: widget.mouseCursor,
-          buildCounter: widget.buildCounter,
-          scrollController: widget.scrollController,
-          scrollPhysics: widget.scrollPhysics,
-          autofillHints: widget.autofillHints,
-          contentInsertionConfiguration: widget.contentInsertionConfiguration,
-          clipBehavior: widget.clipBehavior,
-          restorationId: widget.restorationId,
-          scribbleEnabled: widget.scribbleEnabled,
-          enableIMEPersonalizedLearning: widget.enableIMEPersonalizedLearning,
-          contextMenuBuilder: widget.contextMenuBuilder,
-          canRequestFocus: widget.canRequestFocus,
-          spellCheckConfiguration: widget.spellCheckConfiguration,
-          magnifierConfiguration: widget.magnifierConfiguration,
+        )
+      ],
+      builder: (context, field, child, listeners) {
+        final FocusNode focusNode = listeners.first.listener as FocusNode;
+        final InputDecoration inputDecoration =
+            decoration?.call(fieldController.state, field.firstError) ??
+                const InputDecoration();
+        return TextField(
+          controller: controller,
+          focusNode: focusNode,
+          undoController: undoController,
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          textCapitalization: textCapitalization,
+          style: style,
+          strutStyle: strutStyle,
+          textAlign: textAlign,
+          textAlignVertical: textAlignVertical,
+          textDirection: textDirection,
+          readOnly: readOnly,
+          showCursor: showCursor,
+          autofocus: autofocus,
+          obscuringCharacter: obscuringCharacter,
+          obscureText: obscureText,
+          autocorrect: autocorrect,
+          smartDashesType: smartDashesType,
+          smartQuotesType: smartQuotesType,
+          enableSuggestions: enableSuggestions,
+          maxLines: maxLines,
+          minLines: minLines,
+          expands: expands,
+          maxLength: maxLength,
+          maxLengthEnforcement: maxLengthEnforcement,
+          onChanged: (value) {
+            onChanged?.call(value);
+            field.update(value);
+          },
+          onEditingComplete: onEditingComplete,
+          onSubmitted: onSubmitted,
+          onAppPrivateCommand: onAppPrivateCommand,
+          inputFormatters: inputFormatters,
+          enabled: enabled,
+          ignorePointers: ignorePointers,
+          cursorWidth: cursorWidth,
+          cursorHeight: cursorHeight,
+          cursorRadius: cursorRadius,
+          cursorOpacityAnimates: cursorOpacityAnimates,
+          cursorColor: cursorColor,
+          cursorErrorColor: cursorErrorColor,
+          selectionHeightStyle: selectionHeightStyle,
+          selectionWidthStyle: selectionWidthStyle,
+          keyboardAppearance: keyboardAppearance,
+          scrollPadding: scrollPadding,
+          dragStartBehavior: dragStartBehavior,
+          enableInteractiveSelection: enableInteractiveSelection,
+          selectionControls: selectionControls,
+          onTap: onTap,
+          onTapAlwaysCalled: onTapAlwaysCalled,
+          onTapOutside: onTapOutside,
+          mouseCursor: mouseCursor,
+          buildCounter: buildCounter,
+          scrollController: scrollController,
+          scrollPhysics: scrollPhysics,
+          autofillHints: autofillHints,
+          contentInsertionConfiguration: contentInsertionConfiguration,
+          clipBehavior: clipBehavior,
+          restorationId: restorationId,
+          scribbleEnabled: scribbleEnabled,
+          enableIMEPersonalizedLearning: enableIMEPersonalizedLearning,
+          contextMenuBuilder: contextMenuBuilder,
+          canRequestFocus: canRequestFocus,
+          spellCheckConfiguration: spellCheckConfiguration,
+          magnifierConfiguration: magnifierConfiguration,
           decoration: InputDecoration(
             icon: inputDecoration.icon,
             iconColor: inputDecoration.iconColor,
@@ -272,7 +257,7 @@ class _FormyTextFieldState extends State<FormyTextField> {
             error: inputDecoration.error,
             errorText: inputDecoration.error != null
                 ? null
-                : inputDecoration.errorText ?? firstValidation?.key,
+                : inputDecoration.errorText ?? field.firstError,
             errorStyle: inputDecoration.errorStyle,
             errorMaxLines: inputDecoration.errorMaxLines,
             floatingLabelBehavior: inputDecoration.floatingLabelBehavior,

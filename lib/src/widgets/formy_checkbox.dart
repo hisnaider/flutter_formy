@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/widgets/builders/formy_single_field_builder.dart';
+import 'package:flutter_formy/flutter_formy.dart';
 
 class FormyCheckbox extends StatelessWidget {
   const FormyCheckbox({
     super.key,
-    required this.fieldControl,
+    required this.fieldController,
     required this.title,
     this.onChanged,
     this.crossAxisAlignment = CrossAxisAlignment.center,
@@ -13,7 +12,7 @@ class FormyCheckbox extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.start,
     this.textDirection = TextDirection.ltr,
   });
-  final FieldControl<bool> fieldControl;
+  final FieldController<bool> fieldController;
   final Widget title;
   final ValueChanged<bool?>? onChanged;
   final CrossAxisAlignment crossAxisAlignment;
@@ -23,10 +22,9 @@ class FormyCheckbox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FormySingleFieldBuilder<bool>(
-      fieldControl: fieldControl,
-      buildWhen: (oldState, currentState) => true,
-      fieldBuilder: (context, fieldState, firstValidation, onUpdateFieldd) {
+    return FieldBuilder<bool>(
+      field: fieldController,
+      builder: (context, field, child, _) {
         return Row(
           mainAxisSize: mainAxisSize,
           crossAxisAlignment: crossAxisAlignment,
@@ -34,9 +32,9 @@ class FormyCheckbox extends StatelessWidget {
           textDirection: textDirection,
           children: [
             Checkbox(
-              value: fieldState.value ?? false,
+              value: field.value ?? false,
               onChanged: (value) {
-                onUpdateFieldd(value!);
+                field.update(value!);
                 onChanged?.call(value);
               },
             ),

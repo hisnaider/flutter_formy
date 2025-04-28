@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter/foundation.dart';
+
 class GroupState {
   const GroupState({
     this.isValid = true,
@@ -27,5 +29,31 @@ class GroupState {
       firstErrorFieldKey: firstErrorFieldKey ?? this.firstErrorFieldKey,
       validCount: validCount ?? this.validCount,
     );
+  }
+
+  @override
+  String toString() {
+    return 'State(isValid: $isValid, wasValidated: $wasValidated, errorMessages:$errorMessages,firstErrorFieldKey:$firstErrorFieldKey, validCount: $validCount)';
+  }
+
+  @override
+  bool operator ==(covariant GroupState other) {
+    if (identical(this, other)) return true;
+
+    return other.isValid == isValid &&
+        listEquals(other.errorMessages, errorMessages) &&
+        other.wasValidated == wasValidated &&
+        other.firstErrorFieldKey == firstErrorFieldKey &&
+        other.validCount == validCount;
+  }
+
+  @override
+  int get hashCode {
+    return isValid.hashCode ^
+        wasValidated.hashCode ^
+        errorMessages.hashCode ^
+        firstErrorFieldKey.hashCode ^
+        validCount.hashCode ^
+        validCount.hashCode;
   }
 }

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/src/widgets/builders/formy_list_field_builder.dart';
-import 'package:flutter_formy/src/widgets/formy_option_mark_widget.dart';
+import 'package:flutter_formy/flutter_formy.dart';
 
 class FormyListCheckbox<T> extends FormyOptionListMarkWidget<T, List<T>> {
   FormyListCheckbox({
     super.key,
-    required super.fieldControl,
+    required super.fieldController,
     required super.itemsEntry,
     required super.layout,
     super.title,
     this.onSelect,
     super.error,
   }) : super(
-          builder: FormyListFieldBuilder<T, List<T>>(
-            fieldControl: fieldControl,
-            fieldBuilder:
-                (context, fieldState, firstValidation, onUpdateField) {
+          builder: FieldBuilder<List<T>>(
+            field: fieldController,
+            buildWhen: (oldState, currentState) =>
+                oldState.value?.length != currentState.value?.length,
+            builder: (context, field, child, _) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (title != null) title,
+                  if (child != null) child,
                   Visibility(
-                    visible: firstValidation != null,
-                    child: error?.call(firstValidation) ??
+                    visible: field.firstError != null,
+                    child: error?.call(field.firstError) ??
                         Text(
-                          firstValidation?.key ?? "",
+                          field.firstError ?? "",
                           style:
                               Theme.of(context).inputDecorationTheme.errorStyle,
                         ),
@@ -39,10 +39,17 @@ class FormyListCheckbox<T> extends FormyOptionListMarkWidget<T, List<T>> {
                           children: [
                             Checkbox(
                                 value:
-                                    (fieldState.value ?? []).contains(e.value),
+                                    (field.state.value ?? []).contains(e.value),
                                 onChanged: e.enabled
                                     ? (value) {
-                                        onUpdateField(e.value);
+                                        final List<T> newValue = List<T>.from(
+                                            field.state.value ?? []);
+                                        if (value ?? false) {
+                                          newValue.add(e.value);
+                                        } else {
+                                          newValue.remove(e.value);
+                                        }
+                                        field.update(newValue);
                                         onSelect?.call(value ?? false);
                                       }
                                     : null),
@@ -54,6 +61,7 @@ class FormyListCheckbox<T> extends FormyOptionListMarkWidget<T, List<T>> {
                 ],
               );
             },
+            child: title,
           ),
         );
 

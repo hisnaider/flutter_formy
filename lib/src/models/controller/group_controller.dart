@@ -1,25 +1,31 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_formy/src/extensions/field_control_extensions.dart';
-import 'package:flutter_formy/src/models/field_control.dart';
-import 'package:flutter_formy/src/models/group_state.dart';
+part of 'field_controller.dart';
 
-class GroupFields extends ChangeNotifier {
-  GroupFields({
-    required this.groupKey,
-    required List<FieldControl<dynamic>> fields,
-  })  : assert(fields.map((field) => field.key).toSet().length == fields.length,
-            'Os keys dos FieldControl não podem ser duplicados no GroupFields.'),
-        _fields = {for (FieldControl<dynamic> i in fields) i.key: i} {
-    _registerListeners();
-    _setState();
+class GroupController extends ChangeNotifier {
+  GroupController({
+    required this.key,
+    required List<FieldController<dynamic>> fields,
+  }) : assert(fields.map((field) => field.key).toSet().length == fields.length,
+            'Os keys dos FieldControl não podem ser duplicados no GroupControl.') {
+    _fields = {};
+    for (FieldController<dynamic> i in fields) {
+      i._putInGroup(key);
+      _fields[i._key] = i;
+    }
+    init();
   }
-  final String groupKey;
-  final Map<String, FieldControl> _fields;
+  final String key;
+  late final Map<String, FieldController> _fields;
   late GroupState _state;
 
   GroupState get state => _state;
   Map<String, dynamic> get values =>
       _fields.map((key, value) => MapEntry(key, value.value));
+
+  void init() {
+    print("_fields: ${_fields["teste/email"]?.valid}}");
+    _registerListeners();
+    _setState();
+  }
 
   void _registerListeners() {
     for (final control in _fields.values) {
@@ -28,10 +34,10 @@ class GroupFields extends ChangeNotifier {
   }
 
   void _onFieldChanged() {
-    final currentErrorMessages = _fieldsErrorMessages();
-    if (!listEquals(currentErrorMessages, _state.errorMessages)) {
+    final validCount = _validFieldCount();
+    if (validCount != state.validCount) {
       _setState();
-      debugPrint('[GroupFields] Estado do grupo atualizado.');
+      debugPrint('[GroupControl] Estado do grupo atualizado.');
       notifyListeners();
     }
   }
@@ -46,7 +52,7 @@ class GroupFields extends ChangeNotifier {
 
   void touchAndValidateAllFields() {
     for (var e in _fields.values) {
-      e.update(touched: true);
+      e.markAsTouched();
     }
   }
 
@@ -56,16 +62,16 @@ class GroupFields extends ChangeNotifier {
     }
   }
 
-  List<FieldControl> getAllFields() {
+  List<FieldController> getAllFields() {
     return _fields.values.toList();
   }
 
-  FieldControl<T> field<T>(String key) {
-    final control = _fields[key];
-    if (control is FieldControl<T>) {
+  FieldController<T> field<T>(String fieldKey) {
+    final control = _fields["$key/$fieldKey"];
+    if (control is FieldController<T>) {
       return control;
     }
-    throw Exception('Field $key not found or type mismatch');
+    throw Exception('Field $fieldKey not found or type mismatch');
   }
 
   Map<String, dynamic> getFormData() =>

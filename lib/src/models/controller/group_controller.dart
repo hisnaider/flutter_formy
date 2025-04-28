@@ -22,7 +22,6 @@ class GroupController extends ChangeNotifier {
       _fields.map((key, value) => MapEntry(key, value.value));
 
   void init() {
-    print("_fields: ${_fields["teste/email"]?.valid}}");
     _registerListeners();
     _setState();
   }

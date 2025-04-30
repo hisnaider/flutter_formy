@@ -1,5 +1,5 @@
 class ValidationResult {
-  ValidationResult({
+  const ValidationResult({
     required this.key,
     this.isValid = false,
   });

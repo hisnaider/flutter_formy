@@ -38,3 +38,4 @@ export 'src/widgets/formy_option_mark_widget.dart';
 export 'src/widgets/formy_radio.dart';
 export 'src/widgets/formy_text_field.dart';
 export 'src/widgets/formy_dropdown.dart';
+export 'src/widgets/formy_sub_group_visibility.dart';

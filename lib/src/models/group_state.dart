@@ -3,12 +3,14 @@ import 'package:flutter/foundation.dart';
 
 class GroupState {
   const GroupState({
+    this.isEnabled = true,
     this.isValid = true,
     this.wasValidated = false,
     this.errorMessages = const [],
     this.firstErrorFieldKey,
     this.validCount = 0,
   });
+  final bool isEnabled;
   final bool isValid;
   final bool wasValidated;
   final List<String> errorMessages;
@@ -16,6 +18,7 @@ class GroupState {
   final int validCount;
 
   GroupState copyWith({
+    bool? isEnabled,
     bool? isValid,
     bool? wasValidated,
     List<String>? errorMessages,
@@ -23,6 +26,7 @@ class GroupState {
     int? validCount,
   }) {
     return GroupState(
+      isEnabled: isEnabled ?? this.isEnabled,
       isValid: isValid ?? this.isValid,
       wasValidated: wasValidated ?? this.wasValidated,
       errorMessages: errorMessages ?? this.errorMessages,
@@ -33,14 +37,15 @@ class GroupState {
 
   @override
   String toString() {
-    return 'State(isValid: $isValid, wasValidated: $wasValidated, errorMessages:$errorMessages,firstErrorFieldKey:$firstErrorFieldKey, validCount: $validCount)';
+    return 'State(isEnabled: $isEnabled, isValid: $isValid, wasValidated: $wasValidated, errorMessages:$errorMessages,firstErrorFieldKey:$firstErrorFieldKey, validCount: $validCount)';
   }
 
   @override
   bool operator ==(covariant GroupState other) {
     if (identical(this, other)) return true;
 
-    return other.isValid == isValid &&
+    return other.isEnabled == isEnabled &&
+        other.isValid == isValid &&
         listEquals(other.errorMessages, errorMessages) &&
         other.wasValidated == wasValidated &&
         other.firstErrorFieldKey == firstErrorFieldKey &&
@@ -49,7 +54,8 @@ class GroupState {
 
   @override
   int get hashCode {
-    return isValid.hashCode ^
+    return isEnabled.hashCode ^
+        isValid.hashCode ^
         wasValidated.hashCode ^
         errorMessages.hashCode ^
         firstErrorFieldKey.hashCode ^

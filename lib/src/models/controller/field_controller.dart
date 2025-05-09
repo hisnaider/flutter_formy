@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
 
@@ -9,18 +8,21 @@ enum ShowError { never, whenIsTouched, always }
 
 class FieldController<T> extends ChangeNotifier {
   FieldController(
-    this._key, {
+    this._completeKey, {
     this.validators = const [],
     this.initialValue,
     ShowError showErrorWhen = ShowError.whenIsTouched,
-  })  : assert(!_key.contains("/"), 'A key não pode conter "/".'),
-        _state = FieldState.initial(initialValue),
+  })  : assert(!_completeKey.contains("/"), 'The key cannot contain "/".'),
+        _state =
+            FieldState.initial(initialValue ?? (T == bool ? false as T : null)),
         _showErrorWhen = showErrorWhen,
+        _key = _completeKey,
         id = DateTime.now().microsecondsSinceEpoch {
     _validate();
   }
 
-  String _key;
+  String _completeKey;
+  final String _key;
   final int id;
   List<FormyValidator<T?>> validators;
   final T? initialValue;
@@ -29,6 +31,7 @@ class FieldController<T> extends ChangeNotifier {
   FieldState<T> _state;
 
   String get key => _key;
+  String get completeKey => _completeKey;
   T? get value => _state.value;
   List<ValidationResult> get validationResults => _state.validationResults;
 
@@ -39,7 +42,6 @@ class FieldController<T> extends ChangeNotifier {
   void update(
     T? value,
   ) {
-    ///if (_state.value == value) return;
     final FieldState<T> oldState = _state;
 
     _state = _state.copyWith(
@@ -62,6 +64,8 @@ class FieldController<T> extends ChangeNotifier {
   void markAsTouched() {
     if (state.touched) return;
     _state = _state.copyWith(touched: true);
+    debugPrint(
+        '\x1B[38;5;43m[FORMY]FieldController: $completeKey marked as touched\x1B[0m');
     notifyListeners();
   }
 
@@ -87,12 +91,12 @@ class FieldController<T> extends ChangeNotifier {
   }
 
   void _putInGroup(String groupKey) {
-    _key = '$groupKey/$_key';
+    _completeKey = '$groupKey/$_completeKey';
   }
 
   void _debugLog() {
     debugPrint('''
-\x1B[38;5;43m[FORMY]FieldController: $key is ${valid ? '\x1B[32mVALID\x1B[0m\x1B[0m' : '\x1B[31mINVALID\x1B[0m\x1B[0m'}
+\x1B[38;5;43m[FORMY]FieldController: $completeKey is ${valid ? '\x1B[32mVALID\x1B[0m\x1B[0m' : '\x1B[31mINVALID\x1B[0m\x1B[0m'}
 \x1B[38;5;43m  →  value = ${state.value}
 \x1B[38;5;43m  →  isDirty = ${state.dirty}
 \x1B[38;5;43m  →  isTouched = ${state.touched}

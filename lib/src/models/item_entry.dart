@@ -5,8 +5,10 @@ class ItemEntry<T> {
     required this.value,
     required this.text,
     this.enabled = true,
+    this.child,
   });
   final T value;
   final Widget text;
   final bool enabled;
+  final Widget? child;
 }

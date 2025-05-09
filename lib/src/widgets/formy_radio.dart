@@ -31,28 +31,32 @@ class FormyRadio<T> extends FormyOptionListMarkWidget<T, T> {
                         ),
                   ),
                   layout(
-                    itemsEntry
-                        .map<Widget>(
-                          (e) => Row(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Radio<T>(
-                                value: e.value,
-                                onChanged: e.enabled
-                                    ? (radioValue) {
-                                        field.update(e.value);
-                                        onSelect?.call(radioValue);
-                                      }
-                                    : null,
-                                groupValue: field.state.value,
-                              ),
-                              e.text,
-                            ],
+                    itemsEntry.map<Widget>((e) {
+                      final Widget radio = Row(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Radio<T>(
+                            value: e.value,
+                            onChanged: e.enabled
+                                ? (radioValue) {
+                                    field.update(e.value);
+                                    onSelect?.call(radioValue);
+                                  }
+                                : null,
+                            groupValue: field.state.value,
                           ),
-                        )
-                        .toList(),
+                          e.text,
+                        ],
+                      );
+                      return e.child != null
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [radio, e.child!],
+                            )
+                          : radio;
+                    }).toList(),
                   ),
                 ],
               );

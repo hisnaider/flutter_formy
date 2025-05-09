@@ -33,7 +33,7 @@ class FormManager {
       return group?.field(keyParts[1]);
     }
     for (FieldController field in _fields.values) {
-      if (field.key == key) return field;
+      if (field.completeKey == key) return field;
     }
     return null;
   }
@@ -48,7 +48,7 @@ class FormManager {
 
   FieldController? getClosestField(String key, int referenceId) {
     final List<FieldController> fieldsFound =
-        _fields.values.where((e) => e.key == key).toList();
+        _fields.values.where((e) => e.completeKey == key).toList();
     if (fieldsFound.isEmpty) {
       return null;
     }
@@ -72,13 +72,14 @@ class FormManager {
   /// Insere um [FieldController] independente no formulário.
   /// Campos pertencentes a grupos (com key no formato "grupo/campo") serão ignorados.
   void _insertField(FieldController field) {
-    if (_isInsideGroup(field.key)) return;
+    if (_isInsideGroup(field.completeKey)) return;
     _fieldCountRef[field.id] = 1 + (_fieldCountRef[field.id] ?? 0);
-    if (!field.key.contains("/")) {
+    if (!field.completeKey.contains("/")) {
       _fields[field.id] = field;
-      _debugLog('Field "${field.key}" has been \x1B[32mCREATED\x1B[0m');
+      _debugLog('Field "${field.completeKey}" has been \x1B[32mCREATED\x1B[0m');
     }
-    _debugLog('Field "${field.key}" ref count: ${_fieldCountRef[field.id]}');
+    _debugLog(
+        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.id]}');
   }
 
   /// Insere um grupo de campos identificado por [GroupController.key].
@@ -94,19 +95,19 @@ class FormManager {
   }
 
   void _removeField(FieldController field) {
-    if (_isInsideGroup(field.key)) return;
+    if (_isInsideGroup(field.completeKey)) return;
     if (_fieldCountRef[field.id] != null && _fieldCountRef[field.id]! > 1) {
       _fieldCountRef[field.id] = _fieldCountRef[field.id]! - 1;
     } else {
       _fields.remove(field.id);
       _fieldCountRef.remove(field.id);
-      _debugLog('Field "${field.key}" has been \x1B[31mREMOVED\x1B[0m');
+      _debugLog('Field "${field.completeKey}" has been \x1B[31mREMOVED\x1B[0m');
     }
 
     _debugLog(
-        'Field "${field.key}" ref count: ${_fieldCountRef[field.id] ?? '\x1B[31mDELETED\x1B[0m'}');
+        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.id] ?? '\x1B[31mDELETED\x1B[0m'}');
 
-    if (!field.key.contains("/")) {
+    if (!field.completeKey.contains("/")) {
       _fields.removeWhere((key, value) => key == field.id);
     }
   }

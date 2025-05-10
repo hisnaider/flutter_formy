@@ -66,7 +66,7 @@ class _GroupSelectorState<T>
     extends FormySelectorState<GroupController, T, GroupSelector<T>> {
   @override
   void addListener() {
-    FormManager.instance._insertGroup(widget.control);
+    FormManager.instance.insertGroup(widget.control);
     widget.control.addListener(triggerUpdate);
   }
 
@@ -99,7 +99,7 @@ class _FieldSelectorState<T>
     extends FormySelectorState<FieldController, T, FieldSelector<T>> {
   @override
   void addListener() {
-    FormManager.instance._insertField(widget.control);
+    FormManager.instance.insertField(widget.control);
     widget.control.addListener(triggerUpdate);
   }
 

@@ -79,7 +79,7 @@ class FieldBuilder<T>
 
   @override
   void insertIntoFormManager() {
-    FormManager.instance._insertField(field);
+    FormManager.instance.insertField(field);
   }
 
   @override
@@ -123,7 +123,7 @@ class GroupBuilder extends FormyBuilder<GroupController, GroupState> {
 
   @override
   void insertIntoFormManager() {
-    FormManager.instance._insertGroup(field);
+    FormManager.instance.insertGroup(field);
   }
 
   @override

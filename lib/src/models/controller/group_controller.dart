@@ -1,64 +1,84 @@
 part of 'field_controller.dart';
 
 class GroupController extends ChangeNotifier {
-  GroupController({
-    required this.key,
-    required List<FieldController> fields,
+  factory GroupController({
+    required String key,
+    required List<FieldConfig> fields,
     List<SubGroupConfig> subGroups = const [],
-  })  : assert(
-            fields.map((field) => field.completeKey).toSet().length ==
-                fields.length,
-            'Os keys dos FieldController não podem ser duplicados no GroupControl.'),
-        assert(!key.contains("/"), 'The key cannot contain "/".') {
-    for (FieldController<dynamic> i in fields) {
-      i._putInGroup(key);
-      _fields[i._key] = i;
-    }
+  }) {
+    assert(fields.map((field) => field.key).toSet().length == fields.length,
+        'Os keys dos FieldController não podem ser duplicados no GroupControl.');
+    assert(!key.contains("/"), 'The key cannot contain "/".');
+    return GroupController._internal(key, fields, subGroups, [], null);
+  }
+
+  GroupController._internal(
+    this._key,
+    List<FieldConfig> fields,
+    List<SubGroupConfig> subGroups,
+    List<DependsOn> dependencies,
+    this._parentGroup,
+  ) {
+    _initFields(fields);
     _initSubGroup(subGroups);
+    _initDependencies(dependencies);
     _init();
   }
-  String key;
+
+  String _key;
+  String get key => _key;
+  String get completeKey =>
+      _parentGroup == null ? _key : '${_parentGroup!.key}/$_key';
   final Map<String, FieldController> _fields = {};
   final Map<String, GroupController> _subGroups = {};
   final List<_Dependency> _dependencies = [];
   late GroupState _state;
+
+  GroupController? _parentGroup;
+  GroupController? get parentGroup => _parentGroup;
 
   GroupState get state => _state;
   Map<String, dynamic> get values =>
       _fields.map((key, value) => MapEntry(key, value.value));
 
   void _init() {
-    _registerFieldListeners();
     _setState();
     _state = _state.copyWith(
         isEnabled:
             _dependencies.every((dep) => dep.enabledWhen(dep.controller)));
   }
 
+  void _initFields(List<FieldConfig> fields) {
+    for (FieldConfig config in fields) {
+      _fields[config.key] = config._initField(
+        this,
+      );
+      _fields[config.key]!.addListener(_onFieldChanged);
+    }
+  }
+
   void _initSubGroup(List<SubGroupConfig> listConfig) {
     for (final config in listConfig) {
-      final GroupController groupController = GroupController(
-        key: config.key,
-        fields: config.fields,
-      ).._putInGroup(key);
-      for (final dependency in config.dependsOn) {
-        groupController._addDependency(
-            field(dependency.fieldKey), dependency.enabledWhen);
-        groupController._state = groupController.state.copyWith(
-            isEnabled: dependency.enabledWhen(field(dependency.fieldKey)));
-      }
-      _subGroups[config.key] = groupController;
+      _subGroups[config.key] = GroupController._internal(
+        config.key,
+        config.fields,
+        config.subGroups,
+        config.dependsOn,
+        _parentGroup ?? this,
+      );
       _subGroups[config.key]!.addListener(_onFieldChanged);
     }
   }
 
-  void _putInGroup(String fatherKey) {
-    key = '$fatherKey/$key';
-  }
-
-  void _registerFieldListeners() {
-    for (final control in _fields.values) {
-      control.addListener(_onFieldChanged);
+  void _initDependencies(List<DependsOn> dependencies) {
+    for (DependsOn dependency in dependencies) {
+      final FieldController controller =
+          findFieldByCompleteKey(dependency.fieldKey)!;
+      _dependencies.add(_Dependency(
+        controller,
+        dependency.enabledWhen,
+      ));
+      controller.addListener(_onDependencyChanged);
     }
   }
 
@@ -69,15 +89,6 @@ class GroupController extends ChangeNotifier {
       debugPrint('[GroupControl] Estado do grupo atualizado.');
       notifyListeners();
     }
-  }
-
-  void _addDependency(
-      FieldController controller, bool Function(FieldController) enabledWhen) {
-    _state = _state.copyWith(
-        isEnabled:
-            _dependencies.every((dep) => dep.enabledWhen(dep.controller)));
-    _dependencies.add(_Dependency(controller, enabledWhen));
-    controller.addListener(_onDependencyChanged);
   }
 
   void _onDependencyChanged() {
@@ -132,6 +143,31 @@ class GroupController extends ChangeNotifier {
     throw Exception('Field $fieldKey not found or type mismatch');
   }
 
+  FieldController? findFieldByCompleteKey(String completeKey) {
+    final parts = completeKey.split('/');
+    if (parts.length == 1) {
+      return _fields[parts[0]];
+    }
+    final head = parts.first;
+    final tail = parts.sublist(1).join('/');
+    final subGroup = _subGroups[head];
+    if (subGroup == null) return null;
+    return subGroup.findFieldByCompleteKey(tail);
+  }
+
+  GroupController? findSubGroupByCompleteKey(String completeKey) {
+    final parts = completeKey.split('/');
+    if (parts.isEmpty) return null;
+
+    final head = parts.first;
+    final tail = parts.sublist(1).join('/');
+
+    final subGroup = _subGroups[head];
+    if (subGroup == null) return null;
+
+    return tail.isEmpty ? subGroup : subGroup.findSubGroupByCompleteKey(tail);
+  }
+
   GroupController subGroup<T>(String subGroupKey) {
     final control = _subGroups[subGroupKey];
     if (control is GroupController) {
@@ -141,7 +177,6 @@ class GroupController extends ChangeNotifier {
   }
 
   Map<String, dynamic> getFormData() {
-    print(_subGroups.values.map((e) => e._state));
     return {
       for (final entry in _fields.entries) entry.key: entry.value.value,
       for (final entry in _subGroups.entries)
@@ -184,24 +219,4 @@ class _Dependency {
   final bool Function(FieldController) enabledWhen;
 
   _Dependency(this.controller, this.enabledWhen);
-}
-
-class SubGroupConfig {
-  SubGroupConfig({
-    required this.key,
-    this.dependsOn = const [],
-    required this.fields,
-  });
-  final String key;
-  final List<DependsOn> dependsOn;
-  final List<FieldController> fields;
-}
-
-class DependsOn {
-  const DependsOn({
-    required this.fieldKey,
-    required this.enabledWhen,
-  });
-  final String fieldKey;
-  final bool Function(FieldController controller) enabledWhen;
 }

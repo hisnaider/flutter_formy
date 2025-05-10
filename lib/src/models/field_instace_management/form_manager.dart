@@ -55,8 +55,9 @@ class FormManager {
     if (fieldsFound.length == 1) {
       return fieldsFound.first;
     }
-    fieldsFound.sort((a, b) =>
-        (a.id - referenceId).abs().compareTo((b.id - referenceId).abs()));
+    fieldsFound.sort((a, b) => (a.createdTimestamp - referenceId)
+        .abs()
+        .compareTo((b.createdTimestamp - referenceId).abs()));
 
     return fieldsFound.first;
   }
@@ -71,20 +72,21 @@ class FormManager {
 
   /// Insere um [FieldController] independente no formulário.
   /// Campos pertencentes a grupos (com key no formato "grupo/campo") serão ignorados.
-  void _insertField(FieldController field) {
+  void insertField(FieldController field) {
     if (_isInsideGroup(field.completeKey)) return;
-    _fieldCountRef[field.id] = 1 + (_fieldCountRef[field.id] ?? 0);
+    _fieldCountRef[field.createdTimestamp] =
+        1 + (_fieldCountRef[field.createdTimestamp] ?? 0);
     if (!field.completeKey.contains("/")) {
-      _fields[field.id] = field;
+      _fields[field.createdTimestamp] = field;
       _debugLog('Field "${field.completeKey}" has been \x1B[32mCREATED\x1B[0m');
     }
     _debugLog(
-        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.id]}');
+        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.createdTimestamp]}');
   }
 
   /// Insere um grupo de campos identificado por [GroupController.key].
   /// Se já houver um grupo com a mesma key, o `_groupCountRef` referente a esse group sera crementado.
-  void _insertGroup(GroupController group) {
+  void insertGroup(GroupController group) {
     if (_isInsideGroup(group.key)) return;
     _groupCountRef[group.key] = 1 + (_groupCountRef[group.key] ?? 0);
     if (!_groups.containsKey(group.key)) {
@@ -96,19 +98,21 @@ class FormManager {
 
   void _removeField(FieldController field) {
     if (_isInsideGroup(field.completeKey)) return;
-    if (_fieldCountRef[field.id] != null && _fieldCountRef[field.id]! > 1) {
-      _fieldCountRef[field.id] = _fieldCountRef[field.id]! - 1;
+    if (_fieldCountRef[field.createdTimestamp] != null &&
+        _fieldCountRef[field.createdTimestamp]! > 1) {
+      _fieldCountRef[field.createdTimestamp] =
+          _fieldCountRef[field.createdTimestamp]! - 1;
     } else {
-      _fields.remove(field.id);
-      _fieldCountRef.remove(field.id);
+      _fields.remove(field.createdTimestamp);
+      _fieldCountRef.remove(field.createdTimestamp);
       _debugLog('Field "${field.completeKey}" has been \x1B[31mREMOVED\x1B[0m');
     }
 
     _debugLog(
-        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.id] ?? '\x1B[31mDELETED\x1B[0m'}');
+        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.createdTimestamp] ?? '\x1B[31mDELETED\x1B[0m'}');
 
     if (!field.completeKey.contains("/")) {
-      _fields.removeWhere((key, value) => key == field.id);
+      _fields.removeWhere((key, value) => key == field.createdTimestamp);
     }
   }
 

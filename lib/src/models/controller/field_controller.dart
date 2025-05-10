@@ -3,35 +3,54 @@ import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
 
 part 'group_controller.dart';
+part 'field_config.dart';
+part 'subgroup_config.dart';
 
 enum ShowError { never, whenIsTouched, always }
 
 class FieldController<T> extends ChangeNotifier {
-  FieldController(
-    this._completeKey, {
-    this.validators = const [],
-    this.initialValue,
+  factory FieldController({
+    required String key,
+    List<FormyValidator<T?>> validators = const [],
+    T? initialValue,
     ShowError showErrorWhen = ShowError.whenIsTouched,
-  })  : assert(!_completeKey.contains("/"), 'The key cannot contain "/".'),
-        _state =
+  }) {
+    assert(!key.contains("/"), 'The key cannot contain "/".');
+    return FieldController<T>._internal(
+        key, initialValue, showErrorWhen, validators, [], null);
+  }
+
+  FieldController._internal(
+    this._key,
+    this.initialValue,
+    this._showErrorWhen,
+    this.validators,
+    List<String> dependentsFields,
+    this._groupRef,
+  )   : _state =
             FieldState.initial(initialValue ?? (T == bool ? false as T : null)),
-        _showErrorWhen = showErrorWhen,
-        _key = _completeKey,
-        id = DateTime.now().microsecondsSinceEpoch {
+        createdTimestamp = DateTime.now().microsecondsSinceEpoch {
+    for (String i in dependentsFields) {
+      groupRef!.field(i)._addDependentsField(_key);
+    }
     _validate();
   }
 
-  String _completeKey;
   final String _key;
-  final int id;
+  final int createdTimestamp;
   List<FormyValidator<T?>> validators;
   final T? initialValue;
   final ShowError _showErrorWhen;
 
   FieldState<T> _state;
+  final List<String> _dependentsFields = [];
+
+  GroupController? _groupRef;
+  GroupController? get groupRef => _groupRef;
 
   String get key => _key;
-  String get completeKey => _completeKey;
+  String get completeKey =>
+      _groupRef == null ? _key : '${_groupRef!.key}/$_key';
   T? get value => _state.value;
   List<ValidationResult> get validationResults => _state.validationResults;
 
@@ -51,6 +70,9 @@ class FieldController<T> extends ChangeNotifier {
     _validate();
     if (_state != oldState) {
       _debugLog();
+      for (String key in _dependentsFields) {
+        _groupRef?.field(key).update(null);
+      }
       notifyListeners();
     }
   }
@@ -85,13 +107,13 @@ class FieldController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
+  void _addDependentsField(String dependent) {
+    _dependentsFields.add(dependent);
+  }
+
   void _validate() {
     _state = _state.copyWith(
         validationResults: validators.map((e) => e(this)).toList());
-  }
-
-  void _putInGroup(String groupKey) {
-    _completeKey = '$groupKey/$_completeKey';
   }
 
   void _debugLog() {
@@ -106,25 +128,39 @@ class FieldController<T> extends ChangeNotifier {
 }
 
 class FieldListControl<T> extends FieldController<List<T>> {
-  FieldListControl(
-    super._key, {
-    super.validators = const [],
-  }) : super(initialValue: <T>[]) {
-    _validate();
-  }
+  FieldListControl({
+    required String key,
+    List<T>? initialValue,
+    ShowError showErrorWhen = ShowError.whenIsTouched,
+    List<FormyValidator<List<T>>> validators = const [],
+  }) : super._internal(
+          key,
+          initialValue ?? [],
+          showErrorWhen,
+          validators,
+          [],
+          null,
+        );
+
+  FieldListControl._internal(
+    super.key,
+    super.initialValue,
+    super.showErrorWhen,
+    List<FormyValidator<List<T>>> super.validators,
+    super.dependents,
+    super.groupRef,
+  ) : super._internal();
 
   @override
   void validate() => _validate();
 
   @override
   void update(List<T>? value) {
-    bool isSame = false;
-    isSame = listEquals(value, _state.value);
-    if (isSame) return;
+    if (listEquals(value, _state.value)) return;
     FieldState<List<T>> oldState = _state;
     _state = _state.copyWith(
       value: value,
-      dirty: value != _state.value ? true : _state.dirty,
+      dirty: true,
     );
     _validate();
     if (_state != oldState) {
@@ -132,6 +168,23 @@ class FieldListControl<T> extends FieldController<List<T>> {
       notifyListeners();
     }
   }
+
+  // void addItem(T item) {
+  //   final updated = [...(value ?? []), item];
+  //   update(updated);
+  // }
+
+  // void removeItem(T item) {
+  //   final updated = [...(value ?? [])]..remove(item);
+  //   update(updated);
+  // }
+
+  // void moveItem(int from, int to) {
+  //   final updated = [...(value ?? [])];
+  //   final item = updated.removeAt(from);
+  //   updated.insert(to, item);
+  //   update(updated);
+  // }
 }
 
 extension FieldControllerX<T> on FieldController<T> {

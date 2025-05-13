@@ -9,7 +9,10 @@ class GroupController extends ChangeNotifier {
     assert(fields.map((field) => field.key).toSet().length == fields.length,
         'Os keys dos FieldController não podem ser duplicados no GroupControl.');
     assert(!key.contains("/"), 'The key cannot contain "/".');
-    return GroupController._internal(key, fields, subGroups, [], null);
+    final GroupController group =
+        GroupController._internal(key, fields, subGroups, [], null);
+    group._initSubGroup(subGroups);
+    return group;
   }
 
   GroupController._internal(
@@ -20,8 +23,8 @@ class GroupController extends ChangeNotifier {
     this._parentGroup,
   ) {
     _initFields(fields);
-    _initSubGroup(subGroups);
     _initDependencies(dependencies);
+
     _init();
   }
 
@@ -73,7 +76,7 @@ class GroupController extends ChangeNotifier {
   void _initDependencies(List<DependsOn> dependencies) {
     for (DependsOn dependency in dependencies) {
       final FieldController controller =
-          findFieldByCompleteKey(dependency.fieldKey)!;
+          parentGroup!.findFieldByCompleteKey(dependency.fieldKey)!;
       _dependencies.add(_Dependency(
         controller,
         dependency.enabledWhen,

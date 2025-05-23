@@ -187,6 +187,12 @@ class GroupController extends ChangeNotifier {
     };
   }
 
+  void setInitialValues() {
+    for (final entry in _fields.entries) {
+      entry.value._setInitialValue();
+    }
+  }
+
   void _setState() {
     _state = GroupState(
       errorMessages: _fieldsErrorMessages(),

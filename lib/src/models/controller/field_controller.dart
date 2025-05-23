@@ -22,13 +22,13 @@ class FieldController<T> extends ChangeNotifier {
 
   FieldController._internal(
     this._key,
-    this.initialValue,
+    this._initialValue,
     this._showErrorWhen,
     this.validators,
     List<String> dependentsFields,
     this._groupRef,
-  )   : _state =
-            FieldState.initial(initialValue ?? (T == bool ? false as T : null)),
+  )   : _state = FieldState.initial(
+            _initialValue ?? (T == bool ? false as T : null)),
         createdTimestamp = DateTime.now().microsecondsSinceEpoch {
     for (String i in dependentsFields) {
       groupRef!.field(i)._addDependentsField(_key);
@@ -39,7 +39,7 @@ class FieldController<T> extends ChangeNotifier {
   final String _key;
   final int createdTimestamp;
   List<FormyValidator<T?>> validators;
-  final T? initialValue;
+  T? _initialValue;
   final ShowError _showErrorWhen;
 
   FieldState<T> _state;
@@ -48,6 +48,7 @@ class FieldController<T> extends ChangeNotifier {
   GroupController? _groupRef;
   GroupController? get groupRef => _groupRef;
 
+  T? get initialValue => _initialValue;
   String get key => _key;
   String get completeKey =>
       _groupRef == null ? _key : '${_groupRef!.key}/$_key';
@@ -109,6 +110,10 @@ class FieldController<T> extends ChangeNotifier {
 
   void _addDependentsField(String dependent) {
     _dependentsFields.add(dependent);
+  }
+
+  void _setInitialValue() {
+    _initialValue = _state.value;
   }
 
   void _validate() {

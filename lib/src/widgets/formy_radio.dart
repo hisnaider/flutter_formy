@@ -15,7 +15,7 @@ class FormyRadio<T> extends FormyOptionListMarkWidget<T, T> {
             field: fieldController,
             buildWhen: (oldState, currentState) =>
                 oldState.value != currentState.value,
-            builder: (context, field, child, _) {
+            builder: (context, field, child) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,

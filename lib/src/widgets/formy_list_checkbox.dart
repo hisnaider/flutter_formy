@@ -15,7 +15,7 @@ class FormyListCheckbox<T> extends FormyOptionListMarkWidget<T, List<T>> {
             field: fieldController,
             buildWhen: (oldState, currentState) =>
                 oldState.value?.length != currentState.value?.length,
-            builder: (context, field, child, _) {
+            builder: (context, field, child) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,

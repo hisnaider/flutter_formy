@@ -24,7 +24,7 @@ class FormyCheckbox extends StatelessWidget {
   Widget build(BuildContext context) {
     return FieldBuilder<bool>(
       field: fieldController,
-      builder: (context, field, child, _) {
+      builder: (context, field, child) {
         return Row(
           mainAxisSize: mainAxisSize,
           crossAxisAlignment: crossAxisAlignment,

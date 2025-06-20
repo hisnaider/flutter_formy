@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('Should create FieldController', () {
-    final FieldController field = FieldController<String>('field');
+    final FieldController field = FieldController<String>(key: 'field');
     expect(field.completeKey, 'field');
     expect(field.value, isNull);
     expect(field.state.dirty, isFalse);
@@ -12,21 +12,21 @@ void main() {
   });
   test('Should be valid if initialValue passes validation', () {
     final field = FieldController<String>(
-      'email',
+      key: 'email',
       initialValue: 'valid@email.com',
       validators: [EmailValidator()],
     );
     expect(field.valid, isTrue);
   });
   test('Should update FieldController', () {
-    final FieldController field = FieldController<String>('field');
+    final FieldController field = FieldController<String>(key: 'field');
     field.update('test');
     expect(field.value, 'test');
     expect(field.state.dirty, true);
     expect(field.initialValue, isNull);
   });
   test('Should mark FieldController as touched and', () {
-    final FieldController field = FieldController<String>('field');
+    final FieldController field = FieldController<String>(key: 'field');
     field.markAsTouched();
     expect(field.state.touched, true);
     field.markAsDirty();
@@ -34,7 +34,7 @@ void main() {
   });
   test('Should reset FieldController', () {
     final FieldController field =
-        FieldController<String>('field', initialValue: 'value');
+        FieldController<String>(key: 'field', initialValue: 'value');
     field.update('newValue');
     field.reset();
     expect(field.value, 'value');
@@ -42,14 +42,14 @@ void main() {
   });
   test("Should be required", () {
     final FieldController field = FieldController<String>(
-      'field',
+      key: 'field',
       validators: [IsRequired()],
     );
     expect(field.isRequired, true);
   });
   test('Should return list of validation keys correctly', () {
     final FieldController field = FieldController<String>(
-      'field',
+      key: 'field',
       validators: [IsRequired(), EmailValidator(), MinValidator(6)],
       showErrorWhen: ShowError.always,
     );
@@ -70,7 +70,7 @@ void main() {
   });
   test('Should throw error if the key contains `/`', () {
     expect(
-      () => FieldController<String>('field/field'),
+      () => FieldController<String>(key: 'field/field'),
       throwsA(predicate((e) =>
           e is AssertionError &&
           e.toString().contains('The key cannot contain "/".'))),
@@ -79,12 +79,12 @@ void main() {
 
   group('FieldListController', () {
     test('Should create FieldListControl', () {
-      final field = FieldListControl<String>('field');
+      final field = FieldListControl<String>(key: 'field');
       expect(field.value, []);
     });
 
     test('Should update FieldListControl', () {
-      final field = FieldListControl<String>('field');
+      final field = FieldListControl<String>(key: 'field');
       field.update(['a', 'b']);
       expect(field.value, ['a', 'b']);
     });
@@ -92,7 +92,7 @@ void main() {
   group('Validation tests', () {
     test('Should validate a single validator', () {
       final FieldController field =
-          FieldController<String>('field', validators: [IsRequired()]);
+          FieldController<String>(key: 'field', validators: [IsRequired()]);
       expect(field.valid, isFalse);
       field.update('');
       expect(field.valid, isFalse);
@@ -100,8 +100,8 @@ void main() {
       expect(field.valid, isTrue);
     });
     test('Should validate a multiple validators', () {
-      final FieldController field = FieldController<String>('field',
-          validators: [IsRequired(), EmailValidator()]);
+      final FieldController field = FieldController<String>(
+          key: 'field', validators: [IsRequired(), EmailValidator()]);
       expect(field.valid, isFalse);
       field.update('value');
       expect(field.valid, isFalse);
@@ -109,8 +109,10 @@ void main() {
       expect(field.valid, isTrue);
     });
     test("Never show error message", () {
-      final FieldController field = FieldController<String>('field',
-          validators: [IsRequired()], showErrorWhen: ShowError.never);
+      final FieldController field = FieldController<String>(
+          key: 'field',
+          validators: [IsRequired()],
+          showErrorWhen: ShowError.never);
       expect(field.valid, isFalse);
       expect(field.firstError, null);
       field.update('value');
@@ -118,8 +120,10 @@ void main() {
       expect(field.firstError, null);
     });
     test("Show error only when is touched", () {
-      final FieldController field = FieldController<String>('field',
-          validators: [IsRequired()], showErrorWhen: ShowError.whenIsTouched);
+      final FieldController field = FieldController<String>(
+          key: 'field',
+          validators: [IsRequired()],
+          showErrorWhen: ShowError.whenIsTouched);
       expect(field.valid, isFalse);
       expect(field.firstError, null);
       field.markAsTouched();
@@ -130,8 +134,10 @@ void main() {
       expect(field.firstError, null);
     });
     test("Always show error message", () {
-      final FieldController field = FieldController<String>('field',
-          validators: [IsRequired()], showErrorWhen: ShowError.always);
+      final FieldController field = FieldController<String>(
+          key: 'field',
+          validators: [IsRequired()],
+          showErrorWhen: ShowError.always);
       expect(field.valid, isFalse);
       expect(field.firstError, GenericValidators.isRequired.name);
       field.update('value');

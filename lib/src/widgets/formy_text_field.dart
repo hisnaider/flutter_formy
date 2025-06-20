@@ -149,26 +149,11 @@ class FormyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FieldBuilder<String>(
+    return FocusableFieldBuilder<String>(
       field: fieldController,
       buildWhen: (oldState, currentState) => oldState != currentState,
-      aditionalListener: [
-        AdditionalListener<FocusNode>(
-          listenerType: focusNode,
-          createListener: focusNode == null ? () => FocusNode() : null,
-          lifecycle: focusNode != null
-              ? ListenerLifecycle.manual
-              : ListenerLifecycle.autoDispose,
-          onListen: (listener, controller) {
-            final hasFocus = listener.hasFocus;
-            if (!hasFocus) {
-              controller.markAsTouched();
-            }
-          },
-        )
-      ],
-      builder: (context, field, child, listeners) {
-        final FocusNode focusNode = listeners.first.listener as FocusNode;
+      focusNode: focusNode,
+      builder: (context, field, focusNode, child) {
         final InputDecoration inputDecoration =
             decoration?.call(fieldController.state, field.firstError) ??
                 const InputDecoration();

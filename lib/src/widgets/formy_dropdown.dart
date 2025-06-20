@@ -83,7 +83,7 @@ class _FormyDropdownState<T> extends State<FormyDropdown<T>> {
       field: widget.fieldController,
       buildWhen: (oldState, currentState) =>
           oldState.value != currentState.value,
-      builder: (context, field, child, listeners) {
+      builder: (context, field, child) {
         return DropdownMenu(
           enabled: widget.enabled,
           width: widget.width,

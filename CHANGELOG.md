@@ -1,3 +1,4 @@
-## 0.0.1
+## 0.0.2 - 2025-06-26
 
-* TODO: Describe initial release.
+### Fixed
+- Atualização na descrição do pubspec.yaml

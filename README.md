@@ -1,10 +1,15 @@
 # Formy
 
-ATENÇÃO: O package esta em fase beta. Ele esta funcional, mas tem alguns pontos a ser melhorado pra melhorar a experiencia do desenvolvedor.
+ATENÇÃO: 
+- O package esta em fase beta. Ele esta funcional, mas tem alguns pontos a ser melhorado pra melhorar a experiencia do desenvolvedor;
+- O README ainda não esta completo, mas em pouco tempo vai estar;
+- An English readme will be created in the future.
 
 # **Sobre o Formy:**
 
 Formy é uma biblioteca robusta para gerenciamento de formulários em Flutter. Ela simplifica a criação, o controle e a validação de formulários, oferecendo uma abordagem reativa que mantém a interface sincronizada com o estado dos campos em tempo real. Com Formy, você pode construir formulários complexos de forma organizada, reutilizável e fácil de manter, aproveitando recursos como controle granular de estado, validação customizada e construção dinâmica dos campos.
+
+[![pub package](https://img.shields.io/pub/v/flutter_formy)](https://pub.dev/packages/flutter_formy) [![License](https://img.shields.io/github/license/hisnaider/flutter_formy)](https://github.com/hisnaider/flutter_formy/blob/main/LICENSE)
 
 # **Instalando:**
 
@@ -12,7 +17,7 @@ Adicione o Formy no arquivo pubspec.yaml
 
 ```yaml
 dependencies:
-	formy:
+  formy:
 ```
 
 # Criando um formulário:

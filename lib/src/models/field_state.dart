@@ -7,19 +7,16 @@ class FieldState<T> {
     required this.validationResults,
     required this.dirty,
     required this.touched,
-    required this.hasFocus,
   });
   final T? value;
   final List<ValidationResult> validationResults;
   final bool dirty;
   final bool touched;
-  final bool hasFocus;
 
   const FieldState.initial(T? initialValue)
       : this(
           dirty: false,
           touched: false,
-          hasFocus: false,
           validationResults: const [],
           value: initialValue,
         );
@@ -29,20 +26,18 @@ class FieldState<T> {
     List<ValidationResult>? validationResults,
     bool? dirty,
     bool? touched,
-    bool? hasFocus,
   }) {
     return FieldState<T>(
       value: value ?? this.value,
       validationResults: validationResults ?? this.validationResults,
       dirty: dirty ?? this.dirty,
       touched: touched ?? this.touched,
-      hasFocus: hasFocus ?? this.hasFocus,
     );
   }
 
   @override
   String toString() {
-    return 'State(dirty: $dirty, touched: $touched, validationResults:$validationResults,value:$value, hasFocus: $hasFocus)';
+    return 'State(dirty: $dirty, touched: $touched, validationResults:$validationResults,value:$value)';
   }
 
   @override
@@ -52,8 +47,7 @@ class FieldState<T> {
     return other.value == value &&
         listEquals(other.validationResults, validationResults) &&
         other.dirty == dirty &&
-        other.touched == touched &&
-        other.hasFocus == hasFocus;
+        other.touched == touched;
   }
 
   @override
@@ -61,7 +55,6 @@ class FieldState<T> {
     return value.hashCode ^
         validationResults.hashCode ^
         dirty.hashCode ^
-        touched.hashCode ^
-        hasFocus.hashCode;
+        touched.hashCode;
   }
 }

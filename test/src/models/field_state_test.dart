@@ -9,16 +9,15 @@ void main() {
       "Should create FieldState with right values",
       () {
         final state = FieldState(
-            value: "value",
-            validationResults: [validationResult],
-            dirty: false,
-            touched: true,
-            hasFocus: false);
+          value: "value",
+          validationResults: [validationResult],
+          dirty: false,
+          touched: true,
+        );
         expect(state.value, "value");
         expect(state.validationResults, [validationResult]);
         expect(state.dirty, false);
         expect(state.touched, true);
-        expect(state.hasFocus, false);
       },
     );
     test(
@@ -29,7 +28,6 @@ void main() {
         expect(state.validationResults, []);
         expect(state.dirty, false);
         expect(state.touched, false);
-        expect(state.hasFocus, false);
       },
     );
     test(
@@ -39,7 +37,6 @@ void main() {
         state = state.copyWith(
           value: "otherValue",
           dirty: true,
-          hasFocus: true,
           touched: true,
           validationResults: [validationResult],
         );
@@ -47,7 +44,6 @@ void main() {
         expect(state.validationResults, [validationResult]);
         expect(state.dirty, true);
         expect(state.touched, true);
-        expect(state.hasFocus, true);
       },
     );
     test(
@@ -55,7 +51,7 @@ void main() {
       () {
         const FieldState state = FieldState.initial("initialValue");
         expect(state.toString(),
-            'State(dirty: ${state.dirty}, touched: ${state.touched}, validationResults:${state.validationResults},value:${state.value}, hasFocus: ${state.hasFocus})');
+            'State(dirty: ${state.dirty}, touched: ${state.touched}, validationResults:${state.validationResults},value:${state.value})');
       },
     );
     test(

@@ -17,7 +17,7 @@ Adicione o Formy no arquivo pubspec.yaml
 
 ```yaml
 dependencies:
-  formy:
+  flutter_formy:
 ```
 
 # Criando um formulário:
@@ -194,7 +194,6 @@ Esse é o estado do `FieldListControl`. O `FieldState` tem as propriedades:
 - `validationResults`: Resultado das validações do campo (lista de `ValidationResult`);
 - `dirty`: Determina se o campo foi modificado;
 - `touched`: Determina se o campo foi tocado:
-- `obscure`: Determina se o valor deve ser mostrado;
 
 # Controlador de grupo (`GroupController`)
 

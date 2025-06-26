@@ -1,7 +1,7 @@
 import 'package:flutter_formy/flutter_formy.dart';
 
 class MustMatchValidator extends FormyValidator<String> {
-  MustMatchValidator({required this.otherController});
+  MustMatchValidator({required this.otherController, super.message});
   final String otherController;
   @override
   ValidationResult onValidate(FieldController control) {
@@ -12,6 +12,7 @@ class MustMatchValidator extends FormyValidator<String> {
     }
     return ValidationResult(
       key: GenericValidators.mustMatch.name,
+      message: message,
       isValid: isValid,
     );
   }

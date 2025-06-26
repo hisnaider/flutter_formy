@@ -1,6 +1,7 @@
 import 'package:flutter_formy/flutter_formy.dart';
 
 class EmailValidator extends FormyValidator<String> {
+  EmailValidator({super.message});
   static final RegExp _emailRegex =
       RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   @override
@@ -13,6 +14,7 @@ class EmailValidator extends FormyValidator<String> {
     }
     return ValidationResult(
       key: GenericValidators.invalidEmail.name,
+      message: message,
       isValid: isValid,
     );
   }

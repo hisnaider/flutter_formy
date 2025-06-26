@@ -41,8 +41,6 @@ class GroupController extends ChangeNotifier {
   GroupController? get parentGroup => _parentGroup;
 
   GroupState get state => _state;
-  Map<String, dynamic> get values =>
-      _fields.map((key, value) => MapEntry(key, value.value));
 
   void _init() {
     _setState();
@@ -196,13 +194,13 @@ class GroupController extends ChangeNotifier {
   void _setState() {
     _state = GroupState(
       errorMessages: _fieldsErrorMessages(),
-      firstErrorFieldKey: _firstErrorFieldKey(),
+      firstErrorField: _firstErrorField(),
       isValid: _fieldsValid() && _subGroupsValid(),
       validCount: _validCount(),
     );
   }
 
-  String? _firstErrorFieldKey() {
+  String? _firstErrorField() {
     for (final entry in _fields.entries) {
       if (!entry.value.valid) return entry.key;
     }

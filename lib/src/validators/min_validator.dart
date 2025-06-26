@@ -1,7 +1,7 @@
 import 'package:flutter_formy/flutter_formy.dart';
 
 class MinValidator<T> extends FormyValidator<T> {
-  MinValidator(this.min);
+  MinValidator(this.min, {super.message});
   final int min;
   @override
   ValidationResult onValidate(FieldController<T> control) {
@@ -24,6 +24,7 @@ class MinValidator<T> extends FormyValidator<T> {
     }
     return ValidationResult(
       key: GenericValidators.min.name,
+      message: message,
       isValid: isValid,
     );
   }

@@ -92,7 +92,7 @@ class FieldController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool mustShowError() =>
+  bool _mustShowError() =>
       _showErrorWhen == ShowError.always ||
       (_showErrorWhen == ShowError.whenIsTouched && state.touched);
 
@@ -194,16 +194,22 @@ class FieldListControl<T> extends FieldController<List<T>> {
 
 extension FieldControllerX<T> on FieldController<T> {
   bool get isRequired => validationResults.any((e) => e.key == "isRequired");
-  String? get firstError => mustShowError()
+  String? get firstError => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)
-          .map((v) => v.key)
+          .map((v) => v.message)
           .firstOrNull
       : null;
-  List<String> get errorKeys => mustShowError()
+  List<String> get errorKeys => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)
           .map((v) => v.key)
+          .toList()
+      : [];
+  List<String?> get errorMessages => _mustShowError()
+      ? state.validationResults
+          .where((v) => !v.isValid)
+          .map((v) => v.message)
           .toList()
       : [];
   bool get valid => state.validationResults.every((e) => e.isValid);

@@ -1,7 +1,7 @@
 import 'package:flutter_formy/flutter_formy.dart';
 
 class MaxValidator<T> extends FormyValidator<T> {
-  MaxValidator(this.max);
+  MaxValidator(this.max, {super.message});
   final int max;
   @override
   ValidationResult onValidate(FieldController<T> control) {
@@ -24,6 +24,7 @@ class MaxValidator<T> extends FormyValidator<T> {
     }
     return ValidationResult(
       key: GenericValidators.max.name,
+      message: message,
       isValid: isValid,
     );
   }

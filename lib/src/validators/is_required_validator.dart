@@ -1,6 +1,7 @@
 import 'package:flutter_formy/flutter_formy.dart';
 
 class IsRequired<T> extends FormyValidator<T> {
+  IsRequired({super.message});
   @override
   ValidationResult onValidate(FieldController control) {
     bool isValid = true;
@@ -17,6 +18,7 @@ class IsRequired<T> extends FormyValidator<T> {
 
     return ValidationResult(
       key: GenericValidators.isRequired.name,
+      message: message,
       isValid: isValid,
     );
   }

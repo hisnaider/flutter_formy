@@ -7,14 +7,14 @@ class GroupState {
     this.isValid = true,
     this.wasValidated = false,
     this.errorMessages = const [],
-    this.firstErrorFieldKey,
+    this.firstErrorField,
     this.validCount = 0,
   });
   final bool isEnabled;
   final bool isValid;
   final bool wasValidated;
   final List<String> errorMessages;
-  final String? firstErrorFieldKey;
+  final String? firstErrorField;
   final int validCount;
 
   GroupState copyWith({
@@ -30,14 +30,14 @@ class GroupState {
       isValid: isValid ?? this.isValid,
       wasValidated: wasValidated ?? this.wasValidated,
       errorMessages: errorMessages ?? this.errorMessages,
-      firstErrorFieldKey: firstErrorFieldKey ?? this.firstErrorFieldKey,
+      firstErrorField: firstErrorFieldKey ?? this.firstErrorField,
       validCount: validCount ?? this.validCount,
     );
   }
 
   @override
   String toString() {
-    return 'State(isEnabled: $isEnabled, isValid: $isValid, wasValidated: $wasValidated, errorMessages:$errorMessages,firstErrorFieldKey:$firstErrorFieldKey, validCount: $validCount)';
+    return 'State(isEnabled: $isEnabled, isValid: $isValid, wasValidated: $wasValidated, errorMessages:$errorMessages,firstErrorFieldKey:$firstErrorField, validCount: $validCount)';
   }
 
   @override
@@ -48,7 +48,7 @@ class GroupState {
         other.isValid == isValid &&
         listEquals(other.errorMessages, errorMessages) &&
         other.wasValidated == wasValidated &&
-        other.firstErrorFieldKey == firstErrorFieldKey &&
+        other.firstErrorField == firstErrorField &&
         other.validCount == validCount;
   }
 
@@ -58,7 +58,7 @@ class GroupState {
         isValid.hashCode ^
         wasValidated.hashCode ^
         errorMessages.hashCode ^
-        firstErrorFieldKey.hashCode ^
+        firstErrorField.hashCode ^
         validCount.hashCode ^
         validCount.hashCode;
   }

@@ -11,7 +11,6 @@ export 'src/models/controller/field_controller.dart';
 export 'src/models/field_state.dart';
 export 'src/models/item_entry.dart';
 export 'src/models/validation_result.dart';
-export 'src/models/additional_listener.dart';
 //
 //
 //

@@ -12,13 +12,13 @@ void main() {
             isValid: false,
             wasValidated: true,
             errorMessages: ["error1, error2"],
-            firstErrorFieldKey: "error",
+            firstErrorField: "error",
             validCount: 2,
           );
           expect(state.isValid, false);
           expect(state.wasValidated, true);
           expect(state.errorMessages, ["error1, error2"]);
-          expect(state.firstErrorFieldKey, "error");
+          expect(state.firstErrorField, "error");
           expect(state.validCount, 2);
         },
       );
@@ -29,7 +29,7 @@ void main() {
           expect(state.isValid, true);
           expect(state.wasValidated, false);
           expect(state.errorMessages, []);
-          expect(state.firstErrorFieldKey, null);
+          expect(state.firstErrorField, null);
           expect(state.validCount, 0);
         },
       );
@@ -47,7 +47,7 @@ void main() {
           expect(state.isValid, false);
           expect(state.wasValidated, true);
           expect(state.errorMessages, ["error1, error2"]);
-          expect(state.firstErrorFieldKey, "error");
+          expect(state.firstErrorField, "error");
           expect(state.validCount, 2);
         },
       );

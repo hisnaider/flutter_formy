@@ -2,6 +2,12 @@ name: flutter_formy
 description: "Form management package focused on flexibility, modularity, and readability"
 version: 0.0.1
 homepage: "https://github.com/hisnaider/flutter_formy"
+repository: "https://github.com/hisnaider/flutter_formy"
+topics:
+  - forms
+  - validation
+  - flutter
+  - reactive
 
 environment:
   sdk: ^3.5.4

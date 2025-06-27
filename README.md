@@ -26,50 +26,110 @@ Pra criar um formulário é preciso usar a classe `GroupController`. Nele a gent
 
 ```dart
 final GroupController group = GroupController(
-	key: 'login',
-  fields: [
-   FieldConfig<String>(key: 'email', validators: [IsRequired(), IsRequired()]),
-   FieldConfig<String>(key: 'password', validators: [IsRequired(), MinValidator(6)]),
-  ],
-);
+    key: 'login',
+    fields: [
+      FieldConfig<String>(key: 'email', validators: [IsRequired()]),
+      FieldConfig<String>(key: 'password', validators: [IsRequired(), MinValidator(6)]),
+    ],
+  );
 ```
 
 Depois de definir, crie o widget pro formulário, deixe o visual como quiser. Pra usar os campos definidos no `fields`, é preciso usar um widget FieldBuilder (exemplo: FormyTextField):
 
 ```dart
 FormyTextField(
-	fieldController: loginGroup.field('email'),
-	decoration: (fieldState, firstError) => InputDecoration(
-		hintText: 'Digite seu E-mail',
-		labelText: 'E-mail',
-		errorText: firstError,
-	),
+  field: group.field('email'),
+  decoration: (fieldState, firstError) => InputDecoration(
+    hintText: 'Digite seu E-mail',
+    labelText: 'E-mail',
+    errorText: firstError,
+  ),
 ),
 FormyTextField(
-	fieldController: loginGroup.field('password'),
-	decoration: (fieldState, firstError) => InputDecoration(
-		hintText: 'Digite sua senha',
-		labelText: 'Senha',
-		errorText: firstError,
-	),
+  field: group.field('password'),
+  decoration: (fieldState, firstError) => InputDecoration(
+    hintText: 'Digite sua senha',
+    labelText: 'Senha',
+    errorText: firstError,
+  ),
 ),
 ```
 
-Pra fazer um botão que reaja as mudanças do `GroupController`, é preciso usar um widget `GroupSelector`:
+Pra fazer um botão que reaja as mudanças do `GroupController`, é preciso usar um widget `FormySubmitButton`:
 
 ```dart
-GroupSelector(
-	control: group ,
-	selector: (group) => group.state.isValid,
-	child: (value) => ElevatedButton(
-		onPressed: value
-		? () {
-			debugPrint('Fazer login');
-		}
-		: null,
-		child: const Text('Entrar'),
-	),
+FormySubmitButton(
+  control: group,
+  child: const Text(
+    'Entrar',
+  ),
 ),
+```
+
+O pronto, o formulario esta feito, esta validando e o botão esta reagindo a mudança de estado. Um exemplo completo de uma tela de login esta logo a baixo:
+```dart
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final GroupController group = GroupController(
+    key: 'login',
+    fields: [
+      FieldConfig<String>(key: 'email', validators: [IsRequired()]),
+      FieldConfig<String>(key: 'password', validators: [IsRequired(), MinValidator(6)]),
+    ],
+  );
+
+  @override
+  void dispose() {
+    super.dispose();
+    group.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          'Login',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        const SizedBox(height: 30),
+        FormyTextField(
+          field: group.field('email'),
+          decoration: (fieldState, firstError) => InputDecoration(
+            hintText: 'Digite seu E-mail',
+            labelText: 'E-mail',
+            errorText: firstError,
+          ),
+        ),
+        const SizedBox(height: 24),
+        FormyTextField(
+          field: group.field('password'),
+          decoration: (fieldState, firstError) => InputDecoration(
+            hintText: 'Digite sua senha',
+            labelText: 'Senha',
+            errorText: firstError,
+          ),
+        ),
+        const SizedBox(height: 30),
+        FormySubmitButton(
+          control: group,
+          child: const Text(
+            'Entrar',
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+
+
 ```
 
 # Recursos:

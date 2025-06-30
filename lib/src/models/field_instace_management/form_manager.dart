@@ -5,7 +5,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
 
 part 'formy_selector.dart';
-part 'formy_builder.dart';
+part '../../builder/formy_builder.dart';
+part '../../builder/field_builder.dart';
+part '../../builder/focusable_field_builder.dart';
+part '../../builder/group_builder.dart';
 
 class FormManager {
   static final FormManager _instance = FormManager._();

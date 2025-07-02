@@ -5,30 +5,37 @@ import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
 
 part 'formy_selector.dart';
-part '../../builder/formy_builder.dart';
-part '../../builder/field_builder.dart';
-part '../../builder/focusable_field_builder.dart';
-part '../../builder/group_builder.dart';
+part 'formy_builder.dart';
+part 'field_builder.dart';
+part 'focusable_field_builder.dart';
+part 'group_builder.dart';
 
 class FormManager {
-  static final FormManager _instance = FormManager._();
-  factory FormManager() => _instance;
+  static final FormManager instance = FormManager._();
   FormManager._();
+  final _FormManager _manager = _FormManager._instance;
 
-  final Map<int, FieldController<dynamic>> _fields = {};
-  final Map<int, int> _fieldCountRef = {};
+  UnmodifiableMapView<String, FieldController<dynamic>> get fields =>
+      UnmodifiableMapView(_manager._fields);
+  UnmodifiableMapView<String, GroupController> get groups =>
+      UnmodifiableMapView(_manager._groups);
+  FieldController? getField(String key) => _manager.getField(key);
+  GroupController? getGroup(String key) => _manager.getGroup(key);
+  bool? groupsAreValid(List<String> groupsKey) =>
+      _manager.groupsAreValid(groupsKey);
+}
+
+class _FormManager {
+  static final _FormManager _instance = _FormManager._();
+  factory _FormManager() => _instance;
+  _FormManager._();
+
+  final Map<String, FieldController<dynamic>> _fields = {};
+  final Map<String, int> _fieldCountRef = {};
   final Map<String, GroupController> _groups = {};
   final Map<String, int> _groupCountRef = {};
 
-  static FormManager get instance => _instance;
-
-  UnmodifiableMapView<int, FieldController<dynamic>> get fields =>
-      UnmodifiableMapView(_fields);
-
-  UnmodifiableMapView<String, GroupController> get groups =>
-      UnmodifiableMapView(_groups);
-
-  FieldController? getField({required String key}) {
+  FieldController? getField(String key) {
     final List<String> keyParts = key.split("/");
     if (keyParts.length > 1) {
       final group = _groups[keyParts[0]];
@@ -48,22 +55,6 @@ class FormManager {
     return null;
   }
 
-  FieldController? getClosestField(String key, int referenceId) {
-    final List<FieldController> fieldsFound =
-        _fields.values.where((e) => e.completeKey == key).toList();
-    if (fieldsFound.isEmpty) {
-      return null;
-    }
-    if (fieldsFound.length == 1) {
-      return fieldsFound.first;
-    }
-    fieldsFound.sort((a, b) => (a.createdTimestamp - referenceId)
-        .abs()
-        .compareTo((b.createdTimestamp - referenceId).abs()));
-
-    return fieldsFound.first;
-  }
-
   bool groupsAreValid(List<String> groupsKey) {
     for (final id in groupsKey) {
       final group = _groups[id];
@@ -76,14 +67,13 @@ class FormManager {
   /// Campos pertencentes a grupos (com key no formato "grupo/campo") serão ignorados.
   void insertField(FieldController field) {
     if (_isInsideGroup(field.completeKey)) return;
-    _fieldCountRef[field.createdTimestamp] =
-        1 + (_fieldCountRef[field.createdTimestamp] ?? 0);
+    _fieldCountRef[field.key] = 1 + (_fieldCountRef[field.key] ?? 0);
     if (!field.completeKey.contains("/")) {
-      _fields[field.createdTimestamp] = field;
+      _fields[field.key] = field;
       _debugLog('Field "${field.completeKey}" has been \x1B[32mCREATED\x1B[0m');
     }
     _debugLog(
-        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.createdTimestamp]}');
+        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.key]}');
   }
 
   /// Insere um grupo de campos identificado por [GroupController.key].
@@ -98,27 +88,25 @@ class FormManager {
     _debugLog('Group "${group.key}" ref count: ${_groupCountRef[group.key]}');
   }
 
-  void _removeField(FieldController field) {
+  void removeField(FieldController field) {
     if (_isInsideGroup(field.completeKey)) return;
-    if (_fieldCountRef[field.createdTimestamp] != null &&
-        _fieldCountRef[field.createdTimestamp]! > 1) {
-      _fieldCountRef[field.createdTimestamp] =
-          _fieldCountRef[field.createdTimestamp]! - 1;
+    if (_fieldCountRef[field.key] != null && _fieldCountRef[field.key]! > 1) {
+      _fieldCountRef[field.key] = _fieldCountRef[field.key]! - 1;
     } else {
-      _fields.remove(field.createdTimestamp);
-      _fieldCountRef.remove(field.createdTimestamp);
+      _fields.remove(field.key);
+      _fieldCountRef.remove(field.key);
       _debugLog('Field "${field.completeKey}" has been \x1B[31mREMOVED\x1B[0m');
     }
 
     _debugLog(
-        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.createdTimestamp] ?? '\x1B[31mDELETED\x1B[0m'}');
+        'Field "${field.completeKey}" ref count: ${_fieldCountRef[field.key] ?? '\x1B[31mDELETED\x1B[0m'}');
 
     if (!field.completeKey.contains("/")) {
-      _fields.removeWhere((key, value) => key == field.createdTimestamp);
+      _fields.removeWhere((key, value) => key == field.key);
     }
   }
 
-  void _removeGroup(GroupController group) {
+  void removeGroup(GroupController group) {
     if (_isInsideGroup(group.key)) return;
     if (_groupCountRef[group.key] != null && _groupCountRef[group.key]! > 1) {
       _groupCountRef[group.key] = _groupCountRef[group.key]! - 1;

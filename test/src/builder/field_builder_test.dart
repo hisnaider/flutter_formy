@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/models/field_instace_management/form_manager.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
 void main() {
   testWidgets('FieldBuilder: call insert, remove and adds/removes listener',
       (tester) async {
     final controller = FieldController(key: 'test');
-    final int createdTimestamp = controller.createdTimestamp;
+    final String key = controller.key;
     await tester.pumpWidget(
       MaterialApp(
         home: FieldBuilder(
@@ -19,10 +17,12 @@ void main() {
         ),
       ),
     );
+    expect(FormManager.instance.groups, isEmpty);
     expect(FormManager.instance.fields, isNotEmpty);
-    expect(FormManager.instance.fields.containsKey(createdTimestamp), isTrue);
-    expect(FormManager.instance.fields[createdTimestamp], equals(controller));
+    expect(FormManager.instance.fields.containsKey(key), isTrue);
+    expect(FormManager.instance.fields[key], equals(controller));
     await tester.pumpWidget(const SizedBox());
+    expect(FormManager.instance.groups, isEmpty);
     expect(FormManager.instance.fields, isEmpty);
   });
   testWidgets('FieldBuilder: build with initial state and updates on tap',
@@ -58,7 +58,7 @@ void main() {
       MaterialApp(
         home: FieldBuilder(
           field: controller,
-          child: Text('child test'),
+          child: const Text('child test'),
           builder: (context, field, child) {
             return Column(
               children: [

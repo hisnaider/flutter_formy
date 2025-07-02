@@ -1,3 +1,7 @@
+/// Formy - A modular form state management library for Flutter.
+///
+/// Provides field and group controllers, builders, and validation
+/// utilities for building complex forms with ease.
 library flutter_formy;
 
 //enum
@@ -15,7 +19,7 @@ export 'src/models/validation_result.dart';
 //
 //
 //services
-export 'src/models/field_instace_management/form_manager.dart';
+export 'src/builder/form_manager.dart';
 
 //
 //

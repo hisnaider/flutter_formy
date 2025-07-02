@@ -2,13 +2,13 @@ import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  final ValidationResult validationResult =
+  const ValidationResult validationResult =
       ValidationResult(key: "key", isValid: true);
   group("Field state group", () {
     test(
       "Should create FieldState with right values",
       () {
-        final state = FieldState(
+        const state = FieldState(
           value: "value",
           validationResults: [validationResult],
           dirty: false,

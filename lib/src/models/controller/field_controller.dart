@@ -197,7 +197,7 @@ extension FieldControllerX<T> on FieldController<T> {
   String? get firstError => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)
-          .map((v) => v.message)
+          .map((v) => v.message ?? v.key)
           .firstOrNull
       : null;
   List<String> get errorKeys => _mustShowError()
@@ -209,7 +209,7 @@ extension FieldControllerX<T> on FieldController<T> {
   List<String?> get errorMessages => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)
-          .map((v) => v.message)
+          .map((v) => v.message ?? v.key)
           .toList()
       : [];
   bool get valid => state.validationResults.every((e) => e.isValid);

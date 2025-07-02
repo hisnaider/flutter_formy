@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/models/field_instace_management/form_manager.dart';
+import 'package:flutter_formy/src/builder/form_manager.dart';
 
 class FormySubmitButton extends GroupSelector<bool> {
   FormySubmitButton({

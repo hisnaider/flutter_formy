@@ -22,7 +22,7 @@ class GroupState {
     bool? isValid,
     bool? wasValidated,
     List<String>? errorMessages,
-    String? firstErrorFieldKey,
+    String? firstErrorField,
     int? validCount,
   }) {
     return GroupState(
@@ -30,7 +30,7 @@ class GroupState {
       isValid: isValid ?? this.isValid,
       wasValidated: wasValidated ?? this.wasValidated,
       errorMessages: errorMessages ?? this.errorMessages,
-      firstErrorField: firstErrorFieldKey ?? this.firstErrorField,
+      firstErrorField: firstErrorField ?? this.firstErrorField,
       validCount: validCount ?? this.validCount,
     );
   }

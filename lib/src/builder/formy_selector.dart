@@ -66,7 +66,7 @@ class _GroupSelectorState<T>
     extends FormySelectorState<GroupController, T, GroupSelector<T>> {
   @override
   void addListener() {
-    FormManager.instance.insertGroup(widget.control);
+    _FormManager._instance.insertGroup(widget.control);
     widget.control.addListener(triggerUpdate);
   }
 
@@ -77,9 +77,8 @@ class _GroupSelectorState<T>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    FormManager.instance._removeGroup(widget.control);
+    _FormManager._instance.removeGroup(widget.control);
   }
 }
 
@@ -99,7 +98,7 @@ class _FieldSelectorState<T>
     extends FormySelectorState<FieldController, T, FieldSelector<T>> {
   @override
   void addListener() {
-    FormManager.instance.insertField(widget.control);
+    _FormManager._instance.insertField(widget.control);
     widget.control.addListener(triggerUpdate);
   }
 
@@ -110,8 +109,7 @@ class _FieldSelectorState<T>
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    FormManager.instance._removeField(widget.control);
+    _FormManager._instance.removeField(widget.control);
   }
 }

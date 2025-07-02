@@ -41,7 +41,7 @@ void main() {
             isValid: false,
             wasValidated: true,
             errorMessages: ["error1, error2"],
-            firstErrorFieldKey: "error",
+            firstErrorField: "error",
             validCount: 2,
           );
           expect(state.isValid, false);

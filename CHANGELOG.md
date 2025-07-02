@@ -1,8 +1,12 @@
-## 0.1.1
+## 0.2.0
 
 ### Added
+- FormManager has been created
+- Added FormyBuilder, FieldBuilder and GroupBuilder documentation
 - FormyBuilder test
 - FieldBuilder test
+- GroupBuilder test
+- FocusableFieldBuilder test
 ### Fixed
 - Fixed issue where using two `FocusableFieldBuilder` widgets on the same page would incorrectly share the same focus node.
 

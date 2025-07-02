@@ -9,7 +9,7 @@ class FormyTextField extends FocusableFieldBuilder<String> {
     super.key,
     required super.field,
     this.controller,
-    this.focusNode,
+    super.focusNode,
     this.undoController,
     this.decoration,
     this.keyboardType,
@@ -73,7 +73,6 @@ class FormyTextField extends FocusableFieldBuilder<String> {
     this.magnifierConfiguration,
   }) : super(
           buildWhen: (oldState, currentState) => oldState != currentState,
-          focusNode: focusNode,
           builder: (context, field, focusNode, child) {
             final InputDecoration inputDecoration =
                 decoration?.call(field.state, field.firstError) ??
@@ -206,7 +205,6 @@ class FormyTextField extends FocusableFieldBuilder<String> {
         );
   final TextMagnifierConfiguration? magnifierConfiguration;
   final TextEditingController? controller;
-  final FocusNode? focusNode;
   final InputDecoration? Function(FieldState fieldState, String? firstError)?
       decoration;
   final TextInputType? keyboardType;

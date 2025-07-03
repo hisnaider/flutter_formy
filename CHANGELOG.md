@@ -1,3 +1,9 @@
+## 0.2.1
+
+### Fixed
+- Added the `dispose` method to both `FieldController` and `GroupController`.
+- Improved the debug print output for better clarity.
+
 ## 0.2.0
 
 ### Added

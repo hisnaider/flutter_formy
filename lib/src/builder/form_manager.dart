@@ -93,6 +93,7 @@ class _FormManager {
     if (_fieldCountRef[field.key] != null && _fieldCountRef[field.key]! > 1) {
       _fieldCountRef[field.key] = _fieldCountRef[field.key]! - 1;
     } else {
+      field.dispose();
       _fields.remove(field.key);
       _fieldCountRef.remove(field.key);
       _debugLog('Field "${field.completeKey}" has been \x1B[31mREMOVED\x1B[0m');
@@ -111,6 +112,7 @@ class _FormManager {
     if (_groupCountRef[group.key] != null && _groupCountRef[group.key]! > 1) {
       _groupCountRef[group.key] = _groupCountRef[group.key]! - 1;
     } else {
+      group.dispose();
       _groups.remove(group.key);
       _groupCountRef.remove(group.key);
       _debugLog('Group "${group.key}" has been \x1B[31mREMOVED\x1B[0m');

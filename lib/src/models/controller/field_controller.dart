@@ -36,6 +36,14 @@ class FieldController<T> extends ChangeNotifier {
     _validate();
   }
 
+  @override
+  void dispose() {
+    _dependentsFields.clear();
+    super.dispose();
+    debugPrint(
+        '\x1B[38;5;43m[FORMY] FieldController: "$completeKey" has been \x1B[31mDISPOSED\x1B[0m');
+  }
+
   final String _key;
   final int createdTimestamp;
   List<FormyValidator<T?>> validators;
@@ -88,7 +96,7 @@ class FieldController<T> extends ChangeNotifier {
     if (state.touched) return;
     _state = _state.copyWith(touched: true);
     debugPrint(
-        '\x1B[38;5;43m[FORMY]FieldController: $completeKey marked as touched\x1B[0m');
+        '\x1B[38;5;43m[FORMY] FieldController: $completeKey marked as touched\x1B[0m');
     notifyListeners();
   }
 
@@ -123,7 +131,7 @@ class FieldController<T> extends ChangeNotifier {
 
   void _debugLog() {
     debugPrint('''
-\x1B[38;5;43m[FORMY]FieldController: $completeKey is ${valid ? '\x1B[32mVALID\x1B[0m\x1B[0m' : '\x1B[31mINVALID\x1B[0m\x1B[0m'}
+\x1B[38;5;43m[FORMY] FieldController: $completeKey is ${valid ? '\x1B[32mVALID\x1B[0m\x1B[0m' : '\x1B[31mINVALID\x1B[0m\x1B[0m'}
 \x1B[38;5;43m  →  value = ${state.value}
 \x1B[38;5;43m  →  isDirty = ${state.dirty}
 \x1B[38;5;43m  →  isTouched = ${state.touched}

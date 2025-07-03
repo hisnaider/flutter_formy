@@ -87,7 +87,8 @@ class GroupController extends ChangeNotifier {
     final validCount = _validCount();
     if (validCount != state.validCount) {
       _setState();
-      debugPrint('[GroupControl] Estado do grupo atualizado.');
+      debugPrint(
+          '\x1B[38;5;43m[FORMY] GroupController: "$completeKey" state has been updated\x1B[0m');
       notifyListeners();
     }
   }
@@ -106,6 +107,7 @@ class GroupController extends ChangeNotifier {
   void dispose() {
     for (final control in _fields.values) {
       control.removeListener(_onFieldChanged);
+      control.dispose();
     }
     for (final dependency in _dependencies) {
       dependency.controller.removeListener(_onDependencyChanged);
@@ -115,6 +117,8 @@ class GroupController extends ChangeNotifier {
       group.dispose();
     }
     super.dispose();
+    debugPrint(
+        '\x1B[38;5;43m[FORMY] GroupController: "$completeKey" has been \x1B[31mDISPOSED\x1B[0m');
   }
 
   void touchAndValidateAllFields() {

@@ -12,7 +12,7 @@ class FormyRadio<T> extends FormyOptionListMarkWidget<T, T> {
     super.error,
   }) : super(
           builder: FieldBuilder<T>(
-            field: fieldController,
+            controller: fieldController,
             buildWhen: (oldState, currentState) =>
                 oldState.value != currentState.value,
             builder: (context, field, child) {

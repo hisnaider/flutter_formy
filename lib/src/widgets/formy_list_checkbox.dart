@@ -12,7 +12,7 @@ class FormyListCheckbox<T> extends FormyOptionListMarkWidget<T, List<T>> {
     super.error,
   }) : super(
           builder: FieldBuilder<List<T>>(
-            field: fieldController,
+            controller: fieldController,
             buildWhen: (oldState, currentState) =>
                 oldState.value?.length != currentState.value?.length,
             builder: (context, field, child) {

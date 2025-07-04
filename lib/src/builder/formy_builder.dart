@@ -3,13 +3,13 @@ part of 'form_manager.dart';
 abstract class FormyBuilder<Controller, StateType> extends StatefulWidget {
   const FormyBuilder({
     super.key,
-    required this.field,
+    required this.controller,
     this.buildWhen,
     this.child,
   });
 
   ///The [FieldController] that this widget will watch.
-  final Controller field;
+  final Controller controller;
 
   ///An optional function that returns `true` if the widget should rebuild.
   final bool Function(StateType oldState, StateType currentState)? buildWhen;
@@ -27,10 +27,12 @@ abstract class FormyBuilderState<TController, TStateType,
   void initState() {
     super.initState();
     oldState = getState();
-    if (widget.field is FieldController) {
-      _FormManager._instance.insertField(widget.field as FieldController);
-    } else if (widget.field is GroupController) {
-      _FormManager._instance.insertGroup(widget.field as GroupController);
+    if (widget.controller is FieldController) {
+      _FormyFormManager._instance
+          .insertField(widget.controller as FieldController);
+    } else if (widget.controller is GroupController) {
+      _FormyFormManager._instance
+          .insertGroup(widget.controller as GroupController);
     }
     addListener();
   }
@@ -41,10 +43,12 @@ abstract class FormyBuilderState<TController, TStateType,
   @override
   void dispose() {
     removeListener();
-    if (widget.field is FieldController) {
-      _FormManager._instance.removeField(widget.field as FieldController);
-    } else if (widget.field is GroupController) {
-      _FormManager._instance.removeGroup(widget.field as GroupController);
+    if (widget.controller is FieldController) {
+      _FormyFormManager._instance
+          .removeField(widget.controller as FieldController);
+    } else if (widget.controller is GroupController) {
+      _FormyFormManager._instance
+          .removeGroup(widget.controller as GroupController);
     }
     super.dispose();
   }

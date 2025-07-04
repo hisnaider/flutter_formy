@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 // ignore: must_be_immutable
 class MockFormyBuilder extends FormyBuilder<FieldController, FieldState> {
   MockFormyBuilder(
-      {super.key, required super.field, super.buildWhen, super.child});
+      {super.key, required super.controller, super.buildWhen, super.child});
   int addListenerCount = 0;
   int removeListenerCount = 0;
   int buildCount = 0;
@@ -19,7 +19,7 @@ class _MockFormyBuilder
   @override
   void addListener() {
     widget.addListenerCount++;
-    widget.field.addListener(triggerUpdate);
+    widget.controller.addListener(triggerUpdate);
   }
 
   @override
@@ -29,12 +29,12 @@ class _MockFormyBuilder
   }
 
   @override
-  FieldState getState() => widget.field.state;
+  FieldState getState() => widget.controller.state;
 
   @override
   void removeListener() {
     widget.removeListenerCount++;
-    widget.field.removeListener(triggerUpdate);
+    widget.controller.removeListener(triggerUpdate);
   }
 }
 
@@ -43,7 +43,7 @@ void main() {
     final FieldController controller = FieldController(key: 'test');
     final String key = controller.key;
     final MockFormyBuilder mock = MockFormyBuilder(
-      field: controller,
+      controller: controller,
     );
     expect(FormManager.instance.groups, isEmpty);
     expect(FormManager.instance.fields, isEmpty);
@@ -69,7 +69,7 @@ void main() {
   testWidgets('FormyBuilder: buildWhen != null', (tester) async {
     final FieldController controller = FieldController(key: 'test');
     final MockFormyBuilder mock = MockFormyBuilder(
-      field: controller,
+      controller: controller,
       buildWhen: (oldState, currentState) =>
           oldState.value != currentState.value,
     );
@@ -93,7 +93,7 @@ void main() {
   testWidgets('FormyBuilder: buildWhen == null', (tester) async {
     final FieldController controller = FieldController(key: 'test');
     final MockFormyBuilder mock = MockFormyBuilder(
-      field: controller,
+      controller: controller,
     );
     await tester.pumpWidget(MaterialApp(home: mock));
     expect(mock.buildCount, equals(1));
@@ -113,7 +113,7 @@ void main() {
     const Widget child = Text('should render this widget');
     final FieldController controller = FieldController(key: 'test');
     final MockFormyBuilder mock = MockFormyBuilder(
-      field: controller,
+      controller: controller,
       child: child,
     );
     await tester.pumpWidget(MaterialApp(home: mock));

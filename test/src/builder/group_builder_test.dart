@@ -13,7 +13,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: GroupBuilder(
-          field: controller,
+          controller: controller,
           builder: (_, __, ___) {
             return const SizedBox();
           },
@@ -39,7 +39,7 @@ void main() {
         home: Column(
           children: [
             FieldBuilder(
-              field: group.field('fieldTest1'),
+              controller: group.field('fieldTest1'),
               builder: (context, field, child) {
                 return ElevatedButton(
                   key: const Key('button1'),
@@ -51,7 +51,7 @@ void main() {
               },
             ),
             FieldBuilder(
-              field: group.field('fieldTest2'),
+              controller: group.field('fieldTest2'),
               builder: (context, field, child) {
                 return ElevatedButton(
                   key: const Key('button2'),
@@ -63,7 +63,7 @@ void main() {
               },
             ),
             GroupBuilder(
-              field: group,
+              controller: group,
               builder: (context, group, child) {
                 return Text('Group is valid: ${group.state.isValid}');
               },
@@ -95,7 +95,7 @@ void main() {
         home: Column(
           children: [
             FieldBuilder(
-              field: group.field('fieldTest1'),
+              controller: group.field('fieldTest1'),
               builder: (context, field, child) {
                 return ElevatedButton(
                   key: const Key('button1'),
@@ -107,7 +107,7 @@ void main() {
               },
             ),
             GroupBuilder(
-              field: group,
+              controller: group,
               child: const Text('child test'),
               builder: (context, group, child) {
                 return Column(

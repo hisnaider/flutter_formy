@@ -7,8 +7,8 @@ import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 class FormyTextField extends FocusableFieldBuilder<String> {
   FormyTextField({
     super.key,
-    required super.field,
-    this.controller,
+    required super.controller,
+    this.textController,
     super.focusNode,
     this.undoController,
     this.decoration,
@@ -78,7 +78,7 @@ class FormyTextField extends FocusableFieldBuilder<String> {
                 decoration?.call(field.state, field.firstError) ??
                     const InputDecoration();
             return TextField(
-              controller: controller,
+              controller: textController,
               focusNode: focusNode,
               undoController: undoController,
               keyboardType: keyboardType,
@@ -204,7 +204,7 @@ class FormyTextField extends FocusableFieldBuilder<String> {
           },
         );
   final TextMagnifierConfiguration? magnifierConfiguration;
-  final TextEditingController? controller;
+  final TextEditingController? textController;
   final InputDecoration? Function(FieldState fieldState, String? firstError)?
       decoration;
   final TextInputType? keyboardType;

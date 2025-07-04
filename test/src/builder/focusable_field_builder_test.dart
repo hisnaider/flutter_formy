@@ -21,7 +21,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FocusableFieldBuilder(
-          field: controller,
+          controller: controller,
           builder: (_, __, ___, ____) {
             return const SizedBox();
           },
@@ -48,7 +48,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: FocusableFieldBuilder(
-            field: controller,
+            controller: controller,
             builder: (context, field, focus, child) {
               return TextFormField(
                 focusNode: focus,
@@ -81,7 +81,7 @@ void main() {
       MaterialApp(
         home: Scaffold(
           body: FocusableFieldBuilder(
-            field: controller,
+            controller: controller,
             child: const Text('Label'),
             builder: (context, field, focus, child) {
               return Column(
@@ -114,7 +114,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FocusableFieldBuilder<String>(
-          field: controller,
+          controller: controller,
           focusNode: focusNode,
           builder: (context, field, fn, child) {
             builderFocusNode = fn;
@@ -136,7 +136,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FocusableFieldBuilder<String>(
-          field: controller,
+          controller: controller,
           focusNode: focusNode,
           builder: (context, field, fn, child) => const SizedBox(),
         ),
@@ -156,7 +156,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FocusableFieldBuilder<String>(
-          field: controller,
+          controller: controller,
           builder: (context, field, fn, child) {
             firstFocusNode = fn;
             return const SizedBox();
@@ -169,7 +169,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FocusableFieldBuilder<String>(
-          field: controller,
+          controller: controller,
           builder: (context, field, fn, child) {
             // Deve ser o mesmo focusNode
             expect(fn, same(firstFocusNode));

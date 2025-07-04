@@ -1,3 +1,12 @@
+## 0.3.0
+
+### Added
+- FormManager test and documentation
+
+### Fixed
+- The `field` property of `FormyBuilder` has been renamed to `controller`.
+- The `control` property of `FormySelector` has been renamed to `controller`.
+
 ## 0.2.1
 
 ### Fixed

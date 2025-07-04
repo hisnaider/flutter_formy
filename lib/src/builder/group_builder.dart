@@ -59,7 +59,7 @@ part of 'form_manager.dart';
 class GroupBuilder extends FormyBuilder<GroupController, GroupState> {
   const GroupBuilder(
       {super.key,
-      required super.field,
+      required super.controller,
       super.buildWhen,
       super.child,
       required this.builder});
@@ -76,19 +76,19 @@ class _GroupBuilder
     extends FormyBuilderState<GroupController, GroupState, GroupBuilder> {
   @override
   void addListener() {
-    widget.field.addListener(triggerUpdate);
+    widget.controller.addListener(triggerUpdate);
   }
 
   @override
   void removeListener() {
-    widget.field.removeListener(triggerUpdate);
+    widget.controller.removeListener(triggerUpdate);
   }
 
   @override
-  GroupState getState() => widget.field.state;
+  GroupState getState() => widget.controller.state;
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.field, widget.child);
+    return widget.builder(context, widget.controller, widget.child);
   }
 }

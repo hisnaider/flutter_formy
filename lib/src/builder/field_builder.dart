@@ -46,7 +46,7 @@ part of 'form_manager.dart';
 class FieldBuilder<T> extends FormyBuilder<FieldController<T>, FieldState<T>> {
   const FieldBuilder({
     super.key,
-    required super.field,
+    required super.controller,
     super.buildWhen,
     super.child,
     required this.builder,
@@ -64,19 +64,19 @@ class _FieldBuilder<T>
     extends FormyBuilderState<FieldController, FieldState<T>, FieldBuilder<T>> {
   @override
   void addListener() {
-    widget.field.addListener(triggerUpdate);
+    widget.controller.addListener(triggerUpdate);
   }
 
   @override
   void removeListener() {
-    widget.field.removeListener(triggerUpdate);
+    widget.controller.removeListener(triggerUpdate);
   }
 
   @override
-  FieldState<T> getState() => widget.field.state;
+  FieldState<T> getState() => widget.controller.state;
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.field, widget.child);
+    return widget.builder(context, widget.controller, widget.child);
   }
 }

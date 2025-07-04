@@ -60,7 +60,7 @@ class FocusableFieldBuilder<T>
     extends FormyBuilder<FieldController<T>, FieldState<T>> {
   const FocusableFieldBuilder({
     super.key,
-    required super.field,
+    required super.controller,
     super.buildWhen,
     super.child,
     this.focusNode,
@@ -94,7 +94,7 @@ class _FocusableFieldBuilder<T> extends FormyBuilderState<FieldController<T>,
 
   void _onFocusChanged() {
     if (!_focusNode.hasFocus) {
-      widget.field.markAsTouched();
+      widget.controller.markAsTouched();
     }
   }
 
@@ -105,20 +105,20 @@ class _FocusableFieldBuilder<T> extends FormyBuilderState<FieldController<T>,
   }
 
   @override
-  FieldState<T> getState() => widget.field.state;
+  FieldState<T> getState() => widget.controller.state;
 
   @override
   void addListener() {
-    widget.field.addListener(triggerUpdate);
+    widget.controller.addListener(triggerUpdate);
   }
 
   @override
   void removeListener() {
-    widget.field.removeListener(triggerUpdate);
+    widget.controller.removeListener(triggerUpdate);
   }
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, widget.field, _focusNode, widget.child);
+    return widget.builder(context, widget.controller, _focusNode, widget.child);
   }
 }

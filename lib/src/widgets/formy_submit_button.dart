@@ -6,7 +6,7 @@ class FormySubmitButton extends GroupSelector<bool> {
   FormySubmitButton({
     super.key,
     required Widget child,
-    required super.control,
+    required super.controller,
     VoidCallback? onPressed,
   }) : super(
             selector: (control) => control.state.isValid,

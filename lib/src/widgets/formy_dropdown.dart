@@ -80,7 +80,7 @@ class _FormyDropdownState<T> extends State<FormyDropdown<T>> {
   @override
   Widget build(BuildContext context) {
     return FieldBuilder(
-      field: widget.fieldController,
+      controller: widget.fieldController,
       buildWhen: (oldState, currentState) =>
           oldState.value != currentState.value,
       builder: (context, field, child) {

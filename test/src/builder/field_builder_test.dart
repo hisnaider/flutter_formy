@@ -10,7 +10,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FieldBuilder(
-          field: controller,
+          controller: controller,
           builder: (_, __, ___) {
             return const SizedBox();
           },
@@ -31,7 +31,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FieldBuilder(
-          field: controller,
+          controller: controller,
           builder: (context, field, child) {
             return ElevatedButton(
                 onPressed: () {
@@ -57,7 +57,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: FieldBuilder(
-          field: controller,
+          controller: controller,
           child: const Text('child test'),
           builder: (context, field, child) {
             return Column(

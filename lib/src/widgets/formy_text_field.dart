@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_formy/flutter_formy.dart';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
+
+import 'package:flutter_formy/src/builder/focusable_field_builder.dart';
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/models/field_state.dart';
 
 class FormyTextField extends FocusableFieldBuilder<String> {
   FormyTextField({

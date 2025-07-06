@@ -7,5 +7,5 @@ abstract class FormyValidator<T> {
 
   ValidationResult call(FieldController<T> control) => onValidate(control);
 
-  final FormManager formManager = FormManager.instance;
+  final FormyFormManager formManager = FormyFormManager.instance;
 }

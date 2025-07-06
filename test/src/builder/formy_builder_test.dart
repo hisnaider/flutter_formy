@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/builder/formy_builder.dart';
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/models/field_state.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 // ignore: must_be_immutable
@@ -45,24 +48,24 @@ void main() {
     final MockFormyBuilder mock = MockFormyBuilder(
       controller: controller,
     );
-    expect(FormManager.instance.groups, isEmpty);
-    expect(FormManager.instance.fields, isEmpty);
-    expect(FormManager.instance.fields.containsKey(key), isFalse);
-    expect(FormManager.instance.fields[key], isNot(equals(controller)));
+    expect(FormyFormManager.instance.groups, isEmpty);
+    expect(FormyFormManager.instance.fields, isEmpty);
+    expect(FormyFormManager.instance.fields.containsKey(key), isFalse);
+    expect(FormyFormManager.instance.fields[key], isNot(equals(controller)));
     expect(mock.addListenerCount, equals(0));
     expect(mock.removeListenerCount, equals(0));
     await tester.pumpWidget(MaterialApp(home: mock));
-    expect(FormManager.instance.groups, isEmpty);
-    expect(FormManager.instance.fields, isNotEmpty);
-    expect(FormManager.instance.fields.containsKey(key), isTrue);
-    expect(FormManager.instance.fields[key], equals(controller));
+    expect(FormyFormManager.instance.groups, isEmpty);
+    expect(FormyFormManager.instance.fields, isNotEmpty);
+    expect(FormyFormManager.instance.fields.containsKey(key), isTrue);
+    expect(FormyFormManager.instance.fields[key], equals(controller));
     expect(mock.addListenerCount, equals(1));
     expect(mock.removeListenerCount, equals(0));
     await tester.pumpWidget(Container());
-    expect(FormManager.instance.groups, isEmpty);
-    expect(FormManager.instance.fields, isEmpty);
-    expect(FormManager.instance.fields.containsKey(key), isFalse);
-    expect(FormManager.instance.fields[key], isNot(equals(controller)));
+    expect(FormyFormManager.instance.groups, isEmpty);
+    expect(FormyFormManager.instance.fields, isEmpty);
+    expect(FormyFormManager.instance.fields.containsKey(key), isFalse);
+    expect(FormyFormManager.instance.fields[key], isNot(equals(controller)));
     expect(mock.addListenerCount, equals(1));
     expect(mock.removeListenerCount, equals(1));
   });

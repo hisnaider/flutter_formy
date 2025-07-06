@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/builder/field_builder.dart';
+import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/builder/group_builder.dart';
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/selectors/group_selector.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  group('FormManager: independent fields management', () {
+  group('FormyFormManager: independent fields management', () {
     testWidgets('should manage single field in a single widget',
         (tester) async {
       final field1 = FieldController(key: 'test1');
-      final formManager = FormManager.instance;
+      final formManager = FormyFormManager.instance;
       addTearDown(() {
         formManager.forceReset();
       });
@@ -36,7 +40,7 @@ void main() {
     testWidgets('should manage single field in multiple widgets',
         (tester) async {
       final field1 = FieldController(key: 'test1');
-      final formManager = FormManager.instance;
+      final formManager = FormyFormManager.instance;
 
       addTearDown(() {
         formManager.forceReset();
@@ -73,7 +77,7 @@ void main() {
     testWidgets('should manage two fields in multiple widgets', (tester) async {
       final field1 = FieldController(key: 'test1');
       final field2 = FieldController(key: 'test2');
-      final formManager = FormManager.instance;
+      final formManager = FormyFormManager.instance;
       addTearDown(() {
         formManager.forceReset();
       });
@@ -118,13 +122,13 @@ void main() {
     });
   });
 
-  group('FormManager: groups management', () {
+  group('FormyFormManager: groups management', () {
     testWidgets('should manage a single group', (tester) async {
       final group = GroupController(key: 'test1', fields: [
         FieldConfig(key: 'field1'),
         FieldConfig(key: 'field2'),
       ]);
-      final formManager = FormManager.instance;
+      final formManager = FormyFormManager.instance;
       addTearDown(() {
         formManager.forceReset();
       });
@@ -174,7 +178,7 @@ void main() {
         FieldConfig(key: 'field1'),
         FieldConfig(key: 'field2'),
       ]);
-      final formManager = FormManager.instance;
+      final formManager = FormyFormManager.instance;
       addTearDown(() {
         formManager.forceReset();
       });
@@ -232,7 +236,7 @@ void main() {
         FieldConfig(key: 'field3'),
         FieldConfig(key: 'field4'),
       ]);
-      final formManager = FormManager.instance;
+      final formManager = FormyFormManager.instance;
       addTearDown(() {
         formManager.forceReset();
       });

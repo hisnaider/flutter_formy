@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/builder/focusable_field_builder.dart';
+import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/enum/generic_validators.dart';
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/validators/is_required_validator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class SpyFocusNode extends FocusNode {
@@ -28,13 +32,13 @@ void main() {
         ),
       ),
     );
-    expect(FormManager.instance.groups, isEmpty);
-    expect(FormManager.instance.fields, isNotEmpty);
-    expect(FormManager.instance.fields.containsKey(key), isTrue);
-    expect(FormManager.instance.fields[key], equals(controller));
+    expect(FormyFormManager.instance.groups, isEmpty);
+    expect(FormyFormManager.instance.fields, isNotEmpty);
+    expect(FormyFormManager.instance.fields.containsKey(key), isTrue);
+    expect(FormyFormManager.instance.fields[key], equals(controller));
     await tester.pumpWidget(const SizedBox());
-    expect(FormManager.instance.groups, isEmpty);
-    expect(FormManager.instance.fields, isEmpty);
+    expect(FormyFormManager.instance.groups, isEmpty);
+    expect(FormyFormManager.instance.fields, isEmpty);
   });
   testWidgets(
       'FocusableFieldBuilder: build with initial state and updates on tap',

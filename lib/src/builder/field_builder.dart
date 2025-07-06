@@ -1,4 +1,7 @@
-part of 'form_manager.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_formy/src/builder/formy_builder.dart';
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/models/field_state.dart';
 
 /// A widget that automatically rebuilds the interface based on changes
 /// to the state of a [FieldController].

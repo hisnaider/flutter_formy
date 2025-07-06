@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/builder/field_builder.dart';
+import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/builder/group_builder.dart';
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/validators/is_required_validator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -20,13 +24,13 @@ void main() {
         ),
       ),
     );
-    expect(FormManager.instance.fields, isEmpty);
-    expect(FormManager.instance.groups, isNotEmpty);
-    expect(FormManager.instance.groups.containsKey(key), isTrue);
-    expect(FormManager.instance.groups[key], equals(controller));
+    expect(FormyFormManager.instance.fields, isEmpty);
+    expect(FormyFormManager.instance.groups, isNotEmpty);
+    expect(FormyFormManager.instance.groups.containsKey(key), isTrue);
+    expect(FormyFormManager.instance.groups[key], equals(controller));
     await tester.pumpWidget(const SizedBox());
-    expect(FormManager.instance.groups, isEmpty);
-    expect(FormManager.instance.fields, isEmpty);
+    expect(FormyFormManager.instance.groups, isEmpty);
+    expect(FormyFormManager.instance.fields, isEmpty);
   });
   testWidgets('GroupBuilder: build with initial state and updates when valid',
       (tester) async {

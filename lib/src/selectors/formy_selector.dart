@@ -2,33 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_formy/src/builder/form_manager.dart';
 import 'package:flutter_formy/src/models/controller/field_controller.dart';
 
-abstract class FormyBuilder<Controller, StateType> extends StatefulWidget {
-  const FormyBuilder({
+abstract class FormySelector<Control, Value> extends StatefulWidget {
+  const FormySelector({
     super.key,
     required this.controller,
-    this.buildWhen,
-    this.child,
+    required this.selector,
+    required this.child,
   });
 
-  ///The [FieldController] that this widget will watch.
-  final Controller controller;
-
-  ///An optional function that returns `true` if the widget should rebuild.
-  final bool Function(StateType oldState, StateType currentState)? buildWhen;
-
-  ///A static widget that will not be rebuilt when the field state changes.
-  final Widget? child;
+  final Control controller;
+  final Value Function(Control value) selector;
+  final Widget Function(Value value) child;
 }
 
-abstract class FormyBuilderState<TController, TStateType,
-        TWidget extends FormyBuilder<TController, TStateType>>
-    extends State<TWidget> {
-  late TStateType oldState;
+abstract class FormySelectorState<TValue, TSelected,
+    TWidget extends FormySelector<TValue, TSelected>> extends State<TWidget> {
+  late TSelected _value;
 
   @override
   void initState() {
     super.initState();
-    oldState = getState();
+    _value = widget.selector(widget.controller);
     if (widget.controller is FieldController) {
       FormyFormManager.instance
           .insertField(widget.controller as FieldController);
@@ -41,6 +35,15 @@ abstract class FormyBuilderState<TController, TStateType,
 
   void addListener();
   void removeListener();
+
+  void _onChanged() {
+    final newValue = widget.selector(widget.controller);
+    if (newValue != _value) {
+      setState(() {
+        _value = newValue;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -56,18 +59,9 @@ abstract class FormyBuilderState<TController, TStateType,
   }
 
   @override
-  Widget build(BuildContext context);
-
-  void _onChanged() {
-    final shouldBuild = widget.buildWhen?.call(oldState, getState()) ?? true;
-    if (shouldBuild) {
-      setState(() {
-        oldState = getState();
-      });
-    }
+  Widget build(BuildContext context) {
+    return widget.child(_value);
   }
 
   void triggerUpdate() => _onChanged();
-
-  TStateType getState();
 }

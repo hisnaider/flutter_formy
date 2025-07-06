@@ -1,4 +1,8 @@
-part of 'form_manager.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_formy/src/builder/formy_builder.dart';
+
+import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/models/field_state.dart';
 
 /// The type used by the [FocusableFieldBuilder]'s `builder` property.
 typedef FocusableFieldWidgetBuilder<T> = Widget Function(

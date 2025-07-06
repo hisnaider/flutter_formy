@@ -2,6 +2,9 @@
 
 ### Added
 - FormManager test and documentation
+- FormySelector test and documentation
+- FieldSelector test and documentation
+- GroupSelector test and documentation
 
 ### Fixed
 - The `field` property of `FormyBuilder` has been renamed to `controller`.

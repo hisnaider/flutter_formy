@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/src/builder/field_builder.dart';
-import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/manager/form_manager.dart';
 import 'package:flutter_formy/src/models/controller/field_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 

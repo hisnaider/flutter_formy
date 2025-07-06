@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/manager/form_manager.dart';
 import 'package:flutter_formy/src/models/controller/field_controller.dart';
 
 abstract class FormyBuilder<Controller, StateType> extends StatefulWidget {

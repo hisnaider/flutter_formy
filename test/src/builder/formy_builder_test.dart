@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/src/builder/form_manager.dart';
+import 'package:flutter_formy/src/manager/form_manager.dart';
 import 'package:flutter_formy/src/builder/formy_builder.dart';
 import 'package:flutter_formy/src/models/controller/field_controller.dart';
 import 'package:flutter_formy/src/models/field_state.dart';

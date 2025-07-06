@@ -211,6 +211,7 @@ class GroupController extends ChangeNotifier {
     return null;
   }
 
+  bool get isValid => _state.isValid;
   bool _fieldsValid() => _fields.values.every((field) => field.valid);
   bool _subGroupsValid() =>
       _subGroups.values.every((e) => e.state.isValid || !e.state.isEnabled);

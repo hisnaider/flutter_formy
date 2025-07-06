@@ -19,7 +19,7 @@ export 'src/models/validation_result.dart';
 //
 //
 //services
-export 'src/builder/form_manager.dart';
+export 'src/manager/form_manager.dart';
 
 //
 //
@@ -43,3 +43,6 @@ export 'src/widgets/formy_radio.dart';
 export 'src/widgets/formy_text_field.dart';
 export 'src/widgets/formy_dropdown.dart';
 export 'src/widgets/formy_group_visibility.dart';
+
+//selector
+export 'flutter_formy_selector.dart';

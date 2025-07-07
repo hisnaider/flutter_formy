@@ -2,14 +2,13 @@ import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/models/group_state.dart';
 
 /// A singleton that manages independent [FieldController] and [GroupController] instances.
 ///
-/// The [FormManager] keeps track of all independent fields and groups currently
+/// The [FormyFormManager] keeps track of all independent fields and groups currently
 /// being used by [FormyBuilder]s and [FormySelector]s across the app.
 ///
-/// When a field or group widget is removed from the widget tree, the [FormManager]
+/// When a field or group widget is removed from the widget tree, the [FormyFormManager]
 /// automatically disposes and removes it, keeping memory clean.
 ///
 /// This allows you to use fields or groups in different parts of your application
@@ -32,6 +31,7 @@ import 'package:flutter_formy/src/models/group_state.dart';
 /// - [forceReset]: Completely clears all fields and groups. Useful to prevent leaks or reset forms globally.
 
 class FormyFormManager {
+  /// Gets the [FormyFormManager] singleton instance.
   static final FormyFormManager instance = FormyFormManager._();
   factory FormyFormManager() => instance;
   FormyFormManager._();
@@ -193,7 +193,7 @@ class FormyFormManager {
   }
 
   void _debugLog(String message) {
-    debugPrint('\x1B[38;5;43m[FORMY] FormManager: $message\x1B[0m');
+    debugPrint('\x1B[38;5;43m[FORMY] FormyFormManager: $message\x1B[0m');
   }
 
   bool _isInsideGroup(String key) => key.contains("/");

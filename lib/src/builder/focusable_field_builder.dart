@@ -24,7 +24,7 @@ typedef FocusableFieldWidgetBuilder<T> = Widget Function(
 ///
 /// ## Properties
 ///
-/// * [field]: The [FieldController] this widget will watch.
+/// * [controller]: The [FieldController] this widget will watch.
 /// * [child]: A static widget that will not be rebuilt when the field state changes.
 /// * [focusNode]: A [FocusNode] used to handle focus for the field.
 /// * [builder]: A function that returns the widget to be rebuilt. It receives:
@@ -40,7 +40,7 @@ typedef FocusableFieldWidgetBuilder<T> = Widget Function(
 /// ## Example
 /// ```dart
 /// FocusableFieldBuilder(
-///   field: nameController,
+///   controller: FieldController(key: 'key'),
 ///   focusNode: FocusNode(),
 ///   builder: (context, field, focusNode, child) {
 ///     return TextField(
@@ -110,16 +110,6 @@ class _FocusableFieldBuilder<T> extends FormyBuilderState<FieldController<T>,
 
   @override
   FieldState<T> getState() => widget.controller.state;
-
-  @override
-  void addListener() {
-    widget.controller.addListener(triggerUpdate);
-  }
-
-  @override
-  void removeListener() {
-    widget.controller.removeListener(triggerUpdate);
-  }
 
   @override
   Widget build(BuildContext context) {

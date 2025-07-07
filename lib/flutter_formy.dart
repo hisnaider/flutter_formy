@@ -46,3 +46,5 @@ export 'src/widgets/formy_group_visibility.dart';
 
 //selector
 export 'flutter_formy_selector.dart';
+//builder
+export 'flutter_formy_builder.dart';

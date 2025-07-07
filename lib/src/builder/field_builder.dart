@@ -15,7 +15,7 @@ import 'package:flutter_formy/src/models/field_state.dart';
 ///
 /// ## Properties
 ///
-/// * [field]: The [FieldController] this widget will watch.
+/// * [controller]: The [FieldController] this widget will watch.
 /// * [child]: A static widget that will not be rebuilt when the field state changes.
 /// * [builder]: A function that returns the widget to be rebuilt. It receives:
 ///   * `context`: The [BuildContext] from the widget tree.
@@ -29,7 +29,7 @@ import 'package:flutter_formy/src/models/field_state.dart';
 /// ## Example
 /// ```dart
 /// FieldBuilder<String>(
-///   field: FieldController(key: 'key'),
+///   controller: FieldController(key: 'key'),
 ///   builder: (context, field, child) {
 ///     return TextField(
 ///       controller: TextEditingController(text: field.value),
@@ -66,15 +66,6 @@ class FieldBuilder<T> extends FormyBuilder<FieldController<T>, FieldState<T>> {
 class _FieldBuilder<T>
     extends FormyBuilderState<FieldController, FieldState<T>, FieldBuilder<T>> {
   @override
-  void addListener() {
-    widget.controller.addListener(triggerUpdate);
-  }
-
-  @override
-  void removeListener() {
-    widget.controller.removeListener(triggerUpdate);
-  }
-
   @override
   FieldState<T> getState() => widget.controller.state;
 

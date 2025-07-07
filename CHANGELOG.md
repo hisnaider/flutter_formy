@@ -5,10 +5,17 @@
 - FormySelector test and documentation
 - FieldSelector test and documentation
 - GroupSelector test and documentation
+- FormyBuilder documentation
+- FieldBuilder documentation
+- GroupBuilder documentation
+- FocusableFieldBuilder documentation
 
 ### Fixed
 - The `field` property of `FormyBuilder` has been renamed to `controller`.
 - The `control` property of `FormySelector` has been renamed to `controller`.
+
+### Removed
+- Removed the `addListener` and `removeListener` methods from `FormyBuilder`.
 
 ## 0.2.1
 

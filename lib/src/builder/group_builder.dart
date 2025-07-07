@@ -15,7 +15,7 @@ import 'package:flutter_formy/src/models/group_state.dart';
 ///
 /// ## Properties
 ///
-/// * [field]: The [GroupController] this widget will watch.
+/// * [controller]: The [GroupController] this widget will watch.
 /// * [child]: A static widget that will not be rebuilt when the group state changes.
 /// * [builder]: A function that returns the widget to be rebuilt. It receives:
 ///   * `context`: The [BuildContext] from the widget tree.
@@ -29,7 +29,7 @@ import 'package:flutter_formy/src/models/group_state.dart';
 /// ## Example
 /// ```dart
 /// GroupBuilder(
-///   field: GroupController(
+///   controller: GroupController(
 ///     key: 'key',
 ///     fields: [
 ///       FieldConfig(key: 'field1', validators: [IsRequired()]),
@@ -77,16 +77,6 @@ class GroupBuilder extends FormyBuilder<GroupController, GroupState> {
 
 class _GroupBuilder
     extends FormyBuilderState<GroupController, GroupState, GroupBuilder> {
-  @override
-  void addListener() {
-    widget.controller.addListener(triggerUpdate);
-  }
-
-  @override
-  void removeListener() {
-    widget.controller.removeListener(triggerUpdate);
-  }
-
   @override
   GroupState getState() => widget.controller.state;
 

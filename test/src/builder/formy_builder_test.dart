@@ -20,12 +20,6 @@ class MockFormyBuilder extends FormyBuilder<FieldController, FieldState> {
 class _MockFormyBuilder
     extends FormyBuilderState<FieldController, FieldState, MockFormyBuilder> {
   @override
-  void addListener() {
-    widget.addListenerCount++;
-    widget.controller.addListener(triggerUpdate);
-  }
-
-  @override
   Widget build(BuildContext context) {
     widget.buildCount++;
     return widget.child ?? const SizedBox.shrink();
@@ -33,12 +27,6 @@ class _MockFormyBuilder
 
   @override
   FieldState getState() => widget.controller.state;
-
-  @override
-  void removeListener() {
-    widget.removeListenerCount++;
-    widget.controller.removeListener(triggerUpdate);
-  }
 }
 
 void main() {

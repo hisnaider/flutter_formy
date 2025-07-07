@@ -23,14 +23,14 @@ void main() {
       await tester.pumpWidget(
         FieldBuilder(
           controller: field1,
-          builder: (context, field, child) => SizedBox(),
+          builder: (context, field, child) => const SizedBox(),
         ),
       );
       expect(formManager.fields, isNot(isEmpty));
       expect(formManager.fields.length, 1);
       expect(formManager.fieldRefCount(field1.key), 1);
       expect(formManager.fields[field1.key], field1);
-      await tester.pumpWidget(SizedBox());
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpAndSettle();
       expect(formManager.fields, isEmpty);
       expect(formManager.fields.length, 0);
@@ -54,11 +54,11 @@ void main() {
           children: [
             FieldBuilder(
               controller: field1,
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             FieldBuilder(
               controller: field1,
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
           ],
         ),
@@ -67,7 +67,7 @@ void main() {
       expect(formManager.fields.length, 1);
       expect(formManager.fieldRefCount(field1.key), 2);
       expect(formManager.fields[field1.key], field1);
-      await tester.pumpWidget(SizedBox());
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpAndSettle();
       expect(formManager.fields, isEmpty);
       expect(formManager.fields.length, 0);
@@ -92,15 +92,15 @@ void main() {
           children: [
             FieldBuilder(
               controller: field1,
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             FieldBuilder(
               controller: field1,
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             FieldBuilder(
               controller: field2,
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
           ],
         ),
@@ -111,7 +111,7 @@ void main() {
       expect(formManager.fieldRefCount(field2.key), 1);
       expect(formManager.fields[field1.key], field1);
       expect(formManager.fields[field2.key], field2);
-      await tester.pumpWidget(SizedBox());
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpAndSettle();
       expect(formManager.fields, isEmpty);
       expect(formManager.fields.length, 0);
@@ -125,8 +125,8 @@ void main() {
   group('FormyFormManager: groups management', () {
     testWidgets('should manage a single group', (tester) async {
       final group = GroupController(key: 'test1', fields: [
-        FieldConfig(key: 'field1'),
-        FieldConfig(key: 'field2'),
+        const FieldConfig(key: 'field1'),
+        const FieldConfig(key: 'field2'),
       ]);
       final formManager = FormyFormManager.instance;
       addTearDown(() {
@@ -144,15 +144,15 @@ void main() {
           children: [
             FieldBuilder(
               controller: group.field('field1'),
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             FieldBuilder(
               controller: group.field('field2'),
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             GroupBuilder(
               controller: group,
-              builder: (context, group, child) => SizedBox(),
+              builder: (context, group, child) => const SizedBox(),
             )
           ],
         ),
@@ -163,7 +163,7 @@ void main() {
       expect(formManager.groups.length, 1);
       expect(formManager.groupRefCount(group.key), 1);
       expect(formManager.getGroup(group.key), group);
-      await tester.pumpWidget(SizedBox());
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpAndSettle();
       expect(formManager.fields, isEmpty);
       expect(formManager.fields.length, 0);
@@ -175,8 +175,8 @@ void main() {
     testWidgets('should manage single group in multiple widgets',
         (tester) async {
       final group = GroupController(key: 'test1', fields: [
-        FieldConfig(key: 'field1'),
-        FieldConfig(key: 'field2'),
+        const FieldConfig(key: 'field1'),
+        const FieldConfig(key: 'field2'),
       ]);
       final formManager = FormyFormManager.instance;
       addTearDown(() {
@@ -195,19 +195,19 @@ void main() {
             GroupSelector(
               controller: group,
               selector: (value) => value.state.errorMessages,
-              child: (value) => SizedBox(),
+              child: (value) => const SizedBox(),
             ),
             FieldBuilder(
               controller: group.field('field1'),
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             FieldBuilder(
               controller: group.field('field2'),
-              builder: (context, field, child) => SizedBox(),
+              builder: (context, field, child) => const SizedBox(),
             ),
             GroupBuilder(
               controller: group,
-              builder: (context, group, child) => SizedBox(),
+              builder: (context, group, child) => const SizedBox(),
             )
           ],
         ),
@@ -218,7 +218,7 @@ void main() {
       expect(formManager.groups.length, 1);
       expect(formManager.groupRefCount(group.key), 2);
       expect(formManager.getGroup(group.key), group);
-      await tester.pumpWidget(SizedBox());
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpAndSettle();
       expect(formManager.fields, isEmpty);
       expect(formManager.fields.length, 0);
@@ -229,12 +229,12 @@ void main() {
     });
     testWidgets('should manage two groups in multiple widgets', (tester) async {
       final group = GroupController(key: 'test1', fields: [
-        FieldConfig(key: 'field1'),
-        FieldConfig(key: 'field2'),
+        const FieldConfig(key: 'field1'),
+        const FieldConfig(key: 'field2'),
       ]);
       final group2 = GroupController(key: 'test2', fields: [
-        FieldConfig(key: 'field3'),
-        FieldConfig(key: 'field4'),
+        const FieldConfig(key: 'field3'),
+        const FieldConfig(key: 'field4'),
       ]);
       final formManager = FormyFormManager.instance;
       addTearDown(() {
@@ -257,19 +257,19 @@ void main() {
                 GroupSelector(
                   controller: group,
                   selector: (value) => value.state.errorMessages,
-                  child: (value) => SizedBox(),
+                  child: (value) => const SizedBox(),
                 ),
                 FieldBuilder(
                   controller: group.field('field1'),
-                  builder: (context, field, child) => SizedBox(),
+                  builder: (context, field, child) => const SizedBox(),
                 ),
                 FieldBuilder(
                   controller: group.field('field2'),
-                  builder: (context, field, child) => SizedBox(),
+                  builder: (context, field, child) => const SizedBox(),
                 ),
                 GroupBuilder(
                   controller: group,
-                  builder: (context, group, child) => SizedBox(),
+                  builder: (context, group, child) => const SizedBox(),
                 )
               ],
             ),
@@ -277,15 +277,15 @@ void main() {
               children: [
                 FieldBuilder(
                   controller: group.field('field1'),
-                  builder: (context, field, child) => SizedBox(),
+                  builder: (context, field, child) => const SizedBox(),
                 ),
                 FieldBuilder(
                   controller: group.field('field2'),
-                  builder: (context, field, child) => SizedBox(),
+                  builder: (context, field, child) => const SizedBox(),
                 ),
                 GroupBuilder(
                   controller: group2,
-                  builder: (context, group, child) => SizedBox(),
+                  builder: (context, group, child) => const SizedBox(),
                 )
               ],
             ),
@@ -300,7 +300,7 @@ void main() {
       expect(formManager.getGroup(group.key), group);
       expect(formManager.groupRefCount(group2.key), 1);
       expect(formManager.getGroup(group2.key), group2);
-      await tester.pumpWidget(SizedBox());
+      await tester.pumpWidget(const SizedBox());
       await tester.pumpAndSettle();
       expect(formManager.fields, isEmpty);
       expect(formManager.fields.length, 0);

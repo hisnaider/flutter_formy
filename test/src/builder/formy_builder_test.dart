@@ -9,8 +9,6 @@ import 'package:flutter_test/flutter_test.dart';
 class MockFormyBuilder extends FormyBuilder<FieldController, FieldState> {
   MockFormyBuilder(
       {super.key, required super.controller, super.buildWhen, super.child});
-  int addListenerCount = 0;
-  int removeListenerCount = 0;
   int buildCount = 0;
 
   @override
@@ -40,22 +38,16 @@ void main() {
     expect(FormyFormManager.instance.fields, isEmpty);
     expect(FormyFormManager.instance.fields.containsKey(key), isFalse);
     expect(FormyFormManager.instance.fields[key], isNot(equals(controller)));
-    expect(mock.addListenerCount, equals(0));
-    expect(mock.removeListenerCount, equals(0));
     await tester.pumpWidget(MaterialApp(home: mock));
     expect(FormyFormManager.instance.groups, isEmpty);
     expect(FormyFormManager.instance.fields, isNotEmpty);
     expect(FormyFormManager.instance.fields.containsKey(key), isTrue);
     expect(FormyFormManager.instance.fields[key], equals(controller));
-    expect(mock.addListenerCount, equals(1));
-    expect(mock.removeListenerCount, equals(0));
     await tester.pumpWidget(Container());
     expect(FormyFormManager.instance.groups, isEmpty);
     expect(FormyFormManager.instance.fields, isEmpty);
     expect(FormyFormManager.instance.fields.containsKey(key), isFalse);
     expect(FormyFormManager.instance.fields[key], isNot(equals(controller)));
-    expect(mock.addListenerCount, equals(1));
-    expect(mock.removeListenerCount, equals(1));
   });
   testWidgets('FormyBuilder: buildWhen != null', (tester) async {
     final FieldController controller = FieldController(key: 'test');

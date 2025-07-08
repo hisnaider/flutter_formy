@@ -154,11 +154,17 @@ O package já vem com alguns validadores ja definidos pra usar, são eles:
 
 Observação: Mais validadores vão vir, esses são apena os primeiros.
 
-### Criando um validador customizado
+## Criando um validador customizado
 
-Para criar um validador o processo é muito facil. Primeiro crie uma classe, depois estenda ela de `FormyValidator` e pronto. O método `onValidate` é obrigatório e é ele que vai fazer a validação.
+Para criar validadores customizados no Formy, você pode estender as classes base fornecidas pelo package. Existem dois tipos principais de validadores que podem ser implementados:
 
-Criar um validador no Formy é simples. Basta criar uma classe que estenda `FormyValidator` e implementar o método `onValidate`, responsável por verificar se o valor do campo é válido ou não.
+- **FormyValidator**: utilizado para validar campos individualmente, como verificar se um campo está preenchido, se um e-mail é válido, ou se uma senha tem o tamanho mínimo necessário.
+- **FormyCrossValidator**: utilizado para validação cruzada, ou seja, quando a validação de um campo depende do valor de outro campo, como confirmar se dois campos de senha são iguais ou se uma data de início é anterior à data de término.
+
+A seguir, veja como criar validadores customizados usando essas duas bases.
+
+### FormyValidator
+Para criar um validador individual, basta criar uma classe que estenda `FormyCrossValidator` e pronto. O método `onValidate` é obrigatório e é ele que vai fazer a validação.
 
 Exemplo: validador de número de telefone no padrão E.164 (ex: +14155552671)
 
@@ -183,6 +189,37 @@ class PhoneNumberValidator extends FormyValidator<String> {
 ```
 
 Observação: A key no `ValidationResult` serve pra identificar de qual validador esta vindo o resultado, muito útil pra debug.
+
+### FormyCrossValidator:
+
+Para criar um validador cruzado, basta criar uma classe que estenda `FormyCrossValidator` e passar a `key` do outro campo no construtor. Dentro do método obrigatório `onValidate`, você pode acessar o outro campo usando o getter `otherController`.
+
+Exemplo genérico: validador que garante que o valor de um campo seja maior que o valor de outro campo numérico:
+
+```dart
+class GreaterThanOtherFieldValidator extends FormyCrossValidator<num> {
+  GreaterThanOtherFieldValidator({
+    required super.otherField,
+    super.message = 'O valor deve ser maior que o outro campo',
+  });
+
+  @override
+  ValidationResult onValidate(FieldController<num> control) {
+    final other = otherController(control);
+    if (control.value == null || other.value == null) {
+      return ValidationResult.ok(key: 'greaterThanOther');
+    }
+    if (control.value! <= other.value!) {
+      return ValidationResult.error(key: 'greaterThanOther', message: message);
+    }
+    return ValidationResult.ok(key: 'greaterThanOther');
+  }
+}
+```
+
+No exemplo acima, `otherField` é a chave do campo que será comparado. O getter `otherController` retorna o `FieldController` do outro campo, permitindo acessar seu valor e estado.
+
+Observação: Use `FormyCrossValidator` sempre que precisar validar dependências entre campos, como confirmação de senha, comparação de datas, valores relacionados, etc.
 
 # Controlador de campo (`FieldController`):
 

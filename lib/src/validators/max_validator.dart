@@ -4,10 +4,10 @@ class MaxValidator<T> extends FormyValidator<T> {
   MaxValidator(this.max, {super.message});
   final int max;
   @override
-  ValidationResult onValidate(FieldController<T> control) {
-    final value = control.value;
+  ValidationResult onValidate(FieldController<T> controller) {
+    final value = controller.value;
     bool isValid = true;
-    if (control.value != null) {
+    if (controller.value != null) {
       if (value is String) {
         isValid = value.length <= max;
       } else if (value is List) {

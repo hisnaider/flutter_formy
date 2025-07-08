@@ -41,7 +41,7 @@ class FormyFormManager {
   final Map<String, GroupController> _groups = {};
   final Map<String, int> _groupCountRef = {};
 
-  /// All [FieldController] instances currently tracked.
+  /// All independent [FieldController] instances currently tracked.
   UnmodifiableMapView<String, FieldController<dynamic>> get fields =>
       UnmodifiableMapView(_fields);
 

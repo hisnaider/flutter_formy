@@ -11,7 +11,7 @@ export 'src/enum/generic_validators.dart';
 //
 //
 //models
-export 'src/models/controller/field_controller.dart';
+export 'src/controller/field_controller.dart';
 export 'src/models/field_state.dart';
 export 'src/models/item_entry.dart';
 export 'src/models/validation_result.dart';
@@ -45,6 +45,6 @@ export 'src/widgets/formy_dropdown.dart';
 export 'src/widgets/formy_group_visibility.dart';
 
 //selector
-export 'flutter_formy_selector.dart';
+export 'src/libraries/flutter_formy_selector.dart';
 //builder
-export 'flutter_formy_builder.dart';
+export 'src/libraries/flutter_formy_builder.dart';

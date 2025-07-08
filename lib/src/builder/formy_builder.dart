@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/src/manager/form_manager.dart';
-import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/controller/field_controller.dart';
 
 /// A widget that rebuilds based on changes to a [FieldController] or [GroupController]
 /// using a customizable condition.

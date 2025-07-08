@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/controller/field_controller.dart';
 import 'package:flutter_formy/src/selectors/formy_selector.dart';
 
 /// A widget that rebuilds whenever a selected value from a [FieldController] changes.

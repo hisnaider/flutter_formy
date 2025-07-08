@@ -5,11 +5,11 @@ class EmailValidator extends FormyValidator<String> {
   static final RegExp _emailRegex =
       RegExp(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
   @override
-  ValidationResult onValidate(FieldController<String> control) {
+  ValidationResult onValidate(FieldController<String> controller) {
     bool isValid = true;
-    if (control.value != null &&
-        control.value!.isNotEmpty &&
-        !_emailRegex.hasMatch(control.value!)) {
+    if (controller.value != null &&
+        controller.value!.isNotEmpty &&
+        !_emailRegex.hasMatch(controller.value!)) {
       isValid = false;
     }
     return ValidationResult(

@@ -4,14 +4,15 @@ import 'package:flutter/services.dart';
 import 'dart:ui' as ui show BoxHeightStyle, BoxWidthStyle;
 
 import 'package:flutter_formy/src/builder/focusable_field_builder.dart';
-import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/builder/text_field_builder.dart';
+import 'package:flutter_formy/src/controller/field_controller.dart';
 import 'package:flutter_formy/src/models/field_state.dart';
 
-class FormyTextField extends FocusableFieldBuilder<String> {
+class FormyTextField extends TextFieldBuilder {
   FormyTextField({
     super.key,
     required super.controller,
-    this.textController,
+    super.textEditingController,
     super.focusNode,
     this.undoController,
     this.decoration,
@@ -76,7 +77,7 @@ class FormyTextField extends FocusableFieldBuilder<String> {
     this.magnifierConfiguration,
   }) : super(
           buildWhen: (oldState, currentState) => oldState != currentState,
-          builder: (context, field, focusNode, child) {
+          builder: (context, field, focusNode, textController, child) {
             final InputDecoration inputDecoration =
                 decoration?.call(field.state, field.firstError) ??
                     const InputDecoration();
@@ -207,7 +208,6 @@ class FormyTextField extends FocusableFieldBuilder<String> {
           },
         );
   final TextMagnifierConfiguration? magnifierConfiguration;
-  final TextEditingController? textController;
   final InputDecoration? Function(FieldState fieldState, String? firstError)?
       decoration;
   final TextInputType? keyboardType;

@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
+import 'package:flutter_formy/src/validators/formy_cross_validator.dart';
 
 part 'group_controller.dart';
 part 'field_config.dart';
@@ -17,7 +18,7 @@ class FieldController<T> extends ChangeNotifier {
   }) {
     assert(!key.contains("/"), 'The key cannot contain "/".');
     return FieldController<T>._internal(
-        key, initialValue, showErrorWhen, validators, [], null);
+        key, initialValue, showErrorWhen, validators, null);
   }
 
   FieldController._internal(
@@ -25,20 +26,15 @@ class FieldController<T> extends ChangeNotifier {
     this._initialValue,
     this._showErrorWhen,
     this.validators,
-    List<String> dependentsFields,
     this._groupRef,
   )   : _state = FieldState.initial(
             _initialValue ?? (T == bool ? false as T : null)),
         createdTimestamp = DateTime.now().microsecondsSinceEpoch {
-    for (String i in dependentsFields) {
-      groupRef!.field(i)._addDependentsField(_key);
-    }
     _validate();
   }
 
   @override
   void dispose() {
-    _dependentsFields.clear();
     super.dispose();
     debugPrint(
         '\x1B[38;5;43m[FORMY] FieldController: "$completeKey" has been \x1B[31mDISPOSED\x1B[0m');
@@ -51,7 +47,6 @@ class FieldController<T> extends ChangeNotifier {
   final ShowError _showErrorWhen;
 
   FieldState<T> _state;
-  final List<String> _dependentsFields = [];
 
   GroupController? _groupRef;
   GroupController? get groupRef => _groupRef;
@@ -79,9 +74,6 @@ class FieldController<T> extends ChangeNotifier {
     _validate();
     if (_state != oldState) {
       _debugLog();
-      for (String key in _dependentsFields) {
-        _groupRef?.field(key).update(null);
-      }
       notifyListeners();
     }
   }
@@ -116,10 +108,6 @@ class FieldController<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  void _addDependentsField(String dependent) {
-    _dependentsFields.add(dependent);
-  }
-
   void _setInitialValue() {
     _initialValue = _state.value;
   }
@@ -151,7 +139,6 @@ class FieldListControl<T> extends FieldController<List<T>> {
           initialValue ?? [],
           showErrorWhen,
           validators,
-          [],
           null,
         );
 
@@ -160,7 +147,6 @@ class FieldListControl<T> extends FieldController<List<T>> {
     super.initialValue,
     super.showErrorWhen,
     List<FormyValidator<List<T>>> super.validators,
-    super.dependents,
     super.groupRef,
   ) : super._internal();
 

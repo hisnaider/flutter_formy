@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/src/builder/field_builder.dart';
-import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/controller/field_controller.dart';
 
 class FormyCheckbox extends StatelessWidget {
   const FormyCheckbox({

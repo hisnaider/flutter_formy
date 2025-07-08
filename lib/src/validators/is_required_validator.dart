@@ -3,17 +3,17 @@ import 'package:flutter_formy/flutter_formy.dart';
 class IsRequired<T> extends FormyValidator<T> {
   IsRequired({super.message});
   @override
-  ValidationResult onValidate(FieldController control) {
+  ValidationResult onValidate(FieldController controller) {
     bool isValid = true;
 
-    if (control.value == null) {
+    if (controller.value == null) {
       isValid = false;
-    } else if (control.value is String && control.value!.trim().isEmpty) {
+    } else if (controller.value is String && controller.value!.trim().isEmpty) {
       isValid = false;
-    } else if (control.value is Iterable && control.value!.isEmpty) {
+    } else if (controller.value is Iterable && controller.value!.isEmpty) {
       isValid = false;
-    } else if (control.value is bool) {
-      isValid = control.value;
+    } else if (controller.value is bool) {
+      isValid = controller.value;
     }
 
     return ValidationResult(

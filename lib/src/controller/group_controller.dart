@@ -34,6 +34,7 @@ class GroupController extends ChangeNotifier {
       _parentGroup == null ? _key : '${_parentGroup!.key}/$_key';
   final Map<String, FieldController> _fields = {};
   final Map<String, GroupController> _subGroups = {};
+  final Map<String, String> _fieldsDependencies = {};
   final List<_Dependency> _dependencies = [];
   late GroupState _state;
 
@@ -51,10 +52,13 @@ class GroupController extends ChangeNotifier {
 
   void _initFields(List<FieldConfig> fields) {
     for (FieldConfig config in fields) {
+      config.validators.whereType<FormyCrossValidator>().forEach(
+            (element) => _fieldsDependencies[element.otherField] = config.key,
+          );
       _fields[config.key] = config._initField(
         this,
       );
-      _fields[config.key]!.addListener(_onFieldChanged);
+      _fields[config.key]!.addListener(() => _onFieldChanged(config.key));
     }
   }
 
@@ -67,7 +71,7 @@ class GroupController extends ChangeNotifier {
         config.dependsOn,
         _parentGroup ?? this,
       );
-      _subGroups[config.key]!.addListener(_onFieldChanged);
+      _subGroups[config.key]!.addListener(_onGroupStateChanged);
     }
   }
 
@@ -83,7 +87,15 @@ class GroupController extends ChangeNotifier {
     }
   }
 
-  void _onFieldChanged() {
+  void _onFieldChanged(String fieldKey) {
+    if (_fields[_fieldsDependencies[fieldKey]] != null) {
+      print('++++++++++++++++++++++++++++++++++++++++++++');
+    }
+    _fields[_fieldsDependencies[fieldKey]]?.update(null);
+    _onGroupStateChanged();
+  }
+
+  void _onGroupStateChanged() {
     final validCount = _validCount();
     if (validCount != state.validCount) {
       _setState();
@@ -106,14 +118,14 @@ class GroupController extends ChangeNotifier {
   @override
   void dispose() {
     for (final control in _fields.values) {
-      control.removeListener(_onFieldChanged);
+      control.removeListener(() => _onFieldChanged(control.key));
       control.dispose();
     }
     for (final dependency in _dependencies) {
       dependency.controller.removeListener(_onDependencyChanged);
     }
     for (final group in _subGroups.values) {
-      group.removeListener(_onFieldChanged);
+      group.removeListener(_onGroupStateChanged);
       group.dispose();
     }
     super.dispose();

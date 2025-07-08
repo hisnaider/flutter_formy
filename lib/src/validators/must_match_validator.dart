@@ -1,14 +1,13 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/validators/formy_cross_validator.dart';
 
-class MustMatchValidator extends FormyValidator<String> {
-  MustMatchValidator({required this.otherController, super.message});
-  final String otherController;
+class MustMatchValidator extends FormyCrossValidator<String> {
+  MustMatchValidator({required super.otherField, super.message});
   @override
-  ValidationResult onValidate(FieldController control) {
+  ValidationResult onValidate(FieldController controller) {
     bool isValid = true;
-    if (control.value != null && control.value!.isNotEmpty) {
-      isValid = control.value == control.groupRef?.field(otherController).value;
-      control.groupRef?.field(otherController).update(null);
+    if (controller.value != null && controller.value!.isNotEmpty) {
+      isValid = controller.value == otherController.value;
     }
     return ValidationResult(
       key: GenericValidators.mustMatch.name,

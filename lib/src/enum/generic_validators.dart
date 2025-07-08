@@ -5,11 +5,15 @@ enum GenericValidators {
   max,
   invalidNumber,
   mustBeNumeric,
-  mustMatch,
   invalidCPF,
   invalidCNPJ,
   invalidPhone,
   onlyLetters,
   onlyAlphanumeric,
   pattern,
+
+  //crossed:
+  mustMatch,
+  biggerThan,
+  lessThan,
 }

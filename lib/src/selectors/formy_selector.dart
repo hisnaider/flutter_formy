@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/src/manager/form_manager.dart';
-import 'package:flutter_formy/src/models/controller/field_controller.dart';
+import 'package:flutter_formy/src/controller/field_controller.dart';
 
 /// A widget that rebuilds whenever a selected part of a [FieldController] or [GroupController] changes.
 ///

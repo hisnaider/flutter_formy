@@ -1,3 +1,19 @@
+## 0.4.0
+
+### Added
+- Added `FormyDependentValidator` to handle cross-field validation.
+- Added `TextFieldBuilder`, a `FieldBuilder` specialized for text fields.
+- Added `FormyCrossValidator`, a base class for implementing cross-field validation logic.
+- Added `BiggerThanValidator`, which checks if the value of one field is greater than another.
+- Added `LessThanValidator`, which checks if the value of one field is less than another.
+
+### Updated
+- Updated the structure of the field and group management to improve dependency handling and validation.
+
+### Removed
+- All references to dependencies have been removed from `FieldController`.
+
+
 ## 0.3.0
 
 ### Added

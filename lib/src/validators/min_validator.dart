@@ -4,10 +4,10 @@ class MinValidator<T> extends FormyValidator<T> {
   MinValidator(this.min, {super.message});
   final int min;
   @override
-  ValidationResult onValidate(FieldController<T> control) {
-    final value = control.value;
+  ValidationResult onValidate(FieldController<T> controller) {
+    final value = controller.value;
     bool isValid = true;
-    if (control.value != null) {
+    if (controller.value != null) {
       if (value is String) {
         isValid = value.length >= min;
       } else if (value is List) {

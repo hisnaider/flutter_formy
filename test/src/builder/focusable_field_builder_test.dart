@@ -3,7 +3,7 @@ import 'package:flutter_formy/src/builder/focusable_field_builder.dart';
 import 'package:flutter_formy/src/manager/form_manager.dart';
 import 'package:flutter_formy/src/enum/generic_validators.dart';
 import 'package:flutter_formy/src/controller/field_controller.dart';
-import 'package:flutter_formy/src/validators/is_required_validator.dart';
+import 'package:flutter_formy/src/validators/generic_validators/is_required_validator.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class SpyFocusNode extends FocusNode {

@@ -50,7 +50,7 @@ void main() {
   test('Should return list of validation keys correctly', () {
     final FieldController field = FieldController<String>(
       key: 'field',
-      validators: [IsRequired(), EmailValidator(), MinValidator(6)],
+      validators: [IsRequired(), EmailValidator(), MinLengthValidator(6)],
       showErrorWhen: ShowError.always,
     );
     expect(field.errorKeys, [
@@ -59,7 +59,7 @@ void main() {
     field.update('value');
     expect(field.errorKeys, [
       GenericValidators.invalidEmail.name,
-      GenericValidators.min.name,
+      GenericValidators.minLength.name,
     ]);
     field.update('value@');
     expect(field.errorKeys, [

@@ -1,29 +1,27 @@
 import 'package:flutter_formy/flutter_formy.dart';
 
-class MinValidator<T> extends FormyValidator<T> {
-  MinValidator(this.min, {super.message});
-  final int min;
+class MinLengthValidator<T> extends FormyValidator<T> {
+  MinLengthValidator(this.minLength, {super.message});
+  final int minLength;
   @override
   ValidationResult onValidate(FieldController<T> controller) {
     final value = controller.value;
     bool isValid = true;
     if (controller.value != null) {
       if (value is String) {
-        isValid = value.length >= min;
+        isValid = value.length >= minLength;
       } else if (value is List) {
-        isValid = value.length >= min;
+        isValid = value.length >= minLength;
       } else if (value is Map) {
-        isValid = value.length >= min;
+        isValid = value.length >= minLength;
       } else if (value is Set) {
-        isValid = value.length >= min;
-      } else if (value is num) {
-        isValid = value >= min;
+        isValid = value.length >= minLength;
       } else {
         isValid = false;
       }
     }
     return ValidationResult(
-      key: GenericValidators.min.name,
+      key: GenericValidators.minLength.name,
       message: message,
       isValid: isValid,
     );

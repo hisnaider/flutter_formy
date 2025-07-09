@@ -25,12 +25,12 @@ export 'src/manager/form_manager.dart';
 //
 //
 //validators
-export 'src/validators/email_validator.dart';
+export 'src/validators/string_validator/email_validator.dart';
 export 'src/validators/formy_validator.dart';
-export 'src/validators/is_required_validator.dart';
-export 'src/validators/max_validator.dart';
-export 'src/validators/min_validator.dart';
-export 'src/validators/must_match_validator.dart';
+export 'src/validators/generic_validators/is_required_validator.dart';
+export 'src/validators/generic_validators/max_length_validator.dart';
+export 'src/validators/generic_validators/min_length_validator.dart';
+export 'src/validators/cross_validators/must_match_validator.dart';
 
 //
 //

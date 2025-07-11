@@ -79,12 +79,12 @@ void main() {
 
   group('FieldListController', () {
     test('Should create FieldListControl', () {
-      final field = FieldListControl<String>(key: 'field');
+      final field = FieldListController<String>(key: 'field');
       expect(field.value, []);
     });
 
     test('Should update FieldListControl', () {
-      final field = FieldListControl<String>(key: 'field');
+      final field = FieldListController<String>(key: 'field');
       field.update(['a', 'b']);
       expect(field.value, ['a', 'b']);
     });

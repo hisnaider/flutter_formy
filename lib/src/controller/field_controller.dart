@@ -128,21 +128,21 @@ class FieldController<T> extends ChangeNotifier {
   }
 }
 
-class FieldListControl<T> extends FieldController<List<T>> {
-  FieldListControl({
+class FieldListController<T> extends FieldController<List<T>> {
+  FieldListController({
     required String key,
     List<T>? initialValue,
     ShowError showErrorWhen = ShowError.whenIsTouched,
     List<FormyValidator<List<T>>> validators = const [],
   }) : super._internal(
           key,
-          initialValue ?? [],
+          initialValue,
           showErrorWhen,
           validators,
           null,
         );
 
-  FieldListControl._internal(
+  FieldListController._internal(
     super.key,
     super.initialValue,
     super.showErrorWhen,
@@ -188,6 +188,7 @@ class FieldListControl<T> extends FieldController<List<T>> {
 
 extension FieldControllerX<T> on FieldController<T> {
   bool get isRequired => validationResults.any((e) => e.key == "isRequired");
+  bool get hasError => validationResults.any((e) => e.isValid == false);
   String? get firstError => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)

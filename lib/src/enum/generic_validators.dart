@@ -3,14 +3,9 @@ enum GenericValidators {
   invalidEmail,
   minLength,
   maxLength,
+  exactLength,
   betweenLength,
-  invalidNumber,
-  mustBeNumeric,
-  invalidCPF,
-  invalidCNPJ,
-  invalidPhone,
-  onlyLetters,
-  onlyAlphanumeric,
+  or,
 
   //numeric:
   minValue,

@@ -26,7 +26,7 @@ class FieldListConfig<T> extends FieldConfig<List<T>> {
   });
 
   @override
-  FieldListControl<T> _initField(GroupController group) =>
-      FieldListControl._internal(
+  FieldListController<T> _initField(GroupController group) =>
+      FieldListController._internal(
           key, initialValue, showErrorWhen, validators, group);
 }

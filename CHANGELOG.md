@@ -4,6 +4,25 @@
 - Added `FormyDependentValidator` to handle cross-field validation.
 - Added `TextFieldBuilder`, a `FieldBuilder` specialized for text fields.
 - Added `FormyCrossValidator`, a base class for implementing cross-field validation logic.
+- Added the following validators with their documentation and test:
+    //Generic
+    - `MinLengthValidator`: Ensures the length of a text field is at least a specified minimum length.
+    - `MaxLengthValidator`: Ensures the length of a text field is at most a specified maximum length.
+    - `IsRequired`: Ensures a field is not null, empty nor false.
+    - `BetweenLengthValidator`: Ensures the length of a text field is within a specified range.
+    - `ExactLengthValidator`: Ensures the length of a text field is exactly a specified length.
+    - `OrValidator`: Ensures at least one of the specified validators passes.
+    //Numeric
+    - `BetweenValuesValidator`: Ensures a numeric field is within a specified range.
+    - `DivisibleByValidator`: Ensures a number is divisible by a specified number.
+    - `EvenNumValidator`: Ensures a number is even.
+    - `MaxValueValidator`: Ensures a number is at most a specified maximum value.
+    - `MinValueValidator`: Ensures a number is at least a specified minimum value.
+    - `NegativeNumValidator`: Ensures a number is negative.
+    - `NonZeroValidator`: Ensures a number is not zero.
+    - `OddNumValidator`: Ensures a number is odd.
+    - `PositiveNumValidator`: Ensures a number is positive.
+    //String
 - Added `BiggerThanValidator`, which checks if the value of one field is greater than another.
 - Added `LessThanValidator`, which checks if the value of one field is less than another.
 

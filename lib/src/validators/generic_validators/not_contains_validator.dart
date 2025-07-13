@@ -1,24 +1,23 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
-/// A validator that checks if the value NOT contains [contain].
+/// A validator that checks if the value NOT contains [notContain].
 ///
-/// The [ContainsValidator] can be used with [FieldController]s holding
+/// The [NotContainsValidator] can be used with [FieldController]s holding
 /// values of types `String`, `Iterable` or `Map`. It ensures that the
-/// value NOT contains [contain].
+/// value NOT contains [notContain].
 ///
 /// If the value is `null` it is treated as valid by default.
 ///
 /// ## Properties
 ///
-/// * [contain]: The value that the field should NOT contain.
+/// * [notContain]: The value that the field should NOT contain.
 /// * [message]: An optional custom error message to display when invalid.
 ///
 /// ## Example
 /// ```dart
 /// FieldController<int> field = FieldController(
 ///   key: 'name',
-///   validators:[ContainsValidator('Bye')],
+///   validators:[NotContainsValidator('Bye')],
 /// );
 ///
 /// // If field.value = 'Bye World :( )', validation fails.

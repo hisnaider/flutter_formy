@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
 
 part 'group_controller.dart';

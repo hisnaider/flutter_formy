@@ -4,8 +4,6 @@
 /// utilities for building complex forms with ease.
 library flutter_formy;
 
-export 'src/libraries/flutter_formy_validators.dart';
-
 //enum
 export 'src/enum/generic_validators.dart';
 
@@ -36,6 +34,6 @@ export 'src/widgets/formy_dropdown.dart';
 export 'src/widgets/formy_group_visibility.dart';
 
 //selector
-export 'src/libraries/flutter_formy_selector.dart';
+export 'flutter_formy_selector.dart';
 //builder
-export 'src/libraries/flutter_formy_builder.dart';
+export 'flutter_formy_builder.dart';

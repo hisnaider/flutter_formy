@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/validators/formy_validator.dart';
 
 abstract class FormyCrossValidator<T> extends FormyValidator<T> {
   FormyCrossValidator({

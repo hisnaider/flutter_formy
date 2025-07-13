@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/flutter_formy_string_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

@@ -14,12 +14,7 @@
 /// - Cross-field validators (must match, bigger than another field, etc.)
 ///
 /// Part of the `flutter_formy` package.
-library flutter_formy_builder;
+library flutter_formy_base_validators;
 
-export '../validators/formy_validator.dart';
-export '../validators/formy_cross_validator.dart';
-export '../libraries/validators_lib/flutter_formy_cross_validators.dart';
-export '../libraries/validators_lib/flutter_formy_date_validators.dart';
-export '../libraries/validators_lib/flutter_formy_generic_validators.dart';
-export '../libraries/validators_lib/flutter_formy_numeric_validators.dart';
-export '../libraries/validators_lib/flutter_formy_string_validators.dart';
+export 'src/validators/formy_validator.dart';
+export 'src/validators/formy_cross_validator.dart';

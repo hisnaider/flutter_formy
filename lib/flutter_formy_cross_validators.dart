@@ -14,9 +14,9 @@
 /// - [MustNotMatchValidator]
 ///
 /// Part of the `flutter_formy` package.
-library flutter_formy_cross;
+library flutter_formy_cross_validators;
 
-export '../../validators/cross_validators/bigger_than_validator.dart';
-export '../../validators/cross_validators/less_than_validator.dart';
-export '../../validators/cross_validators/must_match_validator.dart';
-export '../../validators/cross_validators/must_not_match_validator.dart';
+export 'src/validators/cross_validators/bigger_than_validator.dart';
+export 'src/validators/cross_validators/less_than_validator.dart';
+export 'src/validators/cross_validators/must_match_validator.dart';
+export 'src/validators/cross_validators/must_not_match_validator.dart';

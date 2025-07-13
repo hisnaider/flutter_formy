@@ -5,6 +5,6 @@
 /// Part of the flutter_formy package.
 library flutter_formy_selector;
 
-export '../selectors/formy_selector.dart';
-export '../selectors/field_selector.dart';
-export '../selectors/group_selector.dart';
+export 'src/selectors/formy_selector.dart';
+export 'src/selectors/field_selector.dart';
+export 'src/selectors/group_selector.dart';

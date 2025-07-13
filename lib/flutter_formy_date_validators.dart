@@ -12,10 +12,10 @@
 /// - [MinAgeValidator]
 ///
 /// Part of the `flutter_formy` package.
-library flutter_formy_date;
+library flutter_formy_date_validators;
 
-export '../../validators/date_time_validators/after_date_validator.dart';
-export '../../validators/date_time_validators/before_date_validator.dart';
-export '../../validators/date_time_validators/between_dates_validator.dart';
-export '../../validators/date_time_validators/max_age_validator.dart';
-export '../../validators/date_time_validators/min_age_validator.dart';
+export 'src/validators/date_time_validators/after_date_validator.dart';
+export 'src/validators/date_time_validators/before_date_validator.dart';
+export 'src/validators/date_time_validators/between_dates_validator.dart';
+export 'src/validators/date_time_validators/max_age_validator.dart';
+export 'src/validators/date_time_validators/min_age_validator.dart';

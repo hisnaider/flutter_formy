@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/flutter_formy_base_validators.dart';
 
 /// A validator that checks if the value is not null, empty nor false.
 ///

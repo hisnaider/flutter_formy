@@ -7,7 +7,7 @@
 /// Part of the flutter_formy package.
 library flutter_formy_builder;
 
-export '../builder/formy_builder.dart';
-export '../builder/field_builder.dart';
-export '../builder/focusable_field_builder.dart';
-export '../builder/group_builder.dart';
+export 'src/builder/formy_builder.dart';
+export 'src/builder/field_builder.dart';
+export 'src/builder/focusable_field_builder.dart';
+export 'src/builder/group_builder.dart';

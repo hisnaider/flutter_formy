@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/flutter_formy_base_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class TestFormyValidator<T> extends FormyValidator<T> {

@@ -1,3 +1,9 @@
+## 0.4.1
+
+### Updated
+- Readme has been updated.
+
+
 ## 0.4.0
 
 ### Added

@@ -142,17 +142,66 @@ class _LoginPageState extends State<LoginPage> {
 
 # Validadores (`FormyValidator`):
 
-Os validadores servem pra validar os campos. Um campo pode ter de 1 a any validadores. Toda vez que o valor é atualizado, os validadores vão ser chamados. Após a validação, ele retorna a classe `ValidationResult` que contem a key do validador e uma flag determinando se é ou não valido.
+No Flutter Formy, **validadores** são classes responsáveis por garantir que o valor de um campo atenda certas regras.  
+Eles são usados junto aos `FieldController`s para definir restrições como tamanho mínimo, formatos específicos (ex: email, URL), ou condições que dependem de outros campos (ex: confirmar senha).
 
-O package já vem com alguns validadores ja definidos pra usar, são eles:
+Quando o valor do campo não passa pela validação, o validador retorna uma mensagem de erro que pode ser exibida automaticamente no seu formulário.  
+Isso torna o processo de construção de formulários dinâmicos, reativos e seguros muito mais simples.
 
-- `IsRequired`: Valida se o campo não esta vazio ou null;
-- `EmailValidator`: Valida se o valor do campo é um email;
-- `MaxValidator`: Valida se o tamanho do campo, seja String ou List, ultrapassou um limite **maximo** definido;
-- `MinValidator`: Valida se o tamanho do campo, seja String ou List, ultrapassou um limite **mínimo** definido;
-- `MustMatchValidator`: Valida se dois campos são iguais.
+## Validadores disponíveis
 
-Observação: Mais validadores vão vir, esses são apena os primeiros.
+O package já vem com diversos validadores prontos para usar, são eles:
+
+### Comprimento (Strings / Lists / Map / Set)
+- `MinLengthValidator`: Valida se o tamanho do campo é **pelo menos** o mínimo especificado.
+- `MaxLengthValidator`: Valida se o tamanho do campo é **no máximo** o máximo especificado.
+- `BetweenLengthValidator`: Valida se o tamanho do campo está dentro de um intervalo específico.
+- `ExactLengthValidator`: Valida se o tamanho do campo é exatamente o especificado.
+
+### Obrigatoriedade
+- `IsRequired`: Valida se o campo não está vazio, null, ou false.
+
+### Combinadores
+- `OrValidator`: Valida se **ao menos um** dos validadores passados for válido.
+
+### Conteúdo de Strings / Lists / Map
+- `ContainsValidator`: Valida se o campo contém um valor específico.
+- `NotContainsValidator`: Valida se o campo **não contém** um valor específico.
+
+### Valores numéricos
+- `BetweenValuesValidator`: Valida se o valor numérico está dentro de um intervalo.
+- `DivisibleByValidator`: Valida se o valor é divisível por um número específico.
+- `EvenNumValidator`: Valida se o número é par.
+- `OddNumValidator`: Valida se o número é ímpar.
+- `MaxValueValidator`: Valida se o valor é no máximo o especificado.
+- `MinValueValidator`: Valida se o valor é no mínimo o especificado.
+- `NegativeNumValidator`: Valida se o número é negativo.
+- `PositiveNumValidator`: Valida se o número é positivo.
+- `NonZeroValidator`: Valida se o número não é zero.
+
+### Datas e Idades
+- `AfterDateValidator`: Valida se a data é depois da data especificada.
+- `BeforeDateValidator`: Valida se a data é antes da data especificada.
+- `BetweenDatesValidator`: Valida se a data está dentro de um intervalo de datas.
+- `MaxAgeValidator`: Valida se a idade calculada pela data não ultrapassa o máximo.
+- `MinAgeValidator`: Valida se a idade é pelo menos o mínimo especificado.
+
+### Cross-field (campos dependentes)
+- `BiggerThanValidator`: Valida se o valor é maior que o valor de outro campo.
+- `LessThanValidator`: Valida se o valor é menor que o valor de outro campo.
+- `MustMatchValidator`: Valida se o valor é igual ao valor de outro campo (ex: senha e confirmação).
+- `MustNotMatchValidator`: Valida se o valor é **diferente** do valor de outro campo.
+
+### Validações específicas de String
+- `EmailValidator`: Valida se o campo é um email válido.
+- `UrlValidator`: Valida se o campo é uma URL válida.
+- `IpValidator`: Valida se o campo é um IP válido.
+- `PatternValidator`: Valida se o campo bate com um regex específico.
+- `StartWithValidator`: Valida se o campo começa com um valor específico.
+- `EndWithValidator`: Valida se o campo termina com um valor específico.
+- `NoNumbersValidator`: Valida se o campo não contém números.
+- `NoSpaceValidator`: Valida se o campo não contém espaços.
+- `NoSpecialCharsValidator`: Valida se o campo não contém caracteres especiais.
 
 ## Criando um validador customizado
 

@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the value is divisible by [denominator].
 ///
@@ -15,7 +16,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<int> field = FieldController(key: 'number', validator:[DivisibleByValidator(4)]);
+/// FieldController<int> field = FieldController(
+///   key: 'number',
+///   validators:[DivisibleByValidator(4)],
+/// );
 ///
 /// // If field.value = 3, validation fails.
 /// // If field.value = 4, validation passes.

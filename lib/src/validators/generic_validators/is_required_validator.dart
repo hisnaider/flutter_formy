@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the value is not null, empty nor false.
 ///
@@ -12,7 +13,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<String> field = FieldController(key: 'name', validator:[IsRequired()]);
+/// FieldController<String> field = FieldController(
+///   key: 'name',
+///   validators:[IsRequired()],
+/// );
 ///
 /// // If field.value = null, validation fails.
 /// // If field.value = '', validation fails.

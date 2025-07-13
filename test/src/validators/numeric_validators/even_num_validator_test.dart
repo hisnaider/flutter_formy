@@ -1,17 +1,16 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/numeric_validators/even_num_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_numeric_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('EvenNumValidator', () {
     test('should validate even numbers as valid', () {
       // Arrange
-      final validator = EvenNumValidator();
-      final controller =
-          FieldController<int>(key: 'field1', initialValue: 4, validators: []);
+      final controller = FieldController<int>(
+          key: 'field1', initialValue: 4, validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -21,12 +20,11 @@ void main() {
 
     test('should validate odd numbers as invalid', () {
       // Arrange
-      final validator = EvenNumValidator();
-      final controller =
-          FieldController<int>(key: 'field1', initialValue: 3, validators: []);
+      final controller = FieldController<int>(
+          key: 'field1', initialValue: 3, validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -36,12 +34,11 @@ void main() {
 
     test('should validate zero as valid (even number)', () {
       // Arrange
-      final validator = EvenNumValidator();
-      final controller =
-          FieldController<int>(key: 'field1', initialValue: 0, validators: []);
+      final controller = FieldController<int>(
+          key: 'field1', initialValue: 0, validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -51,12 +48,11 @@ void main() {
 
     test('should validate negative even numbers as valid', () {
       // Arrange
-      final validator = EvenNumValidator();
-      final controller =
-          FieldController<int>(key: 'field1', initialValue: -4, validators: []);
+      final controller = FieldController<int>(
+          key: 'field1', initialValue: -4, validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -65,12 +61,11 @@ void main() {
 
     test('should validate negative odd numbers as invalid', () {
       // Arrange
-      final validator = EvenNumValidator();
-      final controller =
-          FieldController<int>(key: 'field1', initialValue: -3, validators: []);
+      final controller = FieldController<int>(
+          key: 'field1', initialValue: -3, validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -79,13 +74,14 @@ void main() {
 
     test('should use custom message when provided', () {
       // Arrange
-      final customMessage = 'Number must be even';
-      final validator = EvenNumValidator(message: customMessage);
-      final controller =
-          FieldController<int>(key: 'field1', initialValue: 3, validators: []);
+      const customMessage = 'Number must be even';
+      final controller = FieldController<int>(
+          key: 'field1',
+          initialValue: 3,
+          validators: [EvenNumValidator(message: customMessage)]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -95,12 +91,11 @@ void main() {
 
     test('should default to 2 when controller value is null', () {
       // Arrange
-      final validator = EvenNumValidator();
       final controller = FieldController<int>(
-          key: 'field1', initialValue: null, validators: []);
+          key: 'field1', initialValue: null, validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true); // 2 is even, so should be valid
@@ -110,12 +105,13 @@ void main() {
 
     test('should handle large even numbers', () {
       // Arrange
-      final validator = EvenNumValidator();
       final controller = FieldController<int>(
-          key: 'field1', initialValue: 1000000, validators: []);
+          key: 'field1',
+          initialValue: 1000000,
+          validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -124,12 +120,13 @@ void main() {
 
     test('should handle large odd numbers', () {
       // Arrange
-      final validator = EvenNumValidator();
       final controller = FieldController<int>(
-          key: 'field1', initialValue: 1000001, validators: []);
+          key: 'field1',
+          initialValue: 1000001,
+          validators: [EvenNumValidator()]);
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -138,15 +135,14 @@ void main() {
 
     test('should maintain consistent key across all validations', () {
       // Arrange
-      final validator = EvenNumValidator();
-      final evenController =
-          FieldController<int>(key: 'field1', initialValue: 4, validators: []);
-      final oddController =
-          FieldController<int>(key: 'field2', initialValue: 5, validators: []);
+      final evenController = FieldController<int>(
+          key: 'field1', initialValue: 4, validators: [EvenNumValidator()]);
+      final oddController = FieldController<int>(
+          key: 'field2', initialValue: 5, validators: [EvenNumValidator()]);
 
       // Act
-      final evenResult = validator.onValidate(evenController);
-      final oddResult = validator.onValidate(oddController);
+      final evenResult = evenController.validationResults.first;
+      final oddResult = oddController.validationResults.first;
 
       // Assert
       expect(evenResult.key, 'evenNum');
@@ -155,15 +151,18 @@ void main() {
 
     test('should work with different field controller keys', () {
       // Arrange
-      final validator = EvenNumValidator();
       final controller1 = FieldController<int>(
-          key: 'different_field', initialValue: 8, validators: []);
+          key: 'different_field',
+          initialValue: 8,
+          validators: [EvenNumValidator()]);
       final controller2 = FieldController<int>(
-          key: 'another_field', initialValue: 9, validators: []);
+          key: 'another_field',
+          initialValue: 9,
+          validators: [EvenNumValidator()]);
 
       // Act
-      final result1 = validator.onValidate(controller1);
-      final result2 = validator.onValidate(controller2);
+      final result1 = controller1.validationResults.first;
+      final result2 = controller2.validationResults.first;
 
       // Assert
       expect(result1.isValid, true);

@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_generic_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -12,7 +13,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -26,7 +27,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -40,7 +41,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -54,7 +55,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -67,7 +68,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue); // because 0 is not < 0
       });
@@ -80,7 +81,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue); // because 1 is not < 1
       });
@@ -95,7 +96,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -109,7 +110,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -122,7 +123,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
       });
@@ -135,7 +136,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -150,7 +151,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -164,7 +165,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -177,7 +178,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
       });
@@ -190,7 +191,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -205,7 +206,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -219,7 +220,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -232,7 +233,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
       });
@@ -245,7 +246,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -260,7 +261,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -312,7 +313,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
         expect(result.key, equals(GenericValidators.maxLength.name));
@@ -326,7 +327,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
       });
@@ -339,7 +340,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
       });
@@ -352,7 +353,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
       });
@@ -369,7 +370,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
         expect(result.message, equals(customMessage));
@@ -383,7 +384,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse);
         expect(result.message, GenericValidators.maxLength.name);
@@ -399,7 +400,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue); // because 0 is not < 0
       });
@@ -436,7 +437,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isFalse); // because 0 is not < -1
       });
@@ -449,7 +450,7 @@ void main() {
           validators: [validator],
         );
 
-        final result = validator.onValidate(controller);
+        final result = controller.validationResults.first;
 
         expect(result.isValid, isTrue);
       });
@@ -514,7 +515,7 @@ void main() {
             validators: [validator],
           );
 
-          final result = validator.onValidate(controller);
+          final result = controller.validationResults.first;
           expect(result.isValid, equals(expectedValid),
               reason: 'Failed for text "$text" (length ${text.length})');
         }
@@ -538,7 +539,7 @@ void main() {
             validators: [validator],
           );
 
-          final result = validator.onValidate(controller);
+          final result = controller.validationResults.first;
           expect(result.isValid, equals(expectedValid),
               reason: 'Failed for list $list (length ${list.length})');
         }

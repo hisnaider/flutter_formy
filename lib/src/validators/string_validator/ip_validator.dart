@@ -1,8 +1,44 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
+/// Type of IPs this validator validade
+///
+/// * [IpType.ipV4]: 192.168.1.1
+/// * [IpType.ipV6]: 2001:0db8:85a3:0000:0000:8a2e:0370:7334
+/// * [IpType.ipV6Short]: 2001:db8::8a2e:370:7334
 enum IpType { ipV4, ipV6, ipV6Short }
 
+/// A validator that checks if the value is a valid ip.
+///
+/// The [IpValidator] can be used with [FieldController]s holding
+/// values of type `String`. It ensures that the
+/// value is a valid ip.
+///
+/// If the value is `null` it is treated as valid by default.
+///
+/// ## Properties
+///
+/// * [ipType]: The type of ip to validate. Can be [IpType.ipV4], [IpType.ipV6] or [IpType.ipV6Short]
+/// * [message]: An optional custom error message to display when invalid.
+///
+/// ## Example
+/// ```dart
+/// FieldController<String> field = FieldController(
+///   key: 'string',
+///   validators:[IpValidator(IpType.ipV4)],
+/// );
+///
+/// // If field.value = '1234.456.78', validation fails.
+/// // If field.value = '123.456.7.8, validation passes.
+/// ```
+///
+/// ## See also
+///
+/// * [FormyValidator], the base class for custom validators.
+/// * [ValidationResult], which describes the outcome of validation.
+/// * [FieldController], which holds the field value to be validated.
 class IpValidator extends FormyValidator<String> {
+  /// The type of ip to validate. Can be [IpType.ipV4], [IpType.ipV6] or [IpType.ipV6Short]
   final IpType ipType;
   IpValidator(this.ipType, {super.message});
 

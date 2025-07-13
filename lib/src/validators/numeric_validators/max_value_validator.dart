@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the value is equal or less than [maxValue].
 ///
@@ -15,7 +16,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<int> field = FieldController(key: 'name', validator:[MaxValueValidator(6)]);
+/// FieldController<int> field = FieldController(
+///   key: 'name',
+///   validators:[MaxValueValidator(6)],
+/// );
 ///
 /// // If field.value = 7, validation fails.
 /// // If field.value = 6, validation passes.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/src/builder/text_field_builder.dart';
-import 'package:flutter_formy/src/controller/field_controller.dart';
+
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -226,7 +227,7 @@ void main() {
               controller: controller,
               buildWhen: (previous, current) {
                 // Só reconstrói se o valor mudou
-                return previous?.value != current.value;
+                return previous.value != current.value;
               },
               builder:
                   (context, field, focusNode, textEditingController, child) {

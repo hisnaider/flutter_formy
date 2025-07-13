@@ -1,20 +1,19 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/numeric_validators/non_zero_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_numeric_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('NonZeroValidator Tests', () {
     test('should pass validation when value is positive', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 5,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -24,15 +23,14 @@ void main() {
 
     test('should pass validation when value is negative', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -5,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -42,15 +40,14 @@ void main() {
 
     test('should fail validation when value is zero', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 0,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -60,15 +57,14 @@ void main() {
 
     test('should pass validation when value is null (defaults to 1)', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: null,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -78,16 +74,15 @@ void main() {
 
     test('should use custom message when provided', () {
       // Arrange
-      final customMessage = 'Value must not be zero';
-      final validator = NonZeroValidator(message: customMessage);
+      const customMessage = 'Value must not be zero';
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 0,
-        validators: [],
+        validators: [NonZeroValidator(message: customMessage)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -97,15 +92,14 @@ void main() {
 
     test('should work with positive decimal values', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 5.5,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -114,15 +108,14 @@ void main() {
 
     test('should work with negative decimal values', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -5.5,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -131,15 +124,14 @@ void main() {
 
     test('should fail with zero as decimal (0.0)', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 0.0,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -148,15 +140,14 @@ void main() {
 
     test('should work with very small positive numbers', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 0.0001,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -165,15 +156,14 @@ void main() {
 
     test('should work with very small negative numbers', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -0.0001,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -182,15 +172,14 @@ void main() {
 
     test('should work with large positive numbers', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 1000000,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -199,15 +188,14 @@ void main() {
 
     test('should work with large negative numbers', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -1000000,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -223,13 +211,13 @@ void main() {
       final validController = FieldController<num>(
         key: 'testField',
         initialValue: 5,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       final invalidController = FieldController<num>(
         key: 'testField',
         initialValue: 0,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
@@ -243,15 +231,14 @@ void main() {
 
     test('should handle negative zero (-0.0)', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -0.0,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -260,15 +247,14 @@ void main() {
 
     test('should handle edge case with exactly 1', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 1,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -277,15 +263,14 @@ void main() {
 
     test('should handle edge case with exactly -1', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -1,
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -294,17 +279,16 @@ void main() {
 
     test('should handle floating point precision edge cases', () {
       // Arrange
-      final validator = NonZeroValidator();
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 0.1 +
             0.2 -
             0.3, // This might not be exactly 0 due to floating point precision
-        validators: [],
+        validators: [NonZeroValidator()],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       // This test shows the behavior with floating point precision

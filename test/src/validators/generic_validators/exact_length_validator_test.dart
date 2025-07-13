@@ -1,5 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/generic_validators/exact_length_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_generic_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

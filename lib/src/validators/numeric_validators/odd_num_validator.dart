@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the value is odd.
 ///
@@ -14,7 +15,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<int> field = FieldController(key: 'number', validator:[OddNumValidator()]);
+/// FieldController<int> field = FieldController(
+///   key: 'number',
+///   validators:[OddNumValidator()],
+/// );
 ///
 /// // If field.value = 2, validation fails.
 /// // If field.value = 3, validation passes.

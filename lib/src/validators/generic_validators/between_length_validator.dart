@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the length of a value is between [minLength] and [maxLength].
 ///
@@ -16,7 +17,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<String> field = FieldController(key: 'name', validator:[BetweenLengthValidator(minLength:4, maxLength:6)]);
+/// FieldController<String> field = FieldController(
+///   key: 'name',
+///   validators:[BetweenLengthValidator(minLength:4, maxLength:6)],
+/// );
 ///
 /// // If field.value = 'Ana', validation fails.
 /// // If field.value = 'João Pedro', validation fails.

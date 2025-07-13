@@ -3,28 +3,45 @@
 ### Added
 - Added `FormyDependentValidator` to handle cross-field validation.
 - Added `TextFieldBuilder`, a `FieldBuilder` specialized for text fields.
-- Added `FormyCrossValidator`, a base class for implementing cross-field validation logic.
+- Added `FormyValidator` test and documentation.
+- Added `FormyCrossValidator`, a base class for implementing cross-field validation logic, test and documentation.
 - Added the following validators with their documentation and test:
-    //Generic
-    - `MinLengthValidator`: Ensures the length of a text field is at least a specified minimum length.
-    - `MaxLengthValidator`: Ensures the length of a text field is at most a specified maximum length.
-    - `IsRequired`: Ensures a field is not null, empty nor false.
-    - `BetweenLengthValidator`: Ensures the length of a text field is within a specified range.
-    - `ExactLengthValidator`: Ensures the length of a text field is exactly a specified length.
+    - `MinLengthValidator`: Ensures the length of a field value is at least a specified minimum length.
+    - `MaxLengthValidator`: Ensures the length of a field value is at most a specified maximum length.
+    - `IsRequired`: Ensures the field value is not null, empty nor false.
+    - `BetweenLengthValidator`: Ensures the length of a field value is within a specified range.
+    - `ExactLengthValidator`: Ensures the length of a field value is exactly a specified length.
     - `OrValidator`: Ensures at least one of the specified validators passes.
-    //Numeric
-    - `BetweenValuesValidator`: Ensures a numeric field is within a specified range.
-    - `DivisibleByValidator`: Ensures a number is divisible by a specified number.
-    - `EvenNumValidator`: Ensures a number is even.
-    - `MaxValueValidator`: Ensures a number is at most a specified maximum value.
-    - `MinValueValidator`: Ensures a number is at least a specified minimum value.
-    - `NegativeNumValidator`: Ensures a number is negative.
-    - `NonZeroValidator`: Ensures a number is not zero.
-    - `OddNumValidator`: Ensures a number is odd.
-    - `PositiveNumValidator`: Ensures a number is positive.
-    //String
-- Added `BiggerThanValidator`, which checks if the value of one field is greater than another.
-- Added `LessThanValidator`, which checks if the value of one field is less than another.
+    - `ContainsValidator`: Ensures the field value contains a specified value.
+    - `NotContainsValidator`: Ensures the field value does not contain a specified value.
+    - `BetweenValuesValidator`: Ensures the field value is within a specified range.
+    - `DivisibleByValidator`: Ensures the field value is divisible by a specified number.
+    - `EvenNumValidator`: Ensures the field value is even.
+    - `MaxValueValidator`: Ensures the field value is at most a specified maximum value.
+    - `MinValueValidator`: Ensures the field value is at least a specified minimum value.
+    - `NegativeNumValidator`: Ensures the field value is negative.
+    - `NonZeroValidator`: Ensures the field value is not zero.
+    - `OddNumValidator`: Ensures the field value is odd.
+    - `PositiveNumValidator`: Ensures the field value is positive.
+    - `EmailValidator`: Ensures the field value is a valid email address.
+    - `EndWithValidator`: Ensures the field value ends with a specified value.
+    - `IpValidator`: Ensures the field value is a valid IP address.
+    - `NoNumbersValidator`: Ensures the field value does not contain any numbers.
+    - `NoSpaceValidator`: Ensures the field value does not contain any spaces.
+    - `NoSpecialCharsValidator`: Ensures the field value does not contain any special characters.
+    - `PatternValidator`: Ensures the field value matches a specified pattern.
+    - `StartWithValidator`: Ensures the field value starts with a specified value.
+    - `UrlValidator`: Ensures the field value is a valid URL.
+    - `AfterDateValidator`: Ensures the field value is after a specified date.
+    - `BeforeDateValidator`: Ensures the field value is before a specified date.
+    - `BetweenDatesValidator`: Ensures the field value is within a specified date range.
+    - `MaxAgeValidator`: Ensures the field value is at most a specified age.
+    - `MinAgeValidator`: Ensures the field value is at least a specified age.
+    - `BiggerThanValidator`: Ensures the field value is bigger than another field value.
+    - `LessThanValidator`: Ensures the field value is less than another field value.
+    - `MustMatchValidator`: Ensures the field value matches another field value.
+    - `MustNotMatchValidator`: Ensures the field value does not match another field value.
+
 
 ### Updated
 - Updated the structure of the field and group management to improve dependency handling and validation.

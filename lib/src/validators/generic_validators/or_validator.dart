@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the value passes in at least one [FormyValidator].
 ///
@@ -13,7 +14,13 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<String> field = FieldController(key: 'name', validator:[PatternValidator(RegExp(r'[^[0-9]+$')), EmailValidator()]);
+/// FieldController<String> field = FieldController(
+///   key: 'name',
+///   validators:[
+///     PatternValidator(RegExp(r'[^[0-9]+$')),
+///     EmailValidator(),
+///   ]
+/// );
 ///
 /// // If field.value = 'Maria', validation fails.
 /// // If field.value = 'maria@email.com', validation passes.
@@ -36,7 +43,6 @@ class OrValidator extends FormyValidator {
   ValidationResult onValidate(FieldController controller) {
     for (FormyValidator validator in validators) {
       final ValidationResult result = validator(controller);
-      print(result);
       if (result.isValid) {
         return result;
       }

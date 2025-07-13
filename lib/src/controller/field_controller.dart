@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
-import 'package:flutter_formy/src/validators/formy_cross_validator.dart';
 
 part 'group_controller.dart';
 part 'field_config.dart';
@@ -192,7 +192,7 @@ extension FieldControllerX<T> on FieldController<T> {
   String? get firstError => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)
-          .map((v) => v.message ?? v.key)
+          .map((v) => v.message)
           .firstOrNull
       : null;
   List<String> get errorKeys => _mustShowError()
@@ -204,7 +204,7 @@ extension FieldControllerX<T> on FieldController<T> {
   List<String?> get errorMessages => _mustShowError()
       ? state.validationResults
           .where((v) => !v.isValid)
-          .map((v) => v.message ?? v.key)
+          .map((v) => v.message)
           .toList()
       : [];
   bool get valid => state.validationResults.every((e) => e.isValid);

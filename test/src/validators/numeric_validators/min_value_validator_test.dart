@@ -1,21 +1,19 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/numeric_validators/min_value_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_numeric_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('MinValueValidator Tests', () {
     test('should pass validation when value is greater than minValue', () {
       // Arrange
-      final validator = MinValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 15,
-        validators: [],
+        validators: [MinValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');
@@ -24,16 +22,14 @@ void main() {
 
     test('should fail validation when value equals minValue', () {
       // Arrange
-      final validator = MinValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10,
-        validators: [],
+        validators: [MinValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -42,16 +38,14 @@ void main() {
 
     test('should fail validation when value is less than minValue', () {
       // Arrange
-      final validator = MinValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 5,
-        validators: [],
+        validators: [MinValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -60,16 +54,14 @@ void main() {
 
     test('should pass validation when value is null', () {
       // Arrange
-      final validator = MinValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: null,
-        validators: [],
+        validators: [MinValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');
@@ -78,17 +70,15 @@ void main() {
 
     test('should use custom message when provided', () {
       // Arrange
-      final customMessage = 'Value must be greater than 10';
-      final validator = MinValueValidator(10, message: customMessage);
+      const customMessage = 'Value must be greater than 10';
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 5,
-        validators: [],
+        validators: [MinValueValidator(10, message: customMessage)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -97,16 +87,14 @@ void main() {
 
     test('should work with decimal values', () {
       // Arrange
-      final validator = MinValueValidator(10.5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10.7,
-        validators: [],
+        validators: [MinValueValidator(10.5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');
@@ -114,16 +102,14 @@ void main() {
 
     test('should fail with decimal values not exceeding minValue', () {
       // Arrange
-      final validator = MinValueValidator(10.5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10.3,
-        validators: [],
+        validators: [MinValueValidator(10.5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -131,16 +117,14 @@ void main() {
 
     test('should work with negative values', () {
       // Arrange
-      final validator = MinValueValidator(-5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -3,
-        validators: [],
+        validators: [MinValueValidator(-5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');
@@ -148,16 +132,14 @@ void main() {
 
     test('should fail with negative values not exceeding minValue', () {
       // Arrange
-      final validator = MinValueValidator(-5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -10,
-        validators: [],
+        validators: [MinValueValidator(-5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -165,16 +147,14 @@ void main() {
 
     test('should work with zero as minValue', () {
       // Arrange
-      final validator = MinValueValidator(0);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 1,
-        validators: [],
+        validators: [MinValueValidator(0)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');
@@ -182,16 +162,14 @@ void main() {
 
     test('should fail when value is equal to zero minValue', () {
       // Arrange
-      final validator = MinValueValidator(0);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 0,
-        validators: [],
+        validators: [MinValueValidator(0)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -199,16 +177,14 @@ void main() {
 
     test('should fail when value is less than zero minValue', () {
       // Arrange
-      final validator = MinValueValidator(0);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -1,
-        validators: [],
+        validators: [MinValueValidator(0)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, false);
       expect(result.key, 'minValue');
@@ -243,16 +219,14 @@ void main() {
 
     test('should handle very small decimal differences', () {
       // Arrange
-      final validator = MinValueValidator(10.0);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10.0000001,
-        validators: [],
+        validators: [MinValueValidator(10.0)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');
@@ -260,16 +234,14 @@ void main() {
 
     test('should handle very large numbers', () {
       // Arrange
-      final validator = MinValueValidator(1000000);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 1000001,
-        validators: [],
+        validators: [MinValueValidator(1000000)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
-
+      final result = controller.validationResults.first;
       // Assert
       expect(result.isValid, true);
       expect(result.key, 'minValue');

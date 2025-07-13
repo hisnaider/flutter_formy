@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/libraries/flutter_formy_builder.dart';
 
 /// The type used by the [TextFieldBuilder]'s `builder` property.
 ///

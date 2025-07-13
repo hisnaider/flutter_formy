@@ -1,6 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/controller/field_controller.dart';
-import 'package:flutter_formy/src/validators/numeric_validators/divisible_by_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_numeric_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -25,7 +24,7 @@ void main() {
     });
 
     test('should accept custom message', () {
-      final customMessage = 'Value must be divisible by 5';
+      const customMessage = 'Value must be divisible by 5';
       final validator = DivisibleByValidator(5, message: customMessage);
 
       expect(validator.message, equals(customMessage));

@@ -1,5 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/numeric_validators/between_values_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_numeric_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -35,7 +35,7 @@ void main() {
     });
 
     test('should accept custom message', () {
-      final customMessage = 'Value must be between 0 and 100';
+      const customMessage = 'Value must be between 0 and 100';
       final validator = BetweenValuesValidator(
         minValue: 0,
         maxValue: 100,

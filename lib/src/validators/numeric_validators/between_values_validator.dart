@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the value is between [minValue] and [maxValue].
 ///
@@ -16,7 +17,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<int> field = FieldController(key: 'number', validator:[BetweenValuesValidator(minValue:4, maxValue:6)]);
+/// FieldController<int> field = FieldController(
+///   key: 'number',
+///   validators:[BetweenValuesValidator(minValue:4, maxValue:6)],
+/// );
 ///
 /// // If field.value = 3, validation fails.
 /// // If field.value = 7, validation fails.

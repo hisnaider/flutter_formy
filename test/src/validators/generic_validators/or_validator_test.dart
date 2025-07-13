@@ -1,5 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/generic_validators/or_validator.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _AlwaysValidValidator extends FormyValidator<String> {

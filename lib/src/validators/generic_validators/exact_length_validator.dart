@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the length of a value is equal to [exactLength].
 ///
@@ -15,7 +16,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<String> field = FieldController(key: 'name', validator:[ExactLengthValidator(3)]);
+/// FieldController<String> field = FieldController(
+///   key: 'name',
+///   validators:[ExactLengthValidator(3)],
+/// );
 ///
 /// // If field.value = 'Maria', validation fails.
 /// // If field.value = 'João Pedro', validation fails.

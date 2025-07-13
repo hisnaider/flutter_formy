@@ -1,20 +1,19 @@
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/validators/numeric_validators/max_value_validator.dart';
+import 'package:flutter_formy/src/libraries/validators_lib/flutter_formy_numeric_validators.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('MaxValueValidator Tests', () {
     test('should pass validation when value is less than maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 5,
-        validators: [],
+        validators: [MaxValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -24,15 +23,14 @@ void main() {
 
     test('should pass validation when value equals maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10,
-        validators: [],
+        validators: [MaxValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -42,15 +40,14 @@ void main() {
 
     test('should fail validation when value is greater than maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 15,
-        validators: [],
+        validators: [MaxValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -60,15 +57,14 @@ void main() {
 
     test('should pass validation when value is null', () {
       // Arrange
-      final validator = MaxValueValidator(10);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: null,
-        validators: [],
+        validators: [MaxValueValidator(10)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -78,16 +74,15 @@ void main() {
 
     test('should use custom message when provided', () {
       // Arrange
-      final customMessage = 'Value must not exceed 10';
-      final validator = MaxValueValidator(10, message: customMessage);
+      const customMessage = 'Value must not exceed 10';
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 15,
-        validators: [],
+        validators: [MaxValueValidator(10, message: customMessage)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -97,15 +92,14 @@ void main() {
 
     test('should work with decimal values', () {
       // Arrange
-      final validator = MaxValueValidator(10.5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10.3,
-        validators: [],
+        validators: [MaxValueValidator(10.5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -114,15 +108,14 @@ void main() {
 
     test('should fail with decimal values exceeding maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(10.5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 10.7,
-        validators: [],
+        validators: [MaxValueValidator(10.5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -131,15 +124,14 @@ void main() {
 
     test('should work with negative values', () {
       // Arrange
-      final validator = MaxValueValidator(-5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -10,
-        validators: [],
+        validators: [MaxValueValidator(-5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -148,15 +140,14 @@ void main() {
 
     test('should fail with negative values exceeding maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(-5);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -3,
-        validators: [],
+        validators: [MaxValueValidator(-5)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);
@@ -165,15 +156,14 @@ void main() {
 
     test('should work with zero as maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(0);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: -1,
-        validators: [],
+        validators: [MaxValueValidator(0)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, true);
@@ -182,15 +172,14 @@ void main() {
 
     test('should fail when value is greater than zero maxValue', () {
       // Arrange
-      final validator = MaxValueValidator(0);
       final controller = FieldController<num>(
         key: 'testField',
         initialValue: 1,
-        validators: [],
+        validators: [MaxValueValidator(0)],
       );
 
       // Act
-      final result = validator.onValidate(controller);
+      final result = controller.validationResults.first;
 
       // Assert
       expect(result.isValid, false);

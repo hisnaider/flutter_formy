@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 abstract class FormyCrossValidator<T> extends FormyValidator<T> {
   FormyCrossValidator({
@@ -23,11 +24,7 @@ abstract class FormyCrossValidator<T> extends FormyValidator<T> {
     if (groupRef == null) {
       throw Exception('Validator requires the field to belong to a group.');
     }
-    final FieldController? other = groupRef.field(otherField);
-    if (other == null) {
-      throw Exception(
-          'Field $otherField not found in group ${groupRef.completeKey}');
-    }
+    final FieldController other = groupRef.field(otherField);
     _otherController = other;
   }
 }

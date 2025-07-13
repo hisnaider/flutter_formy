@@ -1,4 +1,5 @@
 import 'package:flutter_formy/flutter_formy.dart';
+import 'package:flutter_formy/src/libraries/flutter_formy_validators.dart';
 
 /// A validator that checks if the length of a value is equal or greater than [minLength].
 ///
@@ -15,7 +16,10 @@ import 'package:flutter_formy/flutter_formy.dart';
 ///
 /// ## Example
 /// ```dart
-/// FieldController<String> field = FieldController(key: 'name', validator:[MinLengthValidator(6)]);
+/// FieldController<String> field = FieldController(
+///   key: 'name',
+///   validators:[MinLengthValidator(6)],
+/// );
 ///
 /// // If field.value = 'Maria', validation fails.
 /// // If field.value = 'João Pedro', validation passes.
@@ -37,7 +41,6 @@ class MinLengthValidator<T> extends FormyValidator<T> {
     if (controller.value != null) {
       if (value is String) {
         isValid = value.length >= minLength;
-        print(isValid);
       } else if (value is List) {
         isValid = value.length >= minLength;
       } else if (value is Map) {

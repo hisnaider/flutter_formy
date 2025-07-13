@@ -88,9 +88,7 @@ class GroupController extends ChangeNotifier {
   }
 
   void _onFieldChanged(String fieldKey) {
-    if (_fields[_fieldsDependencies[fieldKey]] != null) {
-      print('++++++++++++++++++++++++++++++++++++++++++++');
-    }
+    if (_fields[_fieldsDependencies[fieldKey]] != null) {}
     _fields[_fieldsDependencies[fieldKey]]?.update(null);
     _onGroupStateChanged();
   }

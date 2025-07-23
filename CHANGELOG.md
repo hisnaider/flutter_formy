@@ -1,3 +1,9 @@
+## 0.4.2
+
+### Updated
+- TextFieldBuilder has been added to the flutter_formy_builder library.
+
+
 ## 0.4.1
 
 ### Updated

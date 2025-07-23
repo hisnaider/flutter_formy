@@ -10,4 +10,5 @@ library flutter_formy_builder;
 export 'src/builder/formy_builder.dart';
 export 'src/builder/field_builder.dart';
 export 'src/builder/focusable_field_builder.dart';
+export 'src/builder/text_field_builder.dart';
 export 'src/builder/group_builder.dart';

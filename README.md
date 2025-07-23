@@ -38,7 +38,7 @@ Depois de definir, crie o widget pro formulário, deixe o visual como quiser. Pr
 
 ```dart
 FormyTextField(
-  field: group.field('email'),
+  controller: group.field('email'),
   decoration: (fieldState, firstError) => InputDecoration(
     hintText: 'Digite seu E-mail',
     labelText: 'E-mail',
@@ -46,7 +46,7 @@ FormyTextField(
   ),
 ),
 FormyTextField(
-  field: group.field('password'),
+  controller: group.field('password'),
   decoration: (fieldState, firstError) => InputDecoration(
     hintText: 'Digite sua senha',
     labelText: 'Senha',
@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 30),
         FormyTextField(
-          field: group.field('email'),
+          controller: group.field('email'),
           decoration: (fieldState, firstError) => InputDecoration(
             hintText: 'Digite seu E-mail',
             labelText: 'E-mail',
@@ -109,7 +109,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         const SizedBox(height: 24),
         FormyTextField(
-          field: group.field('password'),
+          controller: group.field('password'),
           decoration: (fieldState, firstError) => InputDecoration(
             hintText: 'Digite sua senha',
             labelText: 'Senha',
@@ -434,7 +434,7 @@ Com o Formy é possível criar os mais variados tipos de campos para o formulár
 class ColorDotPickerField extends FieldBuilder<Color> {
   ColorDotPickerField({
     super.key,
-    required super.field,
+    required super.controller,
     super.buildWhen,
     this.colors = const [
       Colors.red,

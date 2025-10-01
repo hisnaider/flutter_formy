@@ -32,6 +32,7 @@ export 'src/widgets/formy_radio.dart';
 export 'src/widgets/formy_text_field.dart';
 export 'src/widgets/formy_dropdown.dart';
 export 'src/widgets/formy_group_visibility.dart';
+export 'src/widgets/formy_form.dart';
 
 //selector
 export 'flutter_formy_selector.dart';

@@ -1,3 +1,9 @@
+## 0.5.0
+
+### Added
+- Added `FormyForm`, an abstract widget that creates a form and manages its lifecycle.
+
+
 ## 0.4.2
 
 ### Updated

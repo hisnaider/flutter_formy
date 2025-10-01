@@ -28,9 +28,8 @@ class FieldController<T> extends ChangeNotifier {
     this._showErrorWhen,
     this.validators,
     this._groupRef,
-  )   : _state = FieldState.initial(
-            _initialValue ?? (T == bool ? false as T : null)),
-        createdTimestamp = DateTime.now().microsecondsSinceEpoch {
+  ) : _state = FieldState.initial(
+            _initialValue ?? (T == bool ? false as T : null)) {
     _validate();
   }
 
@@ -42,7 +41,6 @@ class FieldController<T> extends ChangeNotifier {
   }
 
   final String _key;
-  final int createdTimestamp;
   List<FormyValidator<T?>> validators;
   T? _initialValue;
   final ShowError _showErrorWhen;

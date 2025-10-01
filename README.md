@@ -179,7 +179,7 @@ class LoginForm extends FormyForm {
 }
 ```
 
-## Vantagens do FormyForm
+Vantagens do FormyForm
 - Não precisa instanciar GroupController manualmente.
 - O dispose do controller já é chamado automaticamente.
 - A estrutura fica mais clara: fields() define a configuração dos campos, formBody() define a UI.

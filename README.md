@@ -132,6 +132,60 @@ class _LoginPageState extends State<LoginPage> {
 
 ```
 
+# Criando um formulário com FormyForm
+
+Se você quiser evitar boilerplate (instanciar e descartar GroupController manualmente), pode herdar de FormyForm.
+Essa classe já cuida de criar e dar dispose no controller automaticamente, você só precisa declarar os campos e montar a interface com formBody.
+
+```dart
+class LoginForm extends FormyForm {
+  const LoginForm({super.key});
+
+  @override
+  List<FieldConfig<dynamic>> fields() => [
+        FieldConfig<String>(key: 'email', validators: [IsRequired()]),
+        FieldConfig<String>(key: 'password', validators: [IsRequired(), MinValidator(6)]),
+      ];
+
+  @override
+  Widget formBody(BuildContext context, GroupController controller) {
+    return Column(
+      children: [
+        FormyTextField(
+          controller: controller.field('email'),
+          decoration: (fieldState, firstError) => InputDecoration(
+            labelText: 'E-mail',
+            hintText: 'Digite seu e-mail',
+            errorText: firstError,
+          ),
+        ),
+        const SizedBox(height: 20),
+        FormyTextField(
+          controller: controller.field('password'),
+          decoration: (fieldState, firstError) => InputDecoration(
+            labelText: 'Senha',
+            hintText: 'Digite sua senha',
+            errorText: firstError,
+          ),
+        ),
+        const SizedBox(height: 30),
+        FormySubmitButton(
+          control: controller,
+          child: const Text('Entrar'),
+        ),
+      ],
+    );
+  }
+}
+```
+
+## Vantagens do FormyForm
+- Não precisa instanciar GroupController manualmente.
+- O dispose do controller já é chamado automaticamente.
+- A estrutura fica mais clara: fields() define a configuração dos campos, formBody() define a UI.
+
+
+
 # Recursos:
 
 - Validação automática e customizável

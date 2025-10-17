@@ -1,3 +1,8 @@
+## 0.5.1
+
+### Added
+- Export `FormySubmitButton`.
+
 ## 0.5.0
 
 ### Added

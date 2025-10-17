@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_formy/flutter_formy.dart';
 import 'package:flutter_formy/flutter_formy_base_validators.dart';
 import 'package:flutter_formy/src/models/group_state.dart';
-import 'package:flutter_formy/src/validators/formy_validator.dart';
 
 part 'group_controller.dart';
 part 'field_config.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_formy/flutter_formy.dart';
-import 'package:flutter_formy/src/builder/text_field_builder.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 
